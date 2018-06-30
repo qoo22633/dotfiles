@@ -1,11 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-" カラースキーム
-let g:hybrid_use_iTerm_colors = 1
-colorscheme hybrid
-syntax on
-
 set fileencoding=utf-8 " 保存時の文字コード
 set fileencodings=ucs-boms,utf-8,euc-jp,cp932 " 読み込み時の文字コードの自動判別. 左側が優先される
 set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先される
@@ -78,6 +73,20 @@ NeoBundle 'itchyny/lightline.vim' " ステータスラインの表示内容強�
 
 NeoBundle 'bronson/vim-trailing-whitespace' "末尾の全角と半角の空白文字を赤くハイライト
 
+" solarized
+NeoBundle 'altercation/vim-colors-solarized'
+if &term =~ "xterm-256color" || "screen-256color"
+  set t_Co=256
+  set t_Sf=[3%dm
+  set t_Sb=[4%dm
+elseif &term =~ "xterm-color"
+  set t_Co=8
+  set t_Sf=[3%dm
+  set t_Sb=[4%dm
+endif
+
+syntax enable
+hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
 " インデントの可視化
 NeoBundle 'Yggdroot/indentLine'
 
@@ -174,7 +183,7 @@ call neobundle#end()
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
 filetype plugin indent on
 
-" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定・・・・・・③
+" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
 NeoBundleCheck
 
 
