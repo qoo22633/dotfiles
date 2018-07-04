@@ -78,7 +78,14 @@ NeoBundle 'itchyny/lightline.vim' " ステータスラインの表示内容強�
 
 NeoBundle 'bronson/vim-trailing-whitespace' "末尾の全角と半角の空白文字を赤くハイライト
 
-NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdtree' "ツリー表示する
+nnoremap <silent><C-e> :NERDTreeFocusToggle<CR> "ショートカットキーの指定 ctrl+e
+let NERDTreeShowHidden = 1 "隠しファイルを表示する
+let g:nerdtree_tabs_open_on_console_startup=1 "デフォルトでツリーを表示させる
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+NeoBundle 'jistr/vim-nerdtree-tabs' "タブ表示する
+let g:nerdtree_tabs_open_on_console_startup=1 "デフォルトでタブを開いている状態にする
 
 " solarized
 NeoBundle 'altercation/vim-colors-solarized'
