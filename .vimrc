@@ -1,6 +1,11 @@
 set encoding=utf-8
 scriptencoding utf-8
 
+" モードによってカーソルを分ける
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 set fileencoding=utf-8 " 保存時の文字コード
 set fileencodings=ucs-boms,utf-8,euc-jp,cp932 " 読み込み時の文字コードの自動判別. 左側が優先される
 set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先される
@@ -72,6 +77,8 @@ NeoBundle 'itchyny/lightline.vim' " ステータスラインの表示内容強�
 NeoBundle 'itchyny/lightline.vim' " ステータスラインの表示内容強化
 
 NeoBundle 'bronson/vim-trailing-whitespace' "末尾の全角と半角の空白文字を赤くハイライト
+
+NeoBundle 'scrooloose/nerdtree'
 
 " solarized
 NeoBundle 'altercation/vim-colors-solarized'
