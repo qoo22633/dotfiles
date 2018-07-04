@@ -190,7 +190,15 @@ call neobundle#end()
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
 filetype plugin indent on
 
-" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
+"--------------------------------------------------
+"PHP設定
+"--------------------------------------------------
+let g:php_baselib       = 1
+let g:php_htmlInStrings = 1
+let g:php_noShortTags   = 1
+let g:php_sql_query     = 1
+
+" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設
 NeoBundleCheck
 
 
