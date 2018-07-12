@@ -115,15 +115,14 @@ set ruler " ステータスラインの右側にカーソルの現在位置を�
 
 NeoBundle 'bronson/vim-trailing-whitespace' " 末尾の全角と半角の空白文字を赤くハイライト
 
-" コード補完設定
-if has('lua') " lua機能が有効になっている場合・・・・・・①
-    " コードの自動補完
-    NeoBundle 'Shougo/neocomplete.vim'
-    " スニペットの補完機能
-    NeoBundle "Shougo/neosnippet"
-    " スニペット集
-    NeoBundle 'Shougo/neosnippet-snippets'
-endif
+" コードの自動補完
+NeoBundle 'Shougo/neocomplete.vim'
+" スニペットの補完機能
+NeoBundle "Shougo/neosnippet"
+" スニペット集
+NeoBundle 'Shougo/neosnippet-snippets'
+" 括弧補完
+NeoBundle 'cohama/lexima.vim'
 
 "----------------------------------------------------------
 " neocomplete・neosnippetの設定
