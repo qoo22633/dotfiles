@@ -6,13 +6,12 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
 export PKG_CONFIG_PATH=/usr/local/Cellar/imagemagick@6/6.9.9-40/lib/pkgconfig
-eval "$(anyenv init - zsh)"
 
 # anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
 if [ -d $HOME/.anyenv ] ; then
     export PATH="$HOME/.anyenv/bin:$PATH"
-    eval "$(anyenv init - zsh)"
+    eval "$(anyenv init - zsh--no-rehash)"
 fi
 
 # zplug
