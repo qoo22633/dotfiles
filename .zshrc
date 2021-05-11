@@ -4,7 +4,7 @@ alias dc=docker-compose
 alias be=bundle exec
 
 #PATH
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 source $ZPLUG_HOME/init.zsh
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
