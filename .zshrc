@@ -2,6 +2,8 @@
 alias d=docker
 alias dc=docker-compose
 alias be=bundle exec
+alias ..='cd ..'
+alias ...='cd ../..'
 
 # git
 alias g='git'
@@ -13,10 +15,17 @@ alias gb='git branch'
 alias gst='git status'
 alias gco='git checkout'
 alias gf='git fetch'
-alias gc='git commit -m'
+alias gc='git commit'
 alias -g lb='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
 
 # peco
+# fc コマンドでカレントディレクトリ以下のディレクトリを絞り込んだ後に移動する
+function find_cd() {
+    cd "$(find . -type d | peco)"
+}
+alias fc="find_cd"
+
+# control + rで履歴検索
 function peco-select-history() {
     BUFFER=$(fc -l -r -n 1 | peco --query "$LBUFFER")
     CURSOR=$#BUFFER
@@ -24,6 +33,21 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
+
+function peco-find-file() {
+    if git rev-parse 2> /dev/null; then
+        source_files=$(git ls-files)
+    else
+        source_files=$(find . -type f)
+    fi
+    selected_files=$(echo $source_files | peco --prompt "[find file]")
+
+    BUFFER="${BUFFER}${echo $selected_files | tr '\n' ' '}"
+    CURSOR=$#BUFFER
+    zle redisplay
+}
+zle -N peco-find-file
+bindkey '^q' peco-find-file
 
 #PATH
 export ZPLUG_HOME=$(brew --prefix)/opt/zplug
