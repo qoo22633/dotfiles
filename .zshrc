@@ -60,11 +60,11 @@ export PKG_CONFIG_PATH=/usr/local/Cellar/imagemagick@6/6.9.9-40/lib/pkgconfig
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # anyenv
-#export PATH="$HOME/.anyenv/bin:$PATH"
-#if [ -d $HOME/.anyenv ] ; then
-#    export PATH="$HOME/.anyenv/bin:$PATH"
-#    eval "$(anyenv init - zsh--no-rehash)"
-#fi
+export PATH="$HOME/.anyenv/bin:$PATH"
+if [ -d $HOME/.anyenv ] ; then
+    export PATH="$HOME/.anyenv/bin:$PATH"
+    eval "$(anyenv init - zsh--no-rehash)"
+fi
 
 # zplug
 #source ~/.zplug/init.zsh
