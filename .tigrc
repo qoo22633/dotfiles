@@ -11,6 +11,9 @@ bind generic E      view-grep
 bind generic G      move-last-line
 bind main    G      move-last-line
 
+# Ctrl-g でリフレッシュ
+bind generic <Ctrl-g> refresh
+
 # Alt-g で :toggle commit-title-graph
 bind main    <Esc>g :toggle commit-title-graph
 
