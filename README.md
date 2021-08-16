@@ -1,10 +1,5 @@
 # dotfiles
 
-## 内容
-- .vimrc
-- .zshrc
-
-
 ### 追加方法
 
 - git管理したいドットファイルをdotfilesに移動
@@ -21,3 +16,6 @@
 `brew install zplug`
 
 `ln -sf ~/dotfiles/.zshrc ~/.zshrc`
+
+#### tig
+`brew install tig`
