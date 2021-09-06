@@ -19,3 +19,8 @@
 
 #### tig
 `brew install tig`
+
+`ln -sf ~/dotfiles/.tigrc ~/.tigrc`
+
+#### peco
+`brew install peco`
