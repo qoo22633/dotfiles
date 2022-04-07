@@ -68,6 +68,7 @@ eval "$(rbenv init -)"
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
 export PKG_CONFIG_PATH=/usr/local/Cellar/imagemagick@6/6.9.9-40/lib/pkgconfig
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+export PATH=$PATH:$HOME/go/bin 
 
 # anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
@@ -100,3 +101,13 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
+export PATH="/usr/local/opt/go@1.15/bin:$PATH"
+# yvm
+export YVM_DIR=/usr/local/opt/yvm
+[ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/yudai.yamashita/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yudai.yamashita/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/yudai.yamashita/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yudai.yamashita/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
