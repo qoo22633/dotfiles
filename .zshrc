@@ -100,3 +100,5 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load
 
+export PATH=$(brew --prefix openssl)/bin:$PATH
+export PATH="/usr/local/opt/openssl@3/bin:$PATH"
