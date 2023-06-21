@@ -5,6 +5,7 @@ alias be=bundle exec
 alias ..='cd ..'
 alias ...='cd ../..'
 
+alias vi=nvim
 alias vim=nvim
 
 # peco
