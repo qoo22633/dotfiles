@@ -101,9 +101,6 @@ fi
 zplug load
 
 export PATH="/usr/local/opt/go@1.15/bin:$PATH"
-# yvm
-export YVM_DIR=/usr/local/opt/yvm
-[ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/yudai.yamashita/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yudai.yamashita/Downloads/google-cloud-sdk/path.zsh.inc'; fi
