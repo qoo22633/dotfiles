@@ -24,7 +24,6 @@ vim.o.hlsearch = true
 
 -- manipulation
 vim.g.mapleader = ' '
-vim.opt.clipboard:append{'unnamedplus'}
 vim.o.ttimeout = true
 vim.o.ttimeoutlen = 50
 
@@ -48,10 +47,30 @@ require("lazy").setup({
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
+    keys = {
+      { '<C-w>', ':NvimTreeToggle<CR>' },
+      { '<C-o>', ':NvimTreeFindFile<CR>' }
+    },
     config = function()
-      require("nvim-tree").setup({
-        open_on_setup_file = true
-      })
+      require("nvim-tree").setup()
+    end
+  },
+  {
+    'neoclide/coc.nvim',
+    branch = "release",
+    event = "InsertEnter",
+    keys = {
+    },
+    config = function()
+      vim.g.coc_global_extensions = {
+        "coc-json",
+        "coc-css",
+        "coc-yaml",
+        "coc-sh",
+        "coc-prettier",
+        "coc-solargraph",
+        "coc-rome"
+      }
     end
   }
 })
