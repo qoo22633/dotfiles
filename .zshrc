@@ -45,16 +45,12 @@ function peco-cdr() {
 zle -N peco-cdr
 bindkey '^u' peco-cdr
 
-# ブランチを簡単切り替え。git checkout lbで実行できる
-alias -g lb='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
 
 #PATH
 export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 source $ZPLUG_HOME/init.zsh
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
-export PATH="/usr/local/opt/libxml2/bin:$PATH"
-export PKG_CONFIG_PATH=/usr/local/Cellar/imagemagick@6/6.9.9-40/lib/pkgconfig
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export PATH=$PATH:$HOME/go/bin 
 
