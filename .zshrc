@@ -89,7 +89,7 @@ zplug load
 export PATH="/usr/local/opt/go@1.15/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/yudai.yamashita/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yudai.yamashita/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/yudai.yamashita/tools/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yudai.yamashita/tools/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/yudai.yamashita/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yudai.yamashita/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/yudai.yamashita/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yudai.yamashita/tools/google-cloud-sdk/completion.zsh.inc'; fi
