@@ -22,5 +22,12 @@
 
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
 
+#### Vim
+- neovimを使っている
+
+`brew install neovim`
+
+`ln -sf ~/dotfiles/nvim ~/.config`
+
 #### peco
 `brew install peco`
