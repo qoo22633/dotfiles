@@ -15,6 +15,7 @@ vim.o.visualbell = true
 vim.o.number = true
 vim.o.showmatch = true
 vim.o.matchtime = 1
+vim.wo.cursorline = true
 
 -- search
 vim.o.incsearch = true
@@ -26,7 +27,7 @@ vim.o.hlsearch = true
 vim.g.mapleader = ' '
 vim.o.ttimeout = true
 vim.o.ttimeoutlen = 50
-
+vim.o.autoread = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -41,36 +42,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-  {
-    'nvim-tree/nvim-tree.lua',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    },
-    keys = {
-      { '<C-w>', ':NvimTreeToggle<CR>' },
-      { '<C-o>', ':NvimTreeFindFile<CR>' }
-    },
-    config = function()
-      require("nvim-tree").setup()
-    end
-  },
-  {
-    'neoclide/coc.nvim',
-    branch = "release",
-    event = "InsertEnter",
-    keys = {
-    },
-    config = function()
-      vim.g.coc_global_extensions = {
-        "coc-json",
-        "coc-css",
-        "coc-yaml",
-        "coc-sh",
-        "coc-prettier",
-        "coc-solargraph",
-        "coc-rome"
-      }
-    end
-  }
-})
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+plugins = require("plugins")
+require("lazy").setup(plugins)
