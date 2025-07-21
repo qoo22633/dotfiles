@@ -4,7 +4,6 @@ alias dc=docker-compose
 alias be=bundle exec
 alias ..='cd ..'
 alias ...='cd ../..'
-alias python=python3.12
 
 # git
 alias g='git'
