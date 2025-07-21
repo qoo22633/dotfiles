@@ -12,8 +12,11 @@
 
 #### zsh
 `brew install zsh`
+`brew install sheldon`
+`brew install fzf`
 
 `ln -sf ~/dotfiles/.zshrc ~/.zshrc`
+
 `ln -sf ~/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml`
 
 #### tig
