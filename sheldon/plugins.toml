@@ -41,3 +41,7 @@ github = "babarot/enhancd"
 [plugins.zsh-you-should-use]
 github = "MichaelAquilina/zsh-you-should-use"
 
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+
+
