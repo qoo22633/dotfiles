@@ -22,11 +22,22 @@ github = "zsh-users/zsh-autosuggestions"
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
 
+## completions
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
+
+[plugins.docker-zsh-completion]
+github = "greymd/docker-zsh-completion"
+
 
 ## Theme
 [plugins.spaceship]
 github = "spaceship-prompt/spaceship-prompt"
 
+## Advanced
+[plugins.enhancd]
+github = "babarot/enhancd"
+
+[plugins.zsh-you-should-use]
+github = "MichaelAquilina/zsh-you-should-use"
 
