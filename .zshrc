@@ -1,3 +1,7 @@
+# init
+autoload -Uz compinit
+compinit
+
 # alias
 alias d=docker
 alias dc=docker-compose
@@ -16,7 +20,6 @@ alias gst='git status'
 alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
-alias -g lb='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
 
 #PATH
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
