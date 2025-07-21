@@ -13,9 +13,8 @@
 #### zsh
 `brew install zsh`
 
-`brew install zplug`
-
 `ln -sf ~/dotfiles/.zshrc ~/.zshrc`
+`ln -sf ~/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml`
 
 #### tig
 `brew install tig`
@@ -28,6 +27,3 @@
 `brew install neovim`
 
 `ln -sf ~/dotfiles/nvim ~/.config`
-
-#### peco
-`brew install peco`
