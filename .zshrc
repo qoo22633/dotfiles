@@ -36,3 +36,8 @@ eval "$(anyenv init - zsh--no-rehash)"
 # excecute
 eval "$(sheldon source)"
 source <(fzf --zsh)
+
+# For local settings
+if [ -f ~/.zshrc.local ]; then
+    . ~/.zshrc.local
+fi
