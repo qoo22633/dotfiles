@@ -66,7 +66,8 @@ bind main    x      ?git clean -d -f
 bind status  x      ?git clean -d -f
 
 # x でマージ済みローカルブランチをすべて削除 (master/develop 除く)
-bind refs    x      ?sh -c "git branch --merged | grep -vE '^\\*|master$|develop$' | xargs -I % git branch -d %"
+bind refs    x      ?sh -c "git branch --merged | grep -vE '^\\*|master$|develop$|main$|staging$' | xargs -I % git branch -d %"
+bind refs    X      ?sh -c "git branch | xargs -I % git branch -D %"
 
 # ! で revert
 bind main    !      ?git revert %(commit)
