@@ -1,4 +1,5 @@
 # init
+## zshで補完ができるように設定
 autoload -Uz compinit
 compinit
 

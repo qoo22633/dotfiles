@@ -22,6 +22,8 @@
 
 `ln -sf ~/dotfiles/.zshrc ~/.zshrc`
 
+`ln -sf ~/dotfiles/.zsh_aliases ~/.zsh_aliases`
+
 `ln -sf ~/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml`
 
 #### tig
