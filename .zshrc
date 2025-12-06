@@ -15,9 +15,11 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export PATH=$(brew --prefix openssl)/bin:$PATH
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
 
-# anyenv
-export PATH="$HOME/.anyenv/bin:$PATH"
-eval "$(anyenv init - zsh--no-rehash)"
+# mise
+if [ -x /opt/homebrew/bin/mise ]; then
+  eval "$(/opt/homebrew/bin/mise activate zsh)"
+fi
+
 
 # excecute
 eval "$(sheldon source)"
@@ -27,3 +29,4 @@ source <(fzf --zsh)
 if [ -f ~/.zshrc.local ]; then
     . ~/.zshrc.local
 fi
+

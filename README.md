@@ -10,6 +10,9 @@
 
 ### 反映方法
 
+#### mise
+`brew install mise`
+
 #### zsh
 `brew install zsh`
 

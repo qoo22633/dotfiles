@@ -1,7 +1,7 @@
 # alias
 alias d=docker
 alias dc=docker-compose
-alias be=bundle exec
+alias m=mise
 alias ..='cd ..'
 alias ...='cd ../..'
 
@@ -10,7 +10,7 @@ alias g='git'
 alias ga='git add'
 alias gd='git diff'
 alias gs='git status'
-alias gp='git push'
+alias gp='git pull'
 alias gb='git branch'
 alias gst='git status'
 alias gco='git checkout'
