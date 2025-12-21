@@ -10,3 +10,9 @@ background-opacity = 0.8
 
 # other settings
 auto-update = check
+
+# clipboard
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = true
+clipboard-trim-trailing-spaces = true
