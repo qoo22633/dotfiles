@@ -42,3 +42,6 @@ neovimを使っている
 `brew install neovim`
 
 `ln -sf ~/dotfiles/nvim ~/.config`
+
+#### Other Cli Tools
+`brew install eza bat ripgrep fd zoxide`

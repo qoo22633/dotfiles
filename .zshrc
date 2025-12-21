@@ -21,6 +21,11 @@ if [ -x /opt/homebrew/bin/mise ]; then
   eval "$(/opt/homebrew/bin/mise activate zsh)"
 fi
 
+# zoxide
+if [ -x /opt/homebrew/bin/zoxide ]; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
+
 
 # excecute
 eval "$(sheldon source)"
