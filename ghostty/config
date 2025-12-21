@@ -1,1 +1,14 @@
-theme = catppuccin-mocha
+theme = Kanagawa Dragon
+
+# font
+font-size = 14
+font-thicken = true
+font-thicken-strength = 1
+
+# window
+window-padding-y = 10
+window-padding-x = 10
+background-opacity = 0.8
+
+# other settings
+auto-update = check
