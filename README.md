@@ -1,6 +1,6 @@
 # dotfiles
 
-### 追加方法
+## 追加方法
 
 - git管理したいドットファイルをdotfilesに移動
 `mv .vimrc dotfiles/`
@@ -8,12 +8,12 @@
 - シンボリックリンクを貼る
 `ln -sf ~/dotfiles/.vimrc ~/.vimrc`
 
-### 反映方法
+## 反映方法
 
-#### mise
+### mise
 `brew install mise`
 
-#### zsh
+### zsh
 `brew install zsh`
 
 `brew install sheldon`
@@ -26,22 +26,22 @@
 
 `ln -sf ~/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml`
 
-#### ghostty
+### ghostty
 `brew install --cask ghostty`
 
 `ln -sf ~/dotfiles/ghostty ~/.config`
 
-#### tig
+### tig
 `brew install tig`
 
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
 
-#### Vim
+### Vim
 neovimを使っている
 
 `brew install neovim`
 
 `ln -sf ~/dotfiles/nvim ~/.config`
 
-#### Other Cli Tools
+### Other Cli Tools
 `brew install eza bat ripgrep fd zoxide`
