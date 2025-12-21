@@ -40,6 +40,8 @@
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
 
 #### gitui
+`brew install gitui`
+
 `ln -sf ~/dotfiles/gitui ~/.config`
 
 #### git-delta
