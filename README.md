@@ -28,6 +28,7 @@
 
 #### ghostty
 `brew install --cask ghostty`
+
 `ln -sf ~/dotfiles/ghostty ~/.config`
 
 #### tig
@@ -36,7 +37,7 @@
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
 
 #### Vim
-- neovimを使っている
+neovimを使っている
 
 `brew install neovim`
 
