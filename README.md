@@ -26,6 +26,10 @@
 
 `ln -sf ~/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml`
 
+#### ghostty
+`brew install --cask ghostty`
+`ln -sf ~/dotfiles/ghostty ~/.config`
+
 #### tig
 `brew install tig`
 
