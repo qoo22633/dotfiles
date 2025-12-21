@@ -31,10 +31,19 @@
 
 `ln -sf ~/dotfiles/ghostty ~/.config`
 
-### tig
+### Git
+`ln -sf ~/dotfiles/.gitconfig ~/.gitconfig`
+
+#### tig
 `brew install tig`
 
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
+
+#### gitui
+`ln -sf ~/dotfiles/gitui ~/.config`
+
+#### git-delta
+`brew install git-delta`
 
 ### Vim
 neovimを使っている

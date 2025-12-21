@@ -1,0 +1,18 @@
+  [user]
+      name = Yudai Yamashita
+      email = yama226.33@gmail.com
+  
+  [core]
+      pager = delta
+  
+  [interactive]
+      diffFilter = delta --color-only
+  
+  [delta]
+      side-by-side = true
+      line-numbers = true
+      navigate = true  # use n and N to move between diff sections
+      dark = true      # or light = true, or omit for auto-detection
+  
+  [merge]
+      conflictStyle = zdiff3
