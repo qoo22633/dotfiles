@@ -4,6 +4,7 @@ alias dc=docker-compose
 alias m=mise
 alias ..='cd ..'
 alias ...='cd ../..'
+alias vi=nvim
 
 # git
 alias g='git'
