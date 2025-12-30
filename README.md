@@ -39,13 +39,8 @@
 
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
 
-#### gitui
-`brew install gitui`
-
-`ln -sf ~/dotfiles/gitui ~/.config`
-
-#### git-delta
-`brew install git-delta`
+#### lazygit
+`brew install lazygit`
 
 ### Vim
 neovimを使っている
