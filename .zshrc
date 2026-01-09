@@ -26,6 +26,10 @@ if [ -x /opt/homebrew/bin/zoxide ]; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
+# atuin
+if [ -x /opt/homebrew/bin/atuin ]; then
+  eval "$(atuin init zsh)"
+fi
 
 # excecute
 eval "$(sheldon source)"
@@ -35,4 +39,3 @@ source <(fzf --zsh)
 if [ -f ~/.zshrc.local ]; then
     . ~/.zshrc.local
 fi
-
