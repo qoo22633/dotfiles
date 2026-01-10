@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/yudai/dotfiles/.claude/hooks/obsidian-session-logger.py"
+          }
+        ]
+      }
+    ]
+  }
+}
