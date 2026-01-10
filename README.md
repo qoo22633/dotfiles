@@ -52,5 +52,19 @@ neovimを使っている
 
 `ln -sf ~/dotfiles/nvim ~/.config`
 
+### Claude Code
+Claude Codeのhooksとsettingsをシンボリックリンクで設定
+
+`ln -sf ~/dotfiles/.claude/hooks ~/.claude/hooks`
+
+`ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json`
+
+Obsidianのパスが異なる場合は環境変数を設定:
+```bash
+export OBSIDIAN_VAULT_PATH="/path/to/obsidian/vault"
+```
+
+詳細は`.claude/HOOKS.md`を参照
+
 ### Other Cli Tools
 `brew install eza bat ripgrep fd zoxide`
