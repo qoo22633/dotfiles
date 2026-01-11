@@ -240,12 +240,19 @@ def extract_session_title(conversation: str) -> str:
             return title
     return "セッション"
 
-def format_session_entry(hook_data: Dict, conversation: str, summary: str, learning: str, metadata: Dict) -> str:
+def format_session_entry(hook_data: Dict, conversation: str, summary: str, learning: str, metadata: Dict, include_section_header: bool = True) -> str:
     """セッションエントリをフォーマット"""
     timestamp = datetime.now().strftime("%H:%M:%S")
     session_title = extract_session_title(conversation)
 
-    entry = f"\n## 🤖 Claude Code Log\n"
+    entry = ""
+
+    # Claude Code Logセクションヘッダーを含めるかどうか
+    if include_section_header:
+        entry = "\n## 🤖 Claude Code Log\n"
+    else:
+        entry = "\n"
+
     entry += f"### [{timestamp}] {session_title}\n"
 
     entry += "**要約**\n"
@@ -336,8 +343,19 @@ def main():
     # メタデータを抽出
     metadata = extract_tools_and_files(transcript)
 
+    # デイリーノートの既存内容をチェック
+    include_section_header = True
+    if daily_note_path.exists():
+        try:
+            existing_content = daily_note_path.read_text(encoding='utf-8')
+            # "## 🤖 Claude Code Log" セクションが既に存在するかチェック
+            if "## 🤖 Claude Code Log" in existing_content:
+                include_section_header = False
+        except Exception:
+            pass  # 読み込みエラーの場合はデフォルトでヘッダーを含める
+
     # エントリをフォーマット
-    entry = format_session_entry(hook_data, conversation, summary, learning, metadata)
+    entry = format_session_entry(hook_data, conversation, summary, learning, metadata, include_section_header)
 
     # デイリーノートに追記
     try:
