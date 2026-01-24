@@ -13,11 +13,11 @@ config.use_ime = true
 
 -- ウィンドウ設定
 config.window_background_opacity = 0.7
-config.window_decorations = "RESIZE"
+config.window_decorations = "TITLE | RESIZE"
 config.window_close_confirmation = "NeverPrompt"
 
 -- タブバー設定
-config.tab_max_width = 5
+config.tab_max_width = 32
 -- キーバインド
 config.keys = {
 	-- カーソルを一単語後ろに移動
@@ -46,6 +46,36 @@ config.keys = {
 			key = "w",
 			mods = "CTRL",
 		}),
+	},
+	-- ペインを縦分割
+	{
+		key = "d",
+		mods = "CMD",
+		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	-- ペインを横分割
+	{
+		key = "d",
+		mods = "CMD|SHIFT",
+		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	-- ページスクロール（上）
+	{
+		key = "UpArrow",
+		mods = "CMD",
+		action = act.ScrollByPage(-1),
+	},
+	-- ページスクロール（下）
+	{
+		key = "DownArrow",
+		mods = "CMD",
+		action = act.ScrollByPage(1),
+	},
+	-- viewモード（コピーモード）切り替え
+	{
+		key = "x",
+		mods = "CMD|SHIFT",
+		action = act.ActivateCopyMode,
 	},
 }
 
