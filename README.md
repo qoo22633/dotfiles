@@ -31,6 +31,11 @@
 
 `ln -sf ~/dotfiles/ghostty ~/.config`
 
+### wezterm
+`brew install --cask wezterm@nightly`
+
+`ln -sf ~/dotfiles/wezterm ~/.config`
+
 ### Git
 `ln -sf ~/dotfiles/.gitconfig ~/.gitconfig`
 
