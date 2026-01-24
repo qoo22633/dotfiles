@@ -101,6 +101,12 @@ config.keys = {
 		mods = "CMD|SHIFT",
 		action = act.ActivatePaneDirection("Down"),
 	},
+	-- ペインを閉じる
+	{
+		key = "w",
+		mods = "CMD",
+		action = act.CloseCurrentPane({ confirm = true }),
+	},
 }
 
 -- イベントハンドラ
