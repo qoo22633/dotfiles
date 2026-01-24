@@ -77,6 +77,36 @@ config.keys = {
 		mods = "CMD|SHIFT",
 		action = act.ActivateCopyMode,
 	},
+	-- 左のペインに移動
+	{
+		key = "[",
+		mods = "CMD",
+		action = act.ActivatePaneDirection("Left"),
+	},
+	-- 右のペインに移動
+	{
+		key = "]",
+		mods = "CMD",
+		action = act.ActivatePaneDirection("Right"),
+	},
+	-- 上のペインに移動
+	{
+		key = "UpArrow",
+		mods = "CMD|SHIFT",
+		action = act.ActivatePaneDirection("Up"),
+	},
+	-- 下のペインに移動
+	{
+		key = "DownArrow",
+		mods = "CMD|SHIFT",
+		action = act.ActivatePaneDirection("Down"),
+	},
+	-- ペイン/タブを閉じる（確認なし）
+	{
+		key = "w",
+		mods = "CMD",
+		action = act.CloseCurrentPane({ confirm = false }),
+	},
 }
 
 -- イベントハンドラ
