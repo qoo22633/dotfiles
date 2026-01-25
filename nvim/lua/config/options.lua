@@ -4,3 +4,4 @@
 
 -- 使用しないプロバイダーを無効化して警告を抑制
 vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
