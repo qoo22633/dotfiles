@@ -44,10 +44,6 @@
 
 `ln -sf ~/dotfiles/.tigrc ~/.tigrc`
 
-#### atuin
-
-`brew install atuin`
-
 #### lazygit
 
 `brew install lazygit`

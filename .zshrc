@@ -33,11 +33,6 @@ if [ -x /opt/homebrew/bin/zoxide ]; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
-# atuin
-if [ -x /opt/homebrew/bin/atuin ]; then
-  eval "$(atuin init zsh)"
-fi
-
 # yazi
 if [ -x /opt/homebrew/bin/yazi ]; then
   function y() {
