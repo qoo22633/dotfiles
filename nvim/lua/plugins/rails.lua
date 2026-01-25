@@ -1,7 +1,4 @@
 return {
-  -- Ruby language support
-  { import = "lazyvim.plugins.extras.lang.ruby" },
-
   -- Rails development plugins
   {
     "tpope/vim-rails",

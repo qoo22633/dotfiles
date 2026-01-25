@@ -3,6 +3,7 @@ return {
   opts = {
     rocks = {
       enabled = false,
+      hererocks = false,
     },
   },
 }
