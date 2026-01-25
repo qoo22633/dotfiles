@@ -107,6 +107,30 @@ config.keys = {
 		mods = "CMD",
 		action = act.CloseCurrentPane({ confirm = true }),
 	},
+	-- ペインサイズ調整（左方向に拡大）
+	{
+		key = "LeftArrow",
+		mods = "CMD|CTRL",
+		action = act.AdjustPaneSize({ "Left", 5 }),
+	},
+	-- ペインサイズ調整（右方向に拡大）
+	{
+		key = "RightArrow",
+		mods = "CMD|CTRL",
+		action = act.AdjustPaneSize({ "Right", 5 }),
+	},
+	-- ペインサイズ調整（上方向に拡大）
+	{
+		key = "UpArrow",
+		mods = "CMD|CTRL",
+		action = act.AdjustPaneSize({ "Up", 5 }),
+	},
+	-- ペインサイズ調整（下方向に拡大）
+	{
+		key = "DownArrow",
+		mods = "CMD|CTRL",
+		action = act.AdjustPaneSize({ "Down", 5 }),
+	},
 }
 
 -- イベントハンドラ
