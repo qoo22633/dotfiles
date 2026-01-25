@@ -16,6 +16,9 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export PATH=$(brew --prefix openssl)/bin:$PATH
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
 
+# Rust cargo
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Editor
 export EDITOR="nvim"
 export VISUAL="nvim"
