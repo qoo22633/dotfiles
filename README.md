@@ -76,4 +76,13 @@ export OBSIDIAN_VAULT_PATH="/path/to/obsidian/vault"
 
 ### Other Cli Tools
 
+#### 基本的なCLIツール
 `brew install eza bat ripgrep fd zoxide`
+
+#### yazi（ファイルマネージャー）
+`brew install yazi ffmpeg sevenzip jq poppler resvg imagemagick font-symbols-only-nerd-font`
+
+※ yaziの依存関係: ffmpeg, sevenzip, jq, poppler, resvg, imagemagick, font-symbols-only-nerd-font
+※ ripgrep, fd, zoxide, fzfは上記で既にインストール済み
+
+`y`コマンドでyaziを起動し、終了時に移動したディレクトリに自動的にcdする関数を`.zshrc`で定義しています。
