@@ -48,6 +48,10 @@
 
 `brew install lazygit`
 
+### lazysql
+
+`brew install lazysql`
+
 ### Vim
 
 neovimを使っている
