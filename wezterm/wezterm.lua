@@ -4,17 +4,19 @@ local config = wezterm.config_builder()
 local act = wezterm.action
 local mux = wezterm.mux
 
-config.color_scheme = "Catppuccin Mocha"
 -- 基本設定
-config.font_size = 18.0
-config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
+config.automatically_reload_config = true
 config.check_for_updates = true
 config.use_ime = true
+
+-- フォント設定
+config.font_size = 18.0
+config.color_scheme = "Catppuccin Mocha"
+config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
 
 -- ウィンドウ設定
 config.window_background_opacity = 0.7
 config.window_decorations = "TITLE | RESIZE"
-config.window_close_confirmation = "NeverPrompt"
 
 -- タブバー設定
 config.tab_max_width = 32
