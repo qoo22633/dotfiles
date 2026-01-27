@@ -151,7 +151,17 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		foreground = "#FFFFFF"
 	end
 
-	local title = "   " .. wezterm.truncate_right(tab.active_pane.title, max_width - 1) .. "   "
+	-- カレントディレクトリ名を取得
+	local cwd = tab.active_pane.current_working_dir
+	local title = tab.active_pane.title
+
+	if cwd then
+		local cwd_uri = cwd.file_path or tostring(cwd)
+		-- パスからディレクトリ名のみを取得
+		title = cwd_uri:match("([^/]+)/?$") or title
+	end
+
+	title = "   " .. wezterm.truncate_right(title, max_width - 1) .. "   "
 
 	return {
 		{ Background = { Color = background } },
