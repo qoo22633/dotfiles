@@ -35,6 +35,16 @@ return {
       end,
       desc = "Search GitHub",
     },
+    {
+      "<leader>ob",
+      "<CMD>Octo pr browser<CR>",
+      desc = "Browse GitHub PullRequests",
+    },
+    {
+      "<leader>oc",
+      "<CMD>Octo pr create<CR>",
+      desc = "Create GitHub PullRequest",
+    },
   },
   dependencies = {
     "nvim-lua/plenary.nvim",
