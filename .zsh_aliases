@@ -2,6 +2,7 @@
 alias d=docker
 alias dc=docker-compose
 alias m=mise
+alias mr='mise run'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias vi=nvim
