@@ -48,6 +48,16 @@
 
 `brew install lazygit`
 
+#### gh-dash
+
+GitHub CLI拡張機能のダッシュボード
+
+`gh extension install dlvhdr/gh-dash`
+
+`mkdir -p ~/.config/gh-dash`
+
+`ln -sf ~/dotfiles/gh-dash/config.yml ~/.config/gh-dash/config.yml`
+
 ### lazysql
 
 `brew install lazysql`
