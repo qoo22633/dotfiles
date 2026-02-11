@@ -38,9 +38,13 @@ customCommands:
     command: >-
       bash -c '
       git fetch --prune;
-      { git branch --merged master 2>/dev/null; git branch --merged staging 2>/dev/null; } | sort -u | grep -vE "^\*|master|main|develop|staging" | xargs git branch -d 2>/dev/null || true;
-      git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs git branch -D 2>/dev/null || true;
-      echo "Branch cleanup completed!"
+      MERGED=$({ git branch --merged master 2>/dev/null; git branch --merged staging 2>/dev/null; } | sort -u | grep -vE "^\*|master|main|develop|staging" | xargs);
+      GONE=$(git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs);
+      [ -n "$MERGED" ] && echo "$MERGED" | xargs git branch -d 2>/dev/null || true;
+      [ -n "$GONE" ] && echo "$GONE" | xargs git branch -D 2>/dev/null || true;
+      echo "---";
+      [ -n "$MERGED" ] && echo "Deleted (merged): $MERGED" || echo "No merged branches to delete";
+      [ -n "$GONE" ] && echo "Deleted (gone): $GONE" || echo "No gone branches to delete"
       '
     description: 'Delete merged & pruned branches'
     prompts:
