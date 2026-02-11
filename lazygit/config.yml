@@ -8,18 +8,17 @@ gui:
   scrollHeight: 2
   scrollPastBottom: true
   mouseEvents: true
-  skipUnstageLineWarning: false
+  skipDiscardChangeWarning: false
   skipStashWarning: false
   showFileTree: true
   showListFooter: true
   showRandomTip: true
   showCommandLog: true
   commandLogSize: 8
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
   merging:
     manualCommit: false
     args: ''
@@ -27,52 +26,28 @@ git:
   autoFetch: true
   autoRefresh: true
   branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --'
-  allBranchesLogCmd: 'git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium'
   overrideGpg: false
   disableForcePushing: false
   commitPrefixes: {}
-
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
 customCommands:
   # マージ済み&リモート削除済みブランチを一括削除
-  - key: '<c-x>'
+  - key: 'x'
     context: 'localBranches'
-    command: |
-      set -e
-      echo "Fetching and pruning remote branches..."
-      git fetch --prune
-
-      echo "\n=== Branches merged into master ==="
-      git branch --merged master | grep -vE "^\*|master|main|develop|staging" || true
-
-      echo "\n=== Branches merged into staging ==="
-      git branch --merged staging | grep -vE "^\*|master|main|develop|staging" || true
-
-      echo "\n=== Local branches tracking deleted remote branches ==="
-      git branch -vv | grep ": gone]" | awk '{print $1}' || true
-
-      echo "\n--- Deleting branches merged into master or staging ---"
-      git branch --merged master | grep -vE "^\*|master|main|develop|staging" | xargs -r git branch -d || true
-      git branch --merged staging | grep -vE "^\*|master|main|develop|staging" | xargs -r git branch -d || true
-
-      echo "\n--- Deleting local branches tracking deleted remote branches ---"
-      git branch -vv | grep ": gone]" | awk '{print $1}' | xargs -r git branch -D || true
-
-      echo "\n✓ Branch cleanup completed!"
+    command: >-
+      bash -c ' set -e; echo "Fetching and pruning remote branches..."; git fetch --prune; echo ""; echo "=== Branches merged into master ==="; git branch --merged master | grep -vE "^\*|master|main|develop|staging" || true; echo ""; echo "=== Branches merged into staging ==="; git branch --merged staging | grep -vE "^\*|master|main|develop|staging" || true; echo ""; echo "=== Local branches tracking deleted remote branches ==="; git branch -vv | grep ": gone]" | awk "{print \$1}" || true; echo ""; echo "--- Deleting branches merged into master or staging ---"; git branch --merged master | grep -vE "^\*|master|main|develop|staging" | xargs git branch -d || true; git branch --merged staging | grep -vE "^\*|master|main|develop|staging" | xargs git branch -d || true; echo ""; echo "--- Deleting local branches tracking deleted remote branches ---"; git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs git branch -D || true; echo ""; echo "Branch cleanup completed!" '
     description: 'Delete merged branches (master/staging) and pruned remote branches'
-    subprocess: true
     prompts:
       - type: 'confirm'
         title: 'Delete merged and pruned branches?'
         body: 'This will delete: 1) Branches merged into master/staging, 2) Local branches whose remote was deleted'
-
+    output: terminal
 refresher:
   refreshInterval: 10
   fetchInterval: 60
-
 update:
   method: never
-
 confirmOnQuit: false
 quitOnTopLevelReturn: false
-
 notARepository: 'prompt'
