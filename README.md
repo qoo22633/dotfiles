@@ -53,7 +53,12 @@
 `ln -sf ~/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml`
 
 カスタムコマンド:
-- `Ctrl+x`: マージ済み(master/staging)&リモート削除済みブランチを一括削除
+- `x`: マージ済み(master/staging)&リモート削除済みブランチを一括削除
+- `C`: git-czでコンベンショナルコミット
+
+#### git-cz
+
+`npm install -g git-cz`
 
 #### gh-dash
 
