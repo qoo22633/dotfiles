@@ -36,8 +36,13 @@ customCommands:
   - key: 'x'
     context: 'localBranches'
     command: >-
-      bash -c ' set -e; echo "Fetching and pruning remote branches..."; git fetch --prune; echo ""; echo "=== Branches merged into master ==="; git branch --merged master | grep -vE "^\*|master|main|develop|staging" || true; echo ""; echo "=== Branches merged into staging ==="; git branch --merged staging | grep -vE "^\*|master|main|develop|staging" || true; echo ""; echo "=== Local branches tracking deleted remote branches ==="; git branch -vv | grep ": gone]" | awk "{print \$1}" || true; echo ""; echo "--- Deleting branches merged into master or staging ---"; git branch --merged master | grep -vE "^\*|master|main|develop|staging" | xargs git branch -d || true; git branch --merged staging | grep -vE "^\*|master|main|develop|staging" | xargs git branch -d || true; echo ""; echo "--- Deleting local branches tracking deleted remote branches ---"; git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs git branch -D || true; echo ""; echo "Branch cleanup completed!" '
-    description: 'Delete merged branches (master/staging) and pruned remote branches'
+      bash -c '
+      git fetch --prune;
+      { git branch --merged master 2>/dev/null; git branch --merged staging 2>/dev/null; } | sort -u | grep -vE "^\*|master|main|develop|staging" | xargs git branch -d 2>/dev/null || true;
+      git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs git branch -D 2>/dev/null || true;
+      echo "Branch cleanup completed!"
+      '
+    description: 'Delete merged & pruned branches'
     prompts:
       - type: 'confirm'
         title: 'Delete merged and pruned branches?'
