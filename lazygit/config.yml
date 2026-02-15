@@ -1,0 +1,59 @@
+gui:
+  theme:
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - white
+  scrollHeight: 2
+  scrollPastBottom: true
+  mouseEvents: true
+  skipDiscardChangeWarning: false
+  skipStashWarning: false
+  showFileTree: true
+  showListFooter: true
+  showRandomTip: true
+  showCommandLog: true
+  commandLogSize: 8
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
+  merging:
+    manualCommit: false
+    args: ''
+  skipHookPrefix: WIP
+  autoFetch: true
+  autoRefresh: true
+  branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --'
+  overrideGpg: false
+  disableForcePushing: false
+  commitPrefixes: {}
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
+customCommands:
+  # マージ済み&リモート削除済みブランチを一括削除
+  - key: 'x'
+    context: 'localBranches'
+    command: >-
+      bash -c ' git fetch --prune; MERGED=$({ git branch --merged master 2>/dev/null; git branch --merged staging 2>/dev/null; } | sort -u | grep -vE "^\*|master|main|develop|staging" | xargs); GONE=$(git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs); [ -n "$MERGED" ] && echo "$MERGED" | xargs git branch -d 2>/dev/null || true; [ -n "$GONE" ] && echo "$GONE" | xargs git branch -D 2>/dev/null || true; echo "---"; [ -n "$MERGED" ] && echo "Deleted (merged): $MERGED" || echo "No merged branches to delete"; [ -n "$GONE" ] && echo "Deleted (gone): $GONE" || echo "No gone branches to delete" '
+    description: 'Delete merged & pruned branches'
+    prompts:
+      - type: 'confirm'
+        title: 'Delete merged and pruned branches?'
+        body: 'This will delete: 1) Branches merged into master/staging, 2) Local branches whose remote was deleted'
+    output: terminal
+  # git-czでコンベンショナルコミット
+  - key: 'C'
+    context: 'files'
+    command: 'git cz'
+    description: 'Commit with git-cz'
+    output: terminal
+refresher:
+  refreshInterval: 10
+  fetchInterval: 60
+update:
+  method: never
+confirmOnQuit: false
+quitOnTopLevelReturn: false
+notARepository: 'prompt'

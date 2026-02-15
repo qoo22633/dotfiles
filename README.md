@@ -48,6 +48,18 @@
 
 `brew install lazygit`
 
+`mkdir -p ~/.config/lazygit`
+
+`ln -sf ~/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml`
+
+カスタムコマンド:
+- `x`: マージ済み(master/staging)&リモート削除済みブランチを一括削除
+- `C`: git-czでコンベンショナルコミット
+
+#### git-cz
+
+`npm install -g git-cz`
+
 #### gh-dash
 
 GitHub CLI拡張機能のダッシュボード
