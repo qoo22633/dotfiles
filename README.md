@@ -86,6 +86,13 @@ neovimを使っている
 
 `ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json`
 
+`mkdir -p ~/.claude/commands`
+
+`ln -sf ~/dotfiles/.claude/commands/worklog.md ~/.claude/commands/worklog.md`
+
+カスタムコマンド:
+- `/worklog`: セッションの作業内容とgit差分からObsidianに作業ログを記録（要 `OBSIDIAN_VAULT_PATH` 環境変数）
+
 ### Other Cli Tools
 
 #### 基本的なCLIツール
