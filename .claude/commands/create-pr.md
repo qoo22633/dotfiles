@@ -1,7 +1,7 @@
 ---
 description: Gitの差分とコンテキストを分析してPRを作成する
 argument-hint: [base-branch]
-allowed-tools: Bash(git *), Bash(gh *), Read, Glob
+allowed-tools: Bash(git *), Bash(gh *), Read, Glob, AskUserQuestion
 ---
 
 # PR作成コマンド
@@ -59,9 +59,8 @@ allowed-tools: Bash(git *), Bash(gh *), Read, Glob
 - 変更内容: 主な変更点を箇条書きで
 - テスト方法: テストや動作確認の手順
 
-下書きを提示したら、ユーザーに以下を確認:
-- 内容に問題がないか
-- ドラフトPRとして作成するか、通常のPRとして作成するか
+下書きを提示したら、`AskUserQuestion` ツールを使って以下を1つの質問で確認する:
+- 選択肢: 「通常のPRとして作成」「ドラフトPRとして作成」「キャンセル」
 
 ## 6. PR作成
 
@@ -81,3 +80,11 @@ EOF
 ## 7. 完了報告
 
 作成されたPRのURLを表示する。
+
+## 8. 作業ログの記録
+
+`AskUserQuestion` ツールを使って以下を確認する:
+- 質問: 「作業ログ（/worklog）も記録しますか？」
+- 選択肢: 「記録する」「スキップ」
+
+「記録する」を選択された場合は、`/worklog` コマンドを実行する。
