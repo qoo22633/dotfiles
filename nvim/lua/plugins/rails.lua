@@ -94,7 +94,6 @@ return {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
-        "ruby-lsp",
         "rubocop",
         "erb-lint",
         "htmlbeautifier",
@@ -108,7 +107,8 @@ return {
     opts = {
       servers = {
         ruby_lsp = {
-          mason = true,
+          mason = false,
+          cmd = { "mise", "exec", "--", "ruby-lsp" },
           settings = {
             rubyLsp = {
               formatter = "rubocop",
