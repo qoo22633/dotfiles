@@ -61,6 +61,13 @@ if vim.fn.isdirectory("src") == 1 or vim.fn.filereadable("package.json") == 1 th
   map("n", "<leader>df", "<cmd>!npm run lint -- --fix<cr>", { desc = "Fix linting errors" })
 end
 
+-- Copy relative path with line number (e.g. app/models/user.rb:42)
+map("n", "<leader>yp", function()
+  local path = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy relative path with line number" })
+
 -- Better terminal navigation for Rails
 map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Terminal left" })
 map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Terminal down" })
