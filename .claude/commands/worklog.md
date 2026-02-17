@@ -13,7 +13,7 @@ allowed-tools: Bash(git *), Read, Glob, Grep, Write
 
 - 設定されていない場合は、ユーザーにパスを聞いてください。その際、「`OBSIDIAN_VAULT_PATH` 環境変数を `~/.zshrc.local` 等に設定しておくと次回から自動で使われます」と案内してください。
 
-保存先は `$OBSIDIAN_VAULT_PATH/Inbox/` です。
+保存先は `$OBSIDIAN_VAULT_PATH/AI/Outputs/` です。
 
 ## 1. 情報収集
 
@@ -73,6 +73,25 @@ allowed-tools: Bash(git *), Read, Glob, Grep, Write
 
 ## 4. ファイルの保存
 
-確認が取れたら `$OBSIDIAN_VAULT_PATH/Inbox/` にファイルを保存してください。
+確認が取れたら `$OBSIDIAN_VAULT_PATH/AI/Outputs/` にファイルを保存してください。
 保存後、ファイルパスを表示してください。
+
+## 5. Daily Noteへのリンク追加
+
+今日のdaily noteを `$OBSIDIAN_VAULT_PATH` 内で探し、作業ログへのinternal linkを追記してください。
+
+Daily noteのファイル名の形式: `📰{YYYY-MM-DD}({曜日英語3文字}).md`
+例: `📰2026-02-17(Tue).md`
+
+- `find` または `Glob` でdaily noteファイルを検索する
+- 見つかった場合、ファイルの末尾に以下を追記する:
+
+```markdown
+## 作業ログ
+
+- [[作業ログ_{YYYY-MM-DD}_{作業の要約}]]
+```
+
+- すでに「作業ログ」セクションがある場合は、そのセクションに箇条書きとして追記する
+- ファイルが見つからない場合はユーザーに通知する
 ```
