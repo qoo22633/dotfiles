@@ -88,6 +88,35 @@ end
 - LazyVimのRustエクストラを有効化
 - `{ import = "lazyvim.plugins.extras.lang.rust" }`
 
+### Ruby/Rails
+`nvim/lua/plugins/rails.lua`でRails開発環境を構成
+
+#### 主要プラグイン
+- `tpope/vim-rails`: Rails統合
+- `vim-ruby/vim-ruby`: Ruby構文サポート
+- `thoughtbot/vim-rspec`: RSpecテスト実行
+
+#### LSP設定（重要）
+**Ruby LSPはMasonではなくmise経由で起動**
+
+理由: Mason経由のruby-lspはRubyバージョンがshebangにハードコードされ、プロジェクトごとのバージョン切り替えに対応できない
+
+設定例:
+```lua
+ruby_lsp = {
+  mason = false,
+  cmd = { "mise", "exec", "--", "ruby-lsp" },
+}
+```
+
+前提条件:
+```bash
+# 各Rubyバージョンにruby-lsp gemをインストール
+mise exec -- gem install ruby-lsp
+```
+
+詳細は`.claude/TROUBLESHOOTING.md`の「Ruby LSPが起動しない」を参照
+
 ## 設定ファイル構造
 
 ```

@@ -42,6 +42,50 @@ mv ~/.zshrc ~/.zshrc.backup
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ```
 
+### Ruby LSPが起動しない
+
+**症状**: Rubyファイルを開くと `Client ruby_lsp quit with exit code 1` エラーが出る
+
+**原因**: Mason経由でインストールされたruby-lspのshebangがRubyバージョンにハードコードされ、プロジェクトが要求するRubyバージョンと不一致になる
+
+**解決策**: miseを経由してruby-lspを起動するよう設定を変更
+
+`nvim/lua/plugins/rails.lua`で以下のように設定:
+```lua
+{
+  "neovim/nvim-lspconfig",
+  opts = {
+    servers = {
+      ruby_lsp = {
+        mason = false,  -- Masonのruby-lspを使わない
+        cmd = { "mise", "exec", "--", "ruby-lsp" },
+        settings = {
+          rubyLsp = {
+            formatter = "rubocop",
+            linters = { "rubocop" },
+          },
+        },
+      },
+    },
+  },
+},
+```
+
+**前提条件**: 各Rubyバージョンにruby-lsp gemをインストール
+```bash
+# プロジェクトで使用しているRubyバージョンを確認
+cat .ruby-version  # または cat .mise.toml
+
+# そのバージョンでruby-lsp gemをインストール
+mise exec -- gem install ruby-lsp
+```
+
+**ログ確認**:
+```bash
+# LSPログを確認
+tail -100 ~/.local/state/nvim/lsp.log
+```
+
 ## 新しい環境でのセットアップ手順
 
 1. Homebrewをインストール
