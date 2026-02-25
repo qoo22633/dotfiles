@@ -73,14 +73,6 @@ return {
       end,
       desc = "Send File",
     },
-    {
-      "<leader>av",
-      function()
-        require("sidekick.cli").send({ msg = "{selection}" })
-      end,
-      mode = { "x" },
-      desc = "Send Visual Selection",
-    },
 
     -- プロンプト選択
     {
@@ -92,17 +84,40 @@ return {
       desc = "Select Prompt",
     },
 
-    -- Claude専用トグル
+    -- Claude専用操作
     {
-      "<leader>ac",
+      "<leader>cc",
       function()
         require("sidekick.cli").toggle({ name = "claude", focus = true })
       end,
       desc = "Toggle Claude",
     },
+    {
+      "<leader>cf",
+      function()
+        require("sidekick.cli").toggle({ name = "claude", focus = true, open = true })
+      end,
+      desc = "Focus Claude",
+    },
+    {
+      "<leader>cb",
+      function()
+        require("sidekick.cli").send({ msg = "{file}" })
+      end,
+      desc = "Add Current Buffer",
+    },
+    {
+      "<leader>cs",
+      function()
+        require("sidekick.cli").send({ msg = "{selection}" })
+      end,
+      mode = { "x" },
+      desc = "Send Selection to Claude",
+    },
 
     -- which-key用のグループ定義
     { "<leader>a", group = "ai-sidekick", mode = { "n", "v" } },
+    { "<leader>c", group = "claude", mode = { "n", "v" } },
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
