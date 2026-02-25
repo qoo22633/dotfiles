@@ -4,9 +4,9 @@ return {
   opts = {
     cli = {
       win = {
-        layout = "bottom", -- 下部に配置（"float"|"left"|"bottom"|"top"|"right"）
+        layout = "right", -- 右側に配置（"float"|"left"|"bottom"|"top"|"right"）
         split = {
-          height = 15, -- ターミナルの高さ（行数）
+          width = 50, -- ターミナルの幅（カラム数）
         },
       },
     },
@@ -24,42 +24,55 @@ return {
       desc = "Goto/Apply Next Edit Suggestion",
     },
 
-    -- AI CLIターミナルの表示/非表示
+    -- ショートカット: Ctrl+.でトグル
     {
       "<c-.>",
       function()
-        require("sidekick.cli").toggle()
+        require("sidekick.cli").toggle({ name = "claude" })
       end,
-      desc = "Toggle AI CLI",
+      desc = "Toggle Claude CLI",
       mode = { "n", "t", "i", "x" },
     },
-    {
-      "<leader>aa",
-      function()
-        require("sidekick.cli").toggle()
-      end,
-      desc = "Toggle AI CLI",
-    },
 
-    -- CLI選択・操作
+    -- Claude操作
     {
-      "<leader>as",
+      "<leader>cc",
       function()
-        require("sidekick.cli").select()
+        require("sidekick.cli").toggle({ name = "claude" })
       end,
-      desc = "Select CLI",
+      desc = "Toggle Claude",
     },
     {
-      "<leader>ad",
+      "<leader>cf",
+      function()
+        require("sidekick.cli").toggle({ name = "claude", focus = true, open = true })
+      end,
+      desc = "Focus Claude",
+    },
+    {
+      "<leader>cd",
       function()
         require("sidekick.cli").close()
       end,
-      desc = "Detach CLI Session",
+      desc = "Close Claude Session",
     },
-
-    -- コンテキスト送信
     {
-      "<leader>at",
+      "<leader>cb",
+      function()
+        require("sidekick.cli").send({ msg = "{file}" })
+      end,
+      desc = "Send Current Buffer",
+    },
+    {
+      "<leader>cs",
+      function()
+        require("sidekick.cli").send({ msg = "{selection}" })
+      end,
+      mode = { "x" },
+      desc = "Send Selection",
+    },
+    {
+      "<leader>ct",
       function()
         require("sidekick.cli").send({ msg = "{this}" })
       end,
@@ -67,24 +80,7 @@ return {
       desc = "Send This",
     },
     {
-      "<leader>af",
-      function()
-        require("sidekick.cli").send({ msg = "{file}" })
-      end,
-      desc = "Send File",
-    },
-    {
-      "<leader>av",
-      function()
-        require("sidekick.cli").send({ msg = "{selection}" })
-      end,
-      mode = { "x" },
-      desc = "Send Visual Selection",
-    },
-
-    -- プロンプト選択
-    {
-      "<leader>ap",
+      "<leader>cp",
       function()
         require("sidekick.cli").prompt()
       end,
@@ -92,17 +88,8 @@ return {
       desc = "Select Prompt",
     },
 
-    -- Claude専用トグル
-    {
-      "<leader>ac",
-      function()
-        require("sidekick.cli").toggle({ name = "claude", focus = true })
-      end,
-      desc = "Toggle Claude",
-    },
-
     -- which-key用のグループ定義
-    { "<leader>a", group = "ai-sidekick", mode = { "n", "v" } },
+    { "<leader>c", group = "claude", mode = { "n", "v" } },
   },
   config = function(_, opts)
     require("sidekick").setup(opts)
