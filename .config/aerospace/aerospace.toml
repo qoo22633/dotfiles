@@ -77,6 +77,7 @@ alt-9 = 'workspace 9'
 
 # --- ワークスペース切り替え（アルファベット）---
 # alt-a → Arc起動に使用
+# alt-f → フルスクリーン切り替えに使用
 # alt-i → WezTerm起動に使用
 # alt-n → Notion起動に使用
 # alt-o → Obsidian起動に使用
@@ -95,8 +96,10 @@ alt-shift-9 = 'move-node-to-workspace 9'
 
 # --- ウィンドウをワークスペースに移動（アルファベット）---
 alt-shift-a = 'move-node-to-workspace A'
+alt-shift-f = 'move-node-to-workspace F'
 alt-shift-i = 'move-node-to-workspace I'
 alt-shift-n = 'move-node-to-workspace N'
+alt-shift-o = 'move-node-to-workspace O'
 alt-shift-s = 'move-node-to-workspace S'
 
 # --- モニター間移動 ---
@@ -145,4 +148,14 @@ run = 'move-node-to-workspace S'
 [[on-window-detected]]
 if.app-id = 'notion.id'
 run = 'move-node-to-workspace N'
+
+# Figma → ワークスペース F
+[[on-window-detected]]
+if.app-id = 'com.figma.Desktop'
+run = 'move-node-to-workspace F'
+
+# Obsidian → ワークスペース O
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace O'
 
