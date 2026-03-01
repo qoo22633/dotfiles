@@ -85,7 +85,7 @@ brew install --cask wezterm@nightly
 ### ウィンドウマネージャー
 
 ```bash
-brew install --cask aerospace
+brew install --cask nikitabobko/tap/aerospace
 ```
 
 ### ターミナルマルチプレクサ
@@ -100,16 +100,16 @@ brew install zellij
 
 キーバインド：
 
-| キー | 動作 |
-|------|------|
-| `Alt + hjkl` | フォーカス移動 |
-| `Alt + Shift + hjkl` | ウィンドウ移動 |
-| `Alt + 1-9` | ワークスペース切り替え |
-| `Alt + S` | Slack ワークスペース |
-| `Alt + M` | Music ワークスペース |
-| `Alt + B` | Browser ワークスペース |
-| `Alt + F` | フルスクリーン |
-| `Alt + Shift + ;` | サービスモード（設定リロード等） |
+| キー                 | 動作                             |
+| -------------------- | -------------------------------- |
+| `Alt + hjkl`         | フォーカス移動                   |
+| `Alt + Shift + hjkl` | ウィンドウ移動                   |
+| `Alt + 1-9`          | ワークスペース切り替え           |
+| `Alt + S`            | Slack ワークスペース             |
+| `Alt + M`            | Music ワークスペース             |
+| `Alt + B`            | Browser ワークスペース           |
+| `Alt + F`            | フルスクリーン                   |
+| `Alt + Shift + ;`    | サービスモード（設定リロード等） |
 
 アプリのワークスペース自動割り当て：Chrome/Firefox/Safari → B、WezTerm → 1、Slack → S、Spotify → M
 
