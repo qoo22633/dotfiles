@@ -1,5 +1,6 @@
 # init
 ## zshで補完ができるように設定
+fpath=(~/.config/zsh/completion $fpath)
 autoload -Uz compinit
 compinit
 
