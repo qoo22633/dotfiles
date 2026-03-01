@@ -1,109 +1,126 @@
 # dotfiles
 
-## 追加方法
+## セットアップ（新しいマシン）
 
-- git管理したいドットファイルをdotfilesに移動
-  `mv .vimrc dotfiles/`
+```bash
+git clone git@github.com:qoo22633/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+chmod +x install.sh
+./install.sh
+```
 
-- シンボリックリンクを貼る
-  `ln -sf ~/dotfiles/.vimrc ~/.vimrc`
+`install.sh` が以下を自動で行います：
 
-## 反映方法
+- `dotfiles/.config/*` → `~/.config/*` のシンボリックリンク作成
+- `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成
+- Claude Code の commands/agents のシンボリックリンク作成
+- 既存ファイルは `~/.dotfiles_backup/<timestamp>/` にバックアップ
 
-### mise
+## ディレクトリ構成
 
-`brew install mise`
+```
+dotfiles/
+├── .config/
+│   ├── nvim/          # Neovim (LazyVim)
+│   ├── wezterm/       # WezTerm ターミナル
+│   ├── lazygit/       # lazygit
+│   ├── sheldon/       # sheldon (zsh プラグインマネージャー)
+│   ├── gh-dash/       # gh-dash (GitHub CLI ダッシュボード)
+│   └── aerospace/     # AeroSpace ウィンドウマネージャー
+├── home/
+│   ├── .zshrc
+│   ├── .zsh_aliases
+│   ├── .gitconfig
+│   ├── .tigrc
+│   └── .vimrc
+├── .claude/           # Claude Code 設定
+│   ├── commands/      # カスタムコマンド（/worklog, /create-pr）
+│   └── agents/        # カスタムエージェント
+└── install.sh         # シンボリックリンク一括作成スクリプト
+```
 
-### zsh
+## ツールのインストール
 
-`brew install zsh`
+### シェル
 
-`brew install sheldon`
+```bash
+brew install zsh sheldon fzf zoxide atuin mise
+```
 
-`brew install fzf`
+### エディタ
 
-`ln -sf ~/dotfiles/.zshrc ~/.zshrc`
+```bash
+brew install neovim
+```
 
-`ln -sf ~/dotfiles/.zsh_aliases ~/.zsh_aliases`
+### Git 関連
 
-`ln -sf ~/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml`
+```bash
+brew install git lazygit tig git-delta
+npm install -g git-cz  # lazygit からのコンベンショナルコミット用
+```
 
-### wezterm
+### CLI ツール
 
-`brew install --cask wezterm@nightly`
+```bash
+brew install eza bat ripgrep fd
+brew install yazi ffmpeg sevenzip jq poppler resvg imagemagick
+brew install lazysql
+```
 
-`ln -sf ~/dotfiles/wezterm ~/.config`
+### GitHub
 
-### Git
+```bash
+brew install gh
+gh extension install dlvhdr/gh-dash
+```
 
-`ln -sf ~/dotfiles/.gitconfig ~/.gitconfig`
+### ターミナル
 
-#### tig
+```bash
+brew install --cask wezterm@nightly
+```
 
-`brew install tig`
+### ウィンドウマネージャー
 
-`ln -sf ~/dotfiles/.tigrc ~/.tigrc`
+```bash
+brew install --cask aerospace
+```
 
-#### lazygit
+## ツール別メモ
 
-`brew install lazygit`
+### AeroSpace
 
-`mkdir -p ~/.config/lazygit`
+キーバインド：
 
-`ln -sf ~/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml`
+| キー | 動作 |
+|------|------|
+| `Alt + hjkl` | フォーカス移動 |
+| `Alt + Shift + hjkl` | ウィンドウ移動 |
+| `Alt + 1-9` | ワークスペース切り替え |
+| `Alt + S` | Slack ワークスペース |
+| `Alt + M` | Music ワークスペース |
+| `Alt + B` | Browser ワークスペース |
+| `Alt + F` | フルスクリーン |
+| `Alt + Shift + ;` | サービスモード（設定リロード等） |
 
-カスタムコマンド:
-- `x`: マージ済み(master/staging)&リモート削除済みブランチを一括削除
-- `C`: git-czでコンベンショナルコミット
+アプリのワークスペース自動割り当て：Chrome/Firefox/Safari → B、WezTerm → 1、Slack → S、Spotify → M
 
-#### git-cz
+### lazygit カスタムコマンド
 
-`npm install -g git-cz`
+- `x`: マージ済み（master/staging）&リモート削除済みブランチを一括削除
+- `C`: git-cz でコンベンショナルコミット（要 `npm install -g git-cz`）
 
-#### gh-dash
+### gh-dash カスタムキーバインド
 
-GitHub CLI拡張機能のダッシュボード
+- `g`: リポジトリで lazygit を起動
+- `w`: PR をブラウザで開く
 
-`gh extension install dlvhdr/gh-dash`
+### Claude Code カスタムコマンド
 
-`mkdir -p ~/.config/gh-dash`
+- `/worklog`: 作業ログを Obsidian に記録（要 `OBSIDIAN_VAULT_PATH` 環境変数）
+- `/create-pr`: PR 作成
 
-`ln -sf ~/dotfiles/gh-dash/config.yml ~/.config/gh-dash/config.yml`
+### ローカル固有設定
 
-### lazysql
-
-`brew install lazysql`
-
-### Vim
-
-neovimを使っている
-
-`brew install neovim`
-
-`ln -sf ~/dotfiles/nvim ~/.config`
-
-### Claude Code
-
-`ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json`
-
-`mkdir -p ~/.claude/commands`
-
-`ln -sf ~/dotfiles/.claude/commands/worklog.md ~/.claude/commands/worklog.md`
-
-カスタムコマンド:
-- `/worklog`: セッションの作業内容とgit差分からObsidianに作業ログを記録（要 `OBSIDIAN_VAULT_PATH` 環境変数）
-
-### Other Cli Tools
-
-#### 基本的なCLIツール
-
-`brew install eza bat ripgrep fd zoxide`
-
-#### yazi（ファイルマネージャー）
-
-`brew install yazi ffmpeg sevenzip jq poppler resvg imagemagick font-symbols-only-nerd-font`
-
-※ yaziの依存関係: ffmpeg, sevenzip, jq, poppler, resvg, imagemagick, font-symbols-only-nerd-font
-※ ripgrep, fd, zoxide, fzfは上記で既にインストール済み
-
-`y`コマンドでyaziを起動し、終了時に移動したディレクトリに自動的にcdする関数を`.zshrc`で定義しています。
+`~/.zshrc.local` に記述（git 管理外）
