@@ -86,6 +86,8 @@ brew install --cask wezterm@nightly
 
 ```bash
 brew install --cask nikitabobko/tap/aerospace
+brew tap FelixKratz/formulae
+brew install borders  # アクティブウィンドウのボーダー表示
 ```
 
 ### ターミナルマルチプレクサ
