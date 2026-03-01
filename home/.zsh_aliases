@@ -33,3 +33,6 @@ alias ll=ee
 
 ### bat
 alias cat='bat'
+
+### zellij
+alias z='zellij'
