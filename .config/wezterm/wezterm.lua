@@ -79,11 +79,6 @@ config.keys = {
 		mods = "CMD|SHIFT",
 		action = act.ActivateCopyMode,
 	},
-	-- ペイン移動 (hjkl)
-	{ key = "h", mods = "CTRL", action = act.ActivatePaneDirection("Left") },
-	{ key = "j", mods = "CTRL", action = act.ActivatePaneDirection("Down") },
-	{ key = "k", mods = "CTRL", action = act.ActivatePaneDirection("Up") },
-	{ key = "l", mods = "CTRL", action = act.ActivatePaneDirection("Right") },
 	-- ペインを閉じる
 	{
 		key = "w",
