@@ -19,6 +19,11 @@ export PATH="/usr/local/opt/openssl@3/bin:$PATH"
 # Rust cargo
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# XDG Base Directory
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
 # Editor
 export EDITOR="nvim"
 export VISUAL="nvim"
