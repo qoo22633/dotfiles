@@ -26,7 +26,8 @@ dotfiles/
 │   ├── lazygit/       # lazygit
 │   ├── sheldon/       # sheldon (zsh プラグインマネージャー)
 │   ├── gh-dash/       # gh-dash (GitHub CLI ダッシュボード)
-│   └── aerospace/     # AeroSpace ウィンドウマネージャー
+│   ├── aerospace/     # AeroSpace ウィンドウマネージャー
+│   └── zellij/        # Zellij ターミナルマルチプレクサ
 ├── home/
 │   ├── .zshrc
 │   ├── .zsh_aliases
@@ -85,6 +86,12 @@ brew install --cask wezterm@nightly
 
 ```bash
 brew install --cask aerospace
+```
+
+### ターミナルマルチプレクサ
+
+```bash
+brew install zellij
 ```
 
 ## ツール別メモ
