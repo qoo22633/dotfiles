@@ -79,60 +79,20 @@ config.keys = {
 		mods = "CMD|SHIFT",
 		action = act.ActivateCopyMode,
 	},
-	-- 左のペインに移動
-	{
-		key = "[",
-		mods = "CMD",
-		action = act.ActivatePaneDirection("Left"),
-	},
-	-- 右のペインに移動
-	{
-		key = "]",
-		mods = "CMD",
-		action = act.ActivatePaneDirection("Right"),
-	},
-	-- 上のペインに移動
-	{
-		key = "UpArrow",
-		mods = "CMD|SHIFT",
-		action = act.ActivatePaneDirection("Up"),
-	},
-	-- 下のペインに移動
-	{
-		key = "DownArrow",
-		mods = "CMD|SHIFT",
-		action = act.ActivatePaneDirection("Down"),
-	},
+	-- ペイン移動 (hjkl)
+	{ key = "h", mods = "CTRL", action = act.ActivatePaneDirection("Left") },
+	{ key = "j", mods = "CTRL", action = act.ActivatePaneDirection("Down") },
+	{ key = "k", mods = "CTRL", action = act.ActivatePaneDirection("Up") },
+	{ key = "l", mods = "CTRL", action = act.ActivatePaneDirection("Right") },
 	-- ペインを閉じる
 	{
 		key = "w",
 		mods = "CMD",
 		action = act.CloseCurrentPane({ confirm = true }),
 	},
-	-- ペインサイズ調整（左方向に拡大）
-	{
-		key = "LeftArrow",
-		mods = "CMD|CTRL",
-		action = act.AdjustPaneSize({ "Left", 5 }),
-	},
-	-- ペインサイズ調整（右方向に拡大）
-	{
-		key = "RightArrow",
-		mods = "CMD|CTRL",
-		action = act.AdjustPaneSize({ "Right", 5 }),
-	},
-	-- ペインサイズ調整（上方向に拡大）
-	{
-		key = "UpArrow",
-		mods = "CMD|CTRL",
-		action = act.AdjustPaneSize({ "Up", 5 }),
-	},
-	-- ペインサイズ調整（下方向に拡大）
-	{
-		key = "DownArrow",
-		mods = "CMD|CTRL",
-		action = act.AdjustPaneSize({ "Down", 5 }),
-	},
+	-- ペインサイズ調整
+	{ key = "=", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Right", 5 }) },
+	{ key = "-", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Left", 5 }) },
 }
 
 -- イベントハンドラ
