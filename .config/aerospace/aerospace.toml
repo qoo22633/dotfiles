@@ -1,49 +1,49 @@
 # AeroSpace 設定ファイル
 # ドキュメント: https://nikitabobko.github.io/AeroSpace/guide
+# 参照: https://github.com/mozumasu/dotfiles/blob/main/.config/aerospace/aerospace.toml
 
-# ログイン時に自動起動
 start-at-login = true
 
 after-login-command = []
-after-startup-command = []
+after-startup-command = ['exec-and-forget borders']
 
-# フォーカスしているモニターが変わったらマウスをその中央に移動
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-
-# ============================================================
-# レイアウト設定
-# ============================================================
-
-# ネストしたコンテナを平坦化する正規化
 enable-normalization-flatten-containers = true
-# ネストしたコンテナの向きを交互に変える正規化
 enable-normalization-opposite-orientation-for-nested-containers = true
 
-# アコーディオンレイアウトのパディング (px)
-accordion-padding = 30
+accordion-padding = 20
 
-# デフォルトのルートコンテナレイアウト
 default-root-container-layout = 'tiles'
-# 画面の向きに合わせてレイアウト方向を自動設定
 default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# cmd-h の誤爆防止
+automatically-unhide-macos-hidden-apps = false
+
+[key-mapping]
+preset = 'qwerty'
 
 # ============================================================
 # ギャップ設定（ウィンドウ間の余白）
 # ============================================================
 
 [gaps]
-inner.horizontal = 5
-inner.vertical   = 5
-outer.left       = 5
-outer.bottom     = 5
-outer.top        = 5
-outer.right      = 5
+inner.horizontal = 3
+inner.vertical   = 3
+outer.left       = 3
+outer.bottom     = 3
+outer.top        = 3
+outer.right      = 3
 
 # ============================================================
-# メインキーバインド（Alt をモディファイアとして使用）
+# メインキーバインド
 # ============================================================
 
 [mode.main.binding]
+
+# --- レイアウト切り替え ---
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
 
 # --- フォーカス移動 (hjkl) ---
 alt-h = 'focus left'
@@ -61,13 +61,6 @@ alt-shift-l = 'move right'
 alt-minus       = 'resize smart -50'
 alt-shift-minus = 'resize smart +50'
 
-# --- レイアウト切り替え ---
-alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout h_accordion v_accordion'
-
-# --- フローティング切り替え ---
-alt-shift-space = 'layout floating tiling'
-
 # --- フルスクリーン ---
 alt-f = 'fullscreen'
 
@@ -82,10 +75,22 @@ alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 
-# --- ワークスペース切り替え（名前付き）---
-alt-s = 'workspace S'  # Slack
-alt-m = 'workspace M'  # Music
-alt-b = 'workspace B'  # Browser
+# --- ワークスペース切り替え（アルファベット）---
+# alt-a → Arc起動に使用
+# alt-i → WezTerm起動に使用
+# alt-o → Obsidian起動に使用
+# alt-s → Slack起動に使用
+alt-d = 'workspace D'
+alt-e = 'workspace E'
+alt-g = 'workspace G'
+alt-n = 'workspace N'
+alt-q = 'workspace Q'
+alt-r = 'workspace R'
+alt-u = 'workspace U'
+alt-w = 'workspace W'
+alt-x = 'workspace X'
+alt-y = 'workspace Y'
+alt-z = 'workspace Z'
 
 # --- ウィンドウをワークスペースに移動（数字）---
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -98,13 +103,33 @@ alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 
-# --- ウィンドウをワークスペースに移動（名前付き）---
-alt-shift-s = 'move-node-to-workspace S'
-alt-shift-m = 'move-node-to-workspace M'
+# --- ウィンドウをワークスペースに移動（アルファベット）---
+alt-shift-a = 'move-node-to-workspace A'
 alt-shift-b = 'move-node-to-workspace B'
+alt-shift-d = 'move-node-to-workspace D'
+alt-shift-e = 'move-node-to-workspace E'
+alt-shift-f = 'move-node-to-workspace F'
+alt-shift-g = 'move-node-to-workspace G'
+alt-shift-i = 'move-node-to-workspace I'
+alt-shift-n = 'move-node-to-workspace N'
+alt-shift-o = 'move-node-to-workspace O'
+alt-shift-p = 'move-node-to-workspace P'
+alt-shift-q = 'move-node-to-workspace Q'
+alt-shift-r = 'move-node-to-workspace R'
+alt-shift-s = 'move-node-to-workspace S'
+alt-shift-t = 'move-node-to-workspace T'
+alt-shift-u = 'move-node-to-workspace U'
+alt-shift-w = 'move-node-to-workspace W'
+alt-shift-x = 'move-node-to-workspace X'
+alt-shift-y = 'move-node-to-workspace Y'
+alt-shift-z = 'move-node-to-workspace Z'
+
+# --- モニター間移動 ---
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # --- アプリ起動 ---
 alt-a = 'exec-and-forget open -a Arc'
+alt-s = 'exec-and-forget open -a Slack'
 alt-o = 'exec-and-forget open -a Obsidian'
 alt-i = 'exec-and-forget open -a WezTerm'
 
@@ -112,47 +137,43 @@ alt-i = 'exec-and-forget open -a WezTerm'
 alt-shift-semicolon = 'mode service'
 
 # ============================================================
-# サービスモード（設定変更・特殊操作用）
+# サービスモード
 # ============================================================
 
 [mode.service.binding]
-# 設定をリロードしてメインモードに戻る
 esc       = ['reload-config', 'mode main']
-# ワークスペースツリーを平坦化
 r         = ['flatten-workspace-tree', 'mode main']
-# フローティング/タイリングを切り替え
 f         = ['layout floating tiling', 'mode main']
-# 現在のウィンドウ以外を全て閉じる
 backspace = ['close-all-windows-but-current', 'mode main']
 
 # ============================================================
 # アプリをワークスペースに自動割り当て
 # ============================================================
 
-# ブラウザ → ワークスペース B
+# Arc → ワークスペース 1
 [[on-window-detected]]
-if.app-id = 'com.google.Chrome'
-run = 'move-node-to-workspace B'
+if.app-id = 'company.thebrowser.Browser'
+run = 'move-node-to-workspace 1'
 
-[[on-window-detected]]
-if.app-id = 'org.mozilla.firefox'
-run = 'move-node-to-workspace B'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.Safari'
-run = 'move-node-to-workspace B'
-
-# WezTerm → ワークスペース 1
+# WezTerm → ワークスペース 2
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'
-run = 'move-node-to-workspace 1'
+run = 'move-node-to-workspace 2'
 
 # Slack → ワークスペース S
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'move-node-to-workspace S'
 
-# Spotify → ワークスペース M (Music)
+# Notion → ワークスペース N
 [[on-window-detected]]
-if.app-id = 'com.spotify.client'
-run = 'move-node-to-workspace M'
+if.app-id = 'notion.id'
+run = 'move-node-to-workspace N'
+
+# Zoom → ワークスペース Z（メインモニターに固定）
+[workspace-to-monitor-force-assignment]
+Z = ['Display']
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = 'move-node-to-workspace Z'
