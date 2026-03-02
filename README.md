@@ -80,6 +80,10 @@ gh extension install dlvhdr/gh-dash
 
 ```bash
 brew install --cask wezterm@nightly
+
+# cmux - AI コーディングエージェント管理用ターミナル
+brew tap manaflow-ai/cmux
+brew install --cask cmux
 ```
 
 ### ウィンドウマネージャー
