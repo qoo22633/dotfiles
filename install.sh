@@ -78,6 +78,7 @@ log "=== Home dotfiles ==="
 for src_file in "$DOTFILES_DIR/home"/.*; do
     base="$(basename "$src_file")"
     [[ "$base" == "." || "$base" == ".." ]] && continue
+    [[ "$base" == ".config" ]] && continue  # .config は別途 .config/*/ ループで管理
     safe_link "$src_file" "$HOME/$base"
 done
 

@@ -9,11 +9,11 @@ chmod +x install.sh
 ./install.sh
 ```
 
-`install.sh` が以下を自動で行います：
+`install.sh` が以下を自動で行います（何度実行しても安全）：
 
-- `dotfiles/.config/*` → `~/.config/*` のシンボリックリンク作成
-- `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成
-- Claude Code の commands/agents のシンボリックリンク作成
+- `dotfiles/.config/*` → `~/.config/*` のシンボリックリンク作成（ディレクトリ単位）
+- `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成（ファイル単位）
+- `dotfiles/.claude/commands/*.md` → `~/.claude/commands/` のシンボリックリンク作成（ファイル単位）
 - 既存ファイルは `~/.dotfiles_backup/<timestamp>/` にバックアップ
 
 ## ディレクトリ構成
@@ -27,6 +27,8 @@ dotfiles/
 │   ├── sheldon/       # sheldon (zsh プラグインマネージャー)
 │   ├── gh-dash/       # gh-dash (GitHub CLI ダッシュボード)
 │   ├── aerospace/     # AeroSpace ウィンドウマネージャー
+│   ├── borders/       # borders (アクティブウィンドウのボーダー表示)
+│   ├── git/           # git 設定（ignore ファイル等）
 │   └── zellij/        # Zellij ターミナルマルチプレクサ
 ├── home/
 │   ├── .zshrc
@@ -42,98 +44,38 @@ dotfiles/
 
 ## ツールのインストール
 
-### シェル
-
 ```bash
+# シェル
 brew install zsh sheldon fzf zoxide atuin mise
-```
 
-### エディタ
-
-```bash
+# エディタ
 brew install neovim
-```
 
-### Git 関連
-
-```bash
+# Git 関連
 brew install git lazygit tig git-delta
-npm install -g git-cz  # lazygit からのコンベンショナルコミット用
-```
+npm install -g git-cz
 
-### CLI ツール
-
-```bash
+# CLI ツール
 brew install eza bat ripgrep fd
 brew install yazi ffmpeg sevenzip jq poppler resvg imagemagick
 brew install lazysql
-```
 
-### GitHub
-
-```bash
+# GitHub
 brew install gh
 gh extension install dlvhdr/gh-dash
-```
 
-### ターミナル
-
-```bash
+# ターミナル
 brew install --cask wezterm@nightly
+brew tap manaflow-ai/cmux && brew install --cask cmux
 
-# cmux - AI コーディングエージェント管理用ターミナル
-brew tap manaflow-ai/cmux
-brew install --cask cmux
-```
-
-### ウィンドウマネージャー
-
-```bash
+# ウィンドウマネージャー
 brew install --cask nikitabobko/tap/aerospace
-brew tap FelixKratz/formulae
-brew install borders  # アクティブウィンドウのボーダー表示
-```
+brew tap FelixKratz/formulae && brew install borders
 
-### ターミナルマルチプレクサ
-
-```bash
+# ターミナルマルチプレクサ
 brew install zellij
 ```
 
-## ツール別メモ
-
-### AeroSpace
-
-キーバインド：
-
-| キー                 | 動作                             |
-| -------------------- | -------------------------------- |
-| `Alt + hjkl`         | フォーカス移動                   |
-| `Alt + Shift + hjkl` | ウィンドウ移動                   |
-| `Alt + 1-9`          | ワークスペース切り替え           |
-| `Alt + S`            | Slack ワークスペース             |
-| `Alt + M`            | Music ワークスペース             |
-| `Alt + B`            | Browser ワークスペース           |
-| `Alt + F`            | フルスクリーン                   |
-| `Alt + Shift + ;`    | サービスモード（設定リロード等） |
-
-アプリのワークスペース自動割り当て：Chrome/Firefox/Safari → B、WezTerm → 1、Slack → S、Spotify → M
-
-### lazygit カスタムコマンド
-
-- `x`: マージ済み（master/staging）&リモート削除済みブランチを一括削除
-- `C`: git-cz でコンベンショナルコミット（要 `npm install -g git-cz`）
-
-### gh-dash カスタムキーバインド
-
-- `g`: リポジトリで lazygit を起動
-- `w`: PR をブラウザで開く
-
-### Claude Code カスタムコマンド
-
-- `/worklog`: 作業ログを Obsidian に記録（要 `OBSIDIAN_VAULT_PATH` 環境変数）
-- `/create-pr`: PR 作成
-
-### ローカル固有設定
+## ローカル固有設定
 
 `~/.zshrc.local` に記述（git 管理外）
