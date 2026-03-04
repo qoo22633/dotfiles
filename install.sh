@@ -83,6 +83,12 @@ for src_file in "$DOTFILES_DIR/home"/.*; do
 done
 
 # ============================================================
+# Brewfile のシンボリックリンク
+# ============================================================
+log "=== Brewfile ==="
+safe_link "$DOTFILES_DIR/Brewfile" "$HOME/.Brewfile"
+
+# ============================================================
 # Claude Code のシンボリックリンク
 # ディレクトリごとではなくファイル単位でリンク
 # （~/.claude/ には Claude Code 自身のランタイムデータも含まれるため）
@@ -111,3 +117,4 @@ log "Next steps:"
 log "  1. Open a new terminal to reload zsh config"
 log "  2. Verify: ls -la ~/.config/ | grep '->'"
 log "  3. Verify: ls -la ~ | grep '->'"
+log "  4. Install Homebrew packages: brew bundle install --global"
