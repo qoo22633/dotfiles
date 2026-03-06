@@ -16,10 +16,28 @@
 - `home/.zshrc`: Zsh設定（条件付きツール読み込み）
 - `.config/nvim/lua/plugins/claudecode.lua`: Claude Code設定
 - `install.sh`: シンボリックリンク一括作成スクリプト
+- `Brewfile`: Homebrew パッケージ管理（`~/.Brewfile` にリンク）
+
+## Homebrew パッケージ管理（Brewfile）
+
+`Brewfile` でインストールするパッケージを一元管理している。
+
+```bash
+# 初回セットアップ・パッケージ追加時
+brew bundle install --global
+
+# 現在の環境から Brewfile を更新
+brew bundle dump --global --force
+
+# インストール済みチェック
+brew bundle check --global
+```
+
+`install.sh` が `Brewfile` を `~/.Brewfile` にシンボリックリンクするため、`--global` フラグで参照される。
 
 ## install.sh の仕組み
 
-3フェーズでシンボリックリンクを作成する。何度実行しても安全（冪等）。
+4フェーズでシンボリックリンクを作成する。何度実行しても安全（冪等）。
 
 **Phase 1: `~/.config/*`**
 `.config/` 以下のディレクトリを自動検出して `~/.config/<tool>` にリンク。
@@ -29,7 +47,10 @@
 `home/` 以下のドットファイルをホームディレクトリにリンク。
 `home/.config/` は `[[ "$base" == ".config" ]] && continue` で**明示的にスキップ**（Phase 1 で管理）。
 
-**Phase 3: Claude Code ファイル**
+**Phase 3: Brewfile**
+`Brewfile` を `~/.Brewfile` にリンク。`brew bundle install --global` で参照される。
+
+**Phase 4: Claude Code ファイル**
 `.claude/commands/*.md` と `.claude/agents/*.md` を**ファイル単位**でリンク。
 `~/.claude/` はランタイムデータを含むため、ディレクトリ丸ごとはリンクしない。
 
@@ -100,6 +121,12 @@ dotfiles リポジトリ内のファイルを直接編集するだけでOK（シ
 ls -la ~/.config/ | grep '\->'
 ls -la ~ | grep '\->'
 ls -la ~/.claude/commands/ | grep '\->'
+
+# Brewfile リンク確認
+ls -la ~/.Brewfile
+
+# Homebrew パッケージ一括インストール
+brew bundle install --global
 
 # Zsh設定確認
 source ~/.zshrc

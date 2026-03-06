@@ -7,12 +7,16 @@ git clone git@github.com:qoo22633/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 chmod +x install.sh
 ./install.sh
+
+# Homebrew パッケージを一括インストール
+brew bundle install --global
 ```
 
 `install.sh` が以下を自動で行います（何度実行しても安全）：
 
 - `dotfiles/.config/*` → `~/.config/*` のシンボリックリンク作成（ディレクトリ単位）
 - `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成（ファイル単位）
+- `dotfiles/Brewfile` → `~/.Brewfile` のシンボリックリンク作成
 - `dotfiles/.claude/commands/*.md` → `~/.claude/commands/` のシンボリックリンク作成（ファイル単位）
 - 既存ファイルは `~/.dotfiles_backup/<timestamp>/` にバックアップ
 
@@ -39,41 +43,23 @@ dotfiles/
 ├── .claude/           # Claude Code 設定
 │   ├── commands/      # カスタムコマンド（/worklog, /create-pr）
 │   └── agents/        # カスタムエージェント
+├── Brewfile           # Homebrew パッケージ管理
 └── install.sh         # シンボリックリンク一括作成スクリプト
 ```
 
-## ツールのインストール
+## Homebrew パッケージ管理
+
+`Brewfile` でインストールするパッケージを一元管理しています。
 
 ```bash
-# シェル
-brew install zsh sheldon fzf zoxide atuin mise
+# パッケージ一括インストール
+brew bundle install --global
 
-# エディタ
-brew install neovim
+# 現在の環境から Brewfile を更新
+brew bundle dump --global --force
 
-# Git 関連
-brew install git lazygit tig git-delta
-npm install -g git-cz
-
-# CLI ツール
-brew install eza bat ripgrep fd
-brew install yazi ffmpeg sevenzip jq poppler resvg imagemagick
-brew install lazysql
-
-# GitHub
-brew install gh
-gh extension install dlvhdr/gh-dash
-
-# ターミナル
-brew install --cask wezterm@nightly
-brew tap manaflow-ai/cmux && brew install --cask cmux
-
-# ウィンドウマネージャー
-brew install --cask nikitabobko/tap/aerospace
-brew tap FelixKratz/formulae && brew install borders
-
-# ターミナルマルチプレクサ
-brew install zellij
+# インストール済みかチェック
+brew bundle check --global
 ```
 
 ## ローカル固有設定
