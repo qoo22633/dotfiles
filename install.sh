@@ -105,6 +105,29 @@ for f in "$DOTFILES_DIR/.claude/agents"/*.md; do
 done
 
 # ============================================================
+# npm グローバルパッケージのインストール（mise 経由の node を使用）
+# ============================================================
+log "=== npm global packages ==="
+
+NPM_PACKAGES=(
+    "@googleworkspace/cli"
+)
+
+if command -v mise &>/dev/null; then
+    mise install --quiet
+    for pkg in "${NPM_PACKAGES[@]}"; do
+        if mise exec -- npm list -g "$pkg" &>/dev/null 2>&1; then
+            log "Already installed: $pkg"
+        else
+            log "Installing: $pkg"
+            mise exec -- npm install -g "$pkg"
+        fi
+    done
+else
+    warn "mise not found. Run 'brew bundle install --global' first."
+fi
+
+# ============================================================
 # 完了メッセージ
 # ============================================================
 log ""
