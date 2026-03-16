@@ -50,6 +50,9 @@ if [ -x /opt/homebrew/bin/yazi ]; then
   }
 fi
 
+# zsh-abbr: ユーザー略語ファイル（sheldon ロード前に設定必須）
+export ABBR_USER_ABBREVIATIONS_FILE="${XDG_CONFIG_HOME}/zsh-abbr/user-abbreviations"
+
 # excecute
 eval "$(sheldon source)"
 source <(fzf --zsh)
