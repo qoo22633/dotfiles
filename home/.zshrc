@@ -68,6 +68,22 @@ if [[ -n $ZENO_LOADED ]]; then
   bindkey '^xs' zeno-insert-snippet     # Ctrl-X s: スニペットピッカー
 fi
 
+# ghq + fzf によるリポジトリ移動 (Ctrl+G)
+if (( $+commands[ghq] )); then
+  function ghq-fzf() {
+    local repo
+    repo=$(ghq list | fzf --height 40% --reverse \
+      --preview "ls -la $(ghq root)/{}" \
+      --preview-window=right:40%)
+    if [[ -n "$repo" ]]; then
+      cd "$(ghq root)/$repo"
+    fi
+    zle reset-prompt
+  }
+  zle -N ghq-fzf
+  bindkey '^G' ghq-fzf
+fi
+
 # For local settings
 if [ -f ~/.zshrc.local ]; then
     . ~/.zshrc.local

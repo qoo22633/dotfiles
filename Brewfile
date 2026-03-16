@@ -23,6 +23,7 @@ brew "zellij"   # ターミナルマルチプレクサ
 
 ## バージョン管理
 brew "git"
+brew "ghq"      # リポジトリ管理ツール
 brew "lazygit"  # git TUI クライアント
 brew "gh"       # GitHub CLI
 
