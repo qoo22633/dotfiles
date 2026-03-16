@@ -1,26 +1,3 @@
-# alias
-alias d=docker
-alias dc=docker-compose
-alias m=mise
-alias mr='mise run'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias vi=nvim
-
-# git
-alias g='git'
-alias ga='git add'
-alias gd='git diff'
-alias gs='git status'
-alias gp='git pull'
-alias gb='git branch'
-alias gst='git status'
-alias gco='git checkout'
-alias gf='git fetch'
-alias gc='git commit'
-alias lg='lazygit'
-alias lq='lazysql'
-
 ## Advanced Tools
 ### eza
 alias ei="eza --icons --git"
@@ -33,6 +10,3 @@ alias ll=ee
 
 ### bat
 alias cat='bat'
-
-### zellij
-alias z='zellij'
