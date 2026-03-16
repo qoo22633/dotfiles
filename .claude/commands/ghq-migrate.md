@@ -1,6 +1,6 @@
 ---
 description: 既存のローカルgitリポジトリをghq管理下に移行する
-allowed-tools: Bash(git *), Bash(ghq *), Bash(find *), Bash(mv *), Bash(ls *), Read
+allowed-tools: Bash(git *), Bash(ghq *), Bash(find *), Bash(sed *), Bash(mv *), Bash(ls *), Bash(ghq-migrator *), Read
 ---
 
 # ghq 移行コマンド

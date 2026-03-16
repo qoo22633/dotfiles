@@ -69,7 +69,7 @@ if [[ -n $ZENO_LOADED ]]; then
 fi
 
 # ghq + fzf によるリポジトリ移動 (Ctrl+G)
-if (( $+commands[ghq] )); then
+if (( $+commands[ghq] && $+commands[fzf] )); then
   function ghq-fzf() {
     local repo
     repo=$(ghq list | fzf --height 40% --reverse \
