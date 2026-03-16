@@ -53,9 +53,20 @@ fi
 # zsh-abbr: ユーザー略語ファイル（sheldon ロード前に設定必須）
 export ABBR_USER_ABBREVIATIONS_FILE="${XDG_CONFIG_HOME}/zsh-abbr/user-abbreviations"
 
+# zeno: ファイルプレビューに bat を使用（sheldon ロード前に設定）
+export ZENO_GIT_CAT="bat"
+
 # excecute
 eval "$(sheldon source)"
 source <(fzf --zsh)
+
+# zeno キーバインド（sheldon + fzf ロード後に設定、^r は fzf --zsh を上書き）
+if [[ -n $ZENO_LOADED ]]; then
+  export ZENO_COMPLETION_FALLBACK="fzf-tab-complete"
+  bindkey '^i'  zeno-completion         # Tab: git fuzzy 補完 → fallback fzf-tab
+  bindkey '^r'  zeno-history-selection  # Ctrl-R: プレビュー付き履歴検索
+  bindkey '^xs' zeno-insert-snippet     # Ctrl-X s: スニペットピッカー
+fi
 
 # For local settings
 if [ -f ~/.zshrc.local ]; then

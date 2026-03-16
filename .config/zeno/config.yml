@@ -1,0 +1,15 @@
+snippets:
+  # カレントブランチ補完（git push/pull/merge/rebase/checkout -b の後）
+  - name: "current branch"
+    keyword: "B"
+    snippet: "git symbolic-ref --short HEAD"
+    context:
+      lbuffer: '^git\s+(push|pull|merge|rebase|checkout -b)\s+'
+    evaluate: true
+
+  # null リダイレクト（コマンドの後ろにのみ展開）
+  - name: "null redirect"
+    keyword: "null"
+    snippet: ">/dev/null 2>&1"
+    context:
+      lbuffer: '.+\s'
