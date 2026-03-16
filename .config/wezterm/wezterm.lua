@@ -85,6 +85,11 @@ config.keys = {
 		mods = "CMD",
 		action = act.CloseCurrentPane({ confirm = true }),
 	},
+	-- ペイン移動
+	{ key = "h", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Left") },
+	{ key = "l", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Right") },
+	{ key = "k", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Up") },
+	{ key = "j", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Down") },
 	-- ペインサイズ調整
 	{ key = "=", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Right", 5 }) },
 	{ key = "-", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Left", 5 }) },
