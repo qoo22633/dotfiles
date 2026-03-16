@@ -14,6 +14,7 @@ tap "nikitabobko/tap"      # aerospace
 
 ## シェル・ターミナル環境
 brew "sheldon"  # zsh プラグインマネージャー
+brew "deno"     # zeno.zsh の必須依存
 brew "fzf"      # ファジーファインダー
 brew "zoxide"   # 賢い cd コマンド
 brew "atuin"    # シェル履歴の強化

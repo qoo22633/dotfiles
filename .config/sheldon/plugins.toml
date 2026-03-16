@@ -47,4 +47,7 @@ github = "MichaelAquilina/zsh-you-should-use"
 [plugins.fzf-tab]
 github = "Aloxaf/fzf-tab"
 
+[plugins.zeno]
+github = "yuki-yano/zeno.zsh"
+
 

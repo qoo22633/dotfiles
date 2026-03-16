@@ -33,7 +33,9 @@ dotfiles/
 │   ├── aerospace/     # AeroSpace ウィンドウマネージャー
 │   ├── borders/       # borders (アクティブウィンドウのボーダー表示)
 │   ├── git/           # git 設定（ignore ファイル等）
-│   └── zellij/        # Zellij ターミナルマルチプレクサ
+│   ├── zellij/        # Zellij ターミナルマルチプレクサ
+│   ├── zeno/          # zeno.zsh (git fuzzy 補完・履歴検索)
+│   └── zsh-abbr/      # zsh-abbr (略語展開)
 ├── home/
 │   ├── .zshrc
 │   ├── .zsh_aliases
