@@ -49,6 +49,19 @@ customCommands:
     command: 'git cz'
     description: 'Commit with git-cz'
     output: terminal
+  # Claude AIでコミットメッセージを自動生成
+  - key: '<c-g>'
+    context: 'files'
+    command: >-
+      bash -c 'MSG=$(git diff --cached | claude --no-session-persistence --print --model haiku
+      "以下のdiffを元に、Conventional Commits形式のコミットメッセージを日本語で1行で生成してください。
+      形式: type(scope): 説明（日本語）。type一覧: feat, fix, docs, style, refactor, test, chore。
+      メッセージ以外の文言は一切含めないこと。");
+      if [ -z "$MSG" ]; then echo "Error: Claude returned an empty message" >&2; exit 1; fi;
+      if echo "$MSG" | grep -qiE "error:|traceback|stack trace|exception"; then echo "Error: Claude returned an error or trace -- $MSG" >&2; exit 1; fi;
+      git commit -e -m "$MSG"'
+    description: 'AI-generated commit message (Claude)'
+    output: terminal
 refresher:
   refreshInterval: 10
   fetchInterval: 60
