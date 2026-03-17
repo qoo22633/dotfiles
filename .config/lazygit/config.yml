@@ -54,10 +54,9 @@ customCommands:
     context: 'files'
     command: >-
       bash -c 'MSG=$(git diff --cached | claude --no-session-persistence --print --model haiku
-      "以下のdiffを元に、Conventional Commits形式のコミットメッセージを日本語で生成してください。
-      1行目: type(scope): 説明（日本語）。type一覧: feat, fix, docs, style, refactor, test, chore。
-      変更の背景・意図・影響範囲が伝わりにくい場合は、1行目の後に空行を挟んで補足メッセージ（本文）を追加してください。
-      単純な変更は1行のみ。メッセージ以外の文言は一切含めないこと。");
+      "以下のdiffを元に、Conventional Commits形式のコミットメッセージを日本語で1行で生成してください。
+      形式: type(scope): 説明（日本語）。type一覧: feat, fix, docs, style, refactor, test, chore。
+      メッセージ以外の文言は一切含めないこと。");
       if [ -z "$MSG" ]; then echo "Error: Claude returned an empty message" >&2; exit 1; fi;
       if echo "$MSG" | grep -qiE "error:|traceback|stack trace|exception"; then echo "Error: Claude returned an error or trace -- $MSG" >&2; exit 1; fi;
       git commit -e -m "$MSG"'
