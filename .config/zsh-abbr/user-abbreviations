@@ -1,10 +1,17 @@
-abbr "d"="docker"
-abbr "dc"="docker-compose"
-abbr "m"="mise"
-abbr "mr"="mise run"
+# editor / directory
 abbr ".."="cd .."
 abbr "..."="cd ../.."
 abbr "vi"="nvim"
+
+# docker
+abbr "d"="docker"
+abbr "dc"="docker-compose"
+
+# mise
+abbr "m"="mise"
+abbr "mr"="mise run"
+
+# git
 abbr "g"="git"
 abbr "ga"="git add"
 abbr "gd"="git diff"
@@ -15,6 +22,8 @@ abbr "gst"="git status"
 abbr "gco"="git checkout"
 abbr "gf"="git fetch"
 abbr "gc"="git commit"
+
+# other tools
 abbr "lg"="lazygit"
 abbr "lq"="lazysql"
 abbr "z"="zellij"
