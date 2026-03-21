@@ -15,13 +15,15 @@ abbr "mr"="mise run"
 abbr "g"="git"
 abbr "ga"="git add"
 abbr "gd"="git diff"
-abbr "gs"="git status"
+abbr "gs"="git switch"
 abbr "gp"="git pull"
 abbr "gb"="git branch"
 abbr "gst"="git status"
 abbr "gco"="git checkout"
 abbr "gf"="git fetch"
 abbr "gc"="git commit"
+abbr "gw"="git worktree"
+
 
 # other tools
 abbr "lg"="lazygit"
