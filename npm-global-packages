@@ -1,0 +1,5 @@
+# npm グローバルパッケージ
+# npm install -g <package> でインストールされる
+# install.sh の Phase 5 で自動インストールされる
+
+difit  # ローカルコードレビューUI

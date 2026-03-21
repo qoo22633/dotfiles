@@ -105,6 +105,38 @@ for f in "$DOTFILES_DIR/.claude/agents"/*.md; do
 done
 
 # ============================================================
+# npm グローバルパッケージのインストール
+# npm-global-packages に記載されたパッケージを一括インストール
+# ============================================================
+log "=== npm global packages ==="
+
+NPM_PACKAGES_FILE="$DOTFILES_DIR/npm-global-packages"
+if [[ -f "$NPM_PACKAGES_FILE" ]]; then
+    if ! command -v npm &>/dev/null; then
+        warn "npm not found. Skipping npm global packages. Install Node.js via mise first."
+    else
+        while IFS= read -r line; do
+            # コメント行・空行をスキップ
+            [[ "$line" =~ ^[[:space:]]*# ]] && continue
+            [[ -z "${line// }" ]] && continue
+            # パッケージ名のみ取得（インラインコメントを除去）
+            pkg="${line%%#*}"
+            pkg="${pkg// /}"
+            [[ -z "$pkg" ]] && continue
+
+            if npm list -g "$pkg" &>/dev/null; then
+                log "Already installed (npm): $pkg"
+            else
+                log "Installing (npm): $pkg"
+                npm install -g "$pkg"
+            fi
+        done < "$NPM_PACKAGES_FILE"
+    fi
+else
+    warn "npm-global-packages not found. Skipping."
+fi
+
+# ============================================================
 # 完了メッセージ
 # ============================================================
 log ""
