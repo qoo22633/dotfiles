@@ -61,6 +61,11 @@ if vim.fn.isdirectory("src") == 1 or vim.fn.filereadable("package.json") == 1 th
   map("n", "<leader>df", "<cmd>!npm run lint -- --fix<cr>", { desc = "Fix linting errors" })
 end
 
+-- Open PR in browser
+map("n", "<leader>gB", function()
+  vim.fn.jobstart({ "gh", "pr", "view", "-w" }, { detach = true })
+end, { desc = "Open PR in browser" })
+
 -- Copy relative path with line number (e.g. app/models/user.rb:42)
 map("n", "<leader>yp", function()
   local path = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
