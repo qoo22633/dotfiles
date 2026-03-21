@@ -24,7 +24,6 @@ abbr "gf"="git fetch"
 abbr "gc"="git commit"
 abbr "gw"="git worktree"
 
-
 # other tools
 abbr "lg"="lazygit"
 abbr "lq"="lazysql"
