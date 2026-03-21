@@ -4,7 +4,7 @@ return {
     { "<c-/>", "<cmd>Termite toggle<cr>", desc = "Toggle terminal", mode = { "n", "t" } },
   },
   opts = {
-    position = "right",
+    position = "bottom",
     keymaps = {
       toggle = "<c-/>",  -- snacks と同じキーに統一
       create = "<c-t>",
