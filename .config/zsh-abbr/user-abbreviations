@@ -20,7 +20,7 @@ abbr "gp"="git pull"
 abbr "gb"="git branch"
 abbr "gst"="git status"
 abbr "gco"="git checkout"
-abbr "gf"="git fetch"
+abbr "gf"="git fetch -p"
 abbr "gc"="git commit"
 abbr "gw"="git worktree"
 
