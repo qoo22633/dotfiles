@@ -63,7 +63,7 @@ alt-equal = 'resize smart +100'
 alt-0     = 'balance-sizes' # ウィンドウサイズを均等にする
 
 # --- フルスクリーン ---
-alt-enter = 'fullscreen'
+alt-m = 'fullscreen'
 
 # --- ワークスペース切り替え（数字）---
 alt-1 = 'workspace 1'
