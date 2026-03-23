@@ -55,6 +55,8 @@ export ABBR_USER_ABBREVIATIONS_FILE="${XDG_CONFIG_HOME}/zsh-abbr/user-abbreviati
 
 # zeno: ファイルプレビューに bat を使用（sheldon ロード前に設定）
 export ZENO_GIT_CAT="bat"
+# zeno: DenoがmacOSシステム証明書ストアを使用（SSL inspectionプロキシ対策）
+export DENO_TLS_CA_STORE="system"
 
 # excecute
 eval "$(sheldon source)"
