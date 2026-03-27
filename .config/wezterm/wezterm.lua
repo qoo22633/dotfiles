@@ -153,17 +153,38 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		}
 	end
 
+	-- プロセス名のアイコンマッピング
+	local process_icons = {
+		nvim = " ",
+		vim = " ",
+		lazygit = " ",
+		git = " ",
+		ssh = "󰣀 ",
+		node = " ",
+		python3 = " ",
+		python = " ",
+		ruby = " ",
+		cargo = " ",
+		go = " ",
+		docker = " ",
+	}
+
+	-- プロセス名を取得
+	local process = tab.active_pane.foreground_process_name or ""
+	local process_name = process:match("([^/]+)$") or ""
+	local icon = process_icons[process_name] or "󰆍 "
+
 	-- カレントディレクトリ名を取得
 	local cwd = tab.active_pane.current_working_dir
-	local title = tab.active_pane.title
+	local dir = tab.active_pane.title
 
 	if cwd then
 		local cwd_uri = cwd.file_path or tostring(cwd)
-		-- パスからディレクトリ名のみを取得
-		title = cwd_uri:match("([^/]+)/?$") or title
+		dir = cwd_uri:match("([^/]+)/?$") or dir
 	end
 
-	title = "   " .. wezterm.truncate_right(title, max_width - 1) .. "   "
+	local title = icon .. process_name .. "  " .. dir
+	title = "  " .. wezterm.truncate_right(title, max_width - 1) .. "  "
 
 	return {
 		{ Background = { Color = background } },
