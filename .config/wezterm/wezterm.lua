@@ -4,6 +4,9 @@ local config = wezterm.config_builder()
 local act = wezterm.action
 local mux = wezterm.mux
 
+-- タブのカスタムタイトルを保持するテーブル
+local custom_title = {}
+
 -- 基本設定
 config.automatically_reload_config = true
 config.check_for_updates = true
@@ -93,6 +96,34 @@ config.keys = {
 	-- ペインサイズ調整
 	{ key = "=", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Right", 5 }) },
 	{ key = "-", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Left", 5 }) },
+	-- タブリネーム
+	{
+		key = ",",
+		mods = "CMD|SHIFT",
+		action = wezterm.action_callback(function(window, pane)
+			local tab = pane:tab()
+			local tab_id = tab:tab_id()
+			local current = custom_title[tab_id] or ""
+			window:perform_action(
+				act.PromptInputLine({
+					description = "(wezterm) Rename tab (empty to reset):",
+					initial_value = current,
+					action = wezterm.action_callback(function(_, inner_pane, line)
+						if line == nil then
+							return
+						end
+						local t = inner_pane:tab()
+						if line == "" then
+							custom_title[t:tab_id()] = nil
+						else
+							custom_title[t:tab_id()] = line
+						end
+					end),
+				}),
+				pane
+			)
+		end),
+	},
 }
 
 -- イベントハンドラ
@@ -109,6 +140,17 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	if tab.is_active then
 		background = "#ae8b2d"
 		foreground = "#FFFFFF"
+	end
+
+	-- カスタムタイトルがあれば優先
+	local tab_id = tab.tab_id
+	if custom_title[tab_id] then
+		local title = "   " .. wezterm.truncate_right(custom_title[tab_id], max_width - 1) .. "   "
+		return {
+			{ Background = { Color = background } },
+			{ Foreground = { Color = foreground } },
+			{ Text = title },
+		}
 	end
 
 	-- カレントディレクトリ名を取得
