@@ -7,6 +7,27 @@ local mux = wezterm.mux
 -- タブのカスタムタイトルを保持するテーブル
 local custom_title = {}
 
+-- wez-cc-viewer バイナリパス解決（mise/go install 対応）
+local _bin_cache = nil
+local function find_wez_cc_viewer()
+	if _bin_cache then
+		return _bin_cache
+	end
+	local ok, stdout = wezterm.run_child_process({
+		os.getenv("SHELL") or "/bin/zsh",
+		"-lic",
+		"which wez-cc-viewer",
+	})
+	if ok and stdout then
+		local path = stdout:gsub("%s+$", "")
+		if path ~= "" then
+			_bin_cache = path
+			return path
+		end
+	end
+	return nil
+end
+
 -- 基本設定
 config.automatically_reload_config = true
 config.check_for_updates = true
@@ -23,6 +44,10 @@ config.window_decorations = "TITLE | RESIZE"
 
 -- タブバー設定
 config.tab_max_width = 32
+
+-- LEADER キー設定（CTRL+a, 1秒タイムアウト）
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+
 -- キーバインド
 config.keys = {
 	-- カーソルを一単語後ろに移動
@@ -96,6 +121,24 @@ config.keys = {
 	-- ペインサイズ調整
 	{ key = "=", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Right", 5 }) },
 	{ key = "-", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Left", 5 }) },
+	-- Claude Code TUI ダッシュボード（LEADER+a）
+	{
+		key = "a",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			local bin = find_wez_cc_viewer()
+			if not bin then
+				wezterm.log_error("wez-cc-viewer not found in PATH")
+				window:toast_notification("wezterm", "wez-cc-viewer が見つかりません", nil, 3000)
+				return
+			end
+			local new_pane = pane:split({
+				direction = "Bottom",
+				args = { bin },
+			})
+			window:perform_action(act.TogglePaneZoomState, new_pane)
+		end),
+	},
 	-- タブリネーム
 	{
 		key = ",",
@@ -167,6 +210,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		cargo = " ",
 		go = " ",
 		docker = " ",
+		claude = "󰚩 ",
 	}
 
 	-- プロセス名を取得
@@ -191,6 +235,120 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		{ Foreground = { Color = foreground } },
 		{ Text = title },
 	}
+end)
+
+-- ワークスペース切り替え（wez-cc-viewer 連携）
+wezterm.on("user-var-changed", function(window, pane, name, value)
+	if name == "switch_workspace" then
+		window:perform_action(act.SwitchToWorkspace({ name = value }), pane)
+	end
+end)
+
+-- ps コマンド結果をキャッシュして子プロセス一覧を返す（3秒TTL）
+local _ps_cache = nil
+local _ps_cache_time = 0
+
+local function get_process_children()
+	local now = os.time()
+	if _ps_cache and (now - _ps_cache_time) < 3 then
+		return _ps_cache
+	end
+	local ok, stdout = wezterm.run_child_process({ "ps", "-eo", "pid,ppid,comm" })
+	if not ok then
+		return {}
+	end
+	local children = {} -- ppid -> list of child names
+	for line in stdout:gmatch("[^\n]+") do
+		local pid, ppid, comm = line:match("^%s*(%d+)%s+(%d+)%s+(%S+)")
+		if pid then
+			local pp = tonumber(ppid)
+			local name = comm:match("([^/]+)$") or comm
+			if not children[pp] then
+				children[pp] = {}
+			end
+			table.insert(children[pp], name)
+		end
+	end
+	_ps_cache = children
+	_ps_cache_time = now
+	return children
+end
+
+-- claude プロセスの直接子に caffeinate があれば running と判定
+local function claude_is_running(p)
+	local info = p:get_foreground_process_info()
+	if not info then
+		return false
+	end
+	local children = get_process_children()
+	for _, child_name in ipairs(children[info.pid] or {}) do
+		if child_name == "caffeinate" then
+			return true
+		end
+	end
+	return false
+end
+
+-- 右ステータスバー: Claude Code 稼働状況 + 完了通知
+local prev_agents = {} -- pane_id -> { running: bool }
+
+wezterm.on("update-right-status", function(window, pane)
+	local current_agents = {}
+	local running = 0
+	local total = 0
+
+	for _, tab in ipairs(window:mux_window():tabs()) do
+		for _, p in ipairs(tab:panes()) do
+			local process = p:get_foreground_process_name() or ""
+			local name = process:match("([^/]+)$") or ""
+			if name == "claude" then
+				local pane_id = p:pane_id()
+				local is_running = claude_is_running(p)
+				total = total + 1
+				if is_running then
+					running = running + 1
+				end
+				-- ラベル: カスタムタイトル > cwd名 の優先順位で取得
+				local label = custom_title[tab:tab_id()]
+				if not label then
+					local cwd_uri = p:get_current_working_dir()
+					if cwd_uri then
+						label = cwd_uri.file_path:match("([^/]+)/?$")
+					end
+				end
+				label = label or ("pane:" .. pane_id)
+				current_agents[pane_id] = { running = is_running, label = label }
+			end
+		end
+	end
+
+	-- running → idle への遷移を検出して完了通知
+	for pane_id, prev in pairs(prev_agents) do
+		if prev.running then
+			local curr = current_agents[pane_id]
+			if curr == nil or not curr.running then
+				wezterm.run_child_process({
+					"osascript",
+					"-e",
+					string.format(
+						'display notification %q with title "Claude Code" sound name "Glass"',
+						prev.label .. " のタスクが完了しました"
+					),
+				})
+			end
+		end
+	end
+	prev_agents = current_agents
+
+	local status = ""
+	if total > 0 then
+		status = string.format("󰚩 Claude: %d/%d ", running, total)
+	end
+
+	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#89b4fa" } },
+		{ Text = status },
+	}))
 end)
 
 return config
