@@ -244,8 +244,11 @@ wezterm.on("user-var-changed", function(window, pane, name, value)
 	end
 end)
 
--- 右ステータスバー: Claude Code 稼働状況
+-- 右ステータスバー: Claude Code 稼働状況 + 完了通知
+local prev_agents = {} -- pane_id -> { running: bool }
+
 wezterm.on("update-right-status", function(window, pane)
+	local current_agents = {}
 	local running = 0
 	local total = 0
 
@@ -254,13 +257,31 @@ wezterm.on("update-right-status", function(window, pane)
 			local process = p:get_foreground_process_name() or ""
 			local name = process:match("([^/]+)$") or ""
 			if name == "claude" then
+				local pane_id = p:pane_id()
+				local is_running = not p:is_alt_screen_active()
 				total = total + 1
-				if not p:is_alt_screen_active() then
+				if is_running then
 					running = running + 1
 				end
+				current_agents[pane_id] = { running = is_running }
 			end
 		end
 	end
+
+	-- running → idle への遷移を検出して完了通知
+	for pane_id, prev in pairs(prev_agents) do
+		if prev.running then
+			local curr = current_agents[pane_id]
+			if curr == nil or not curr.running then
+				wezterm.run_child_process({
+					"osascript",
+					"-e",
+					'display notification "タスクが完了しました" with title "Claude Code" sound name "Glass"',
+				})
+			end
+		end
+	end
+	prev_agents = current_agents
 
 	local status = ""
 	if total > 0 then
