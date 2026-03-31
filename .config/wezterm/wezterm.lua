@@ -7,6 +7,27 @@ local mux = wezterm.mux
 -- タブのカスタムタイトルを保持するテーブル
 local custom_title = {}
 
+-- wez-cc-viewer バイナリパス解決（mise/go install 対応）
+local _bin_cache = nil
+local function find_wez_cc_viewer()
+	if _bin_cache then
+		return _bin_cache
+	end
+	local ok, stdout = wezterm.run_child_process({
+		os.getenv("SHELL") or "/bin/zsh",
+		"-lic",
+		"which wez-cc-viewer",
+	})
+	if ok and stdout then
+		local path = stdout:gsub("%s+$", "")
+		if path ~= "" then
+			_bin_cache = path
+			return path
+		end
+	end
+	return nil
+end
+
 -- 基本設定
 config.automatically_reload_config = true
 config.check_for_updates = true
@@ -23,6 +44,10 @@ config.window_decorations = "TITLE | RESIZE"
 
 -- タブバー設定
 config.tab_max_width = 32
+
+-- LEADER キー設定（CTRL+a, 1秒タイムアウト）
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+
 -- キーバインド
 config.keys = {
 	-- カーソルを一単語後ろに移動
@@ -96,6 +121,24 @@ config.keys = {
 	-- ペインサイズ調整
 	{ key = "=", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Right", 5 }) },
 	{ key = "-", mods = "CTRL|CMD", action = act.AdjustPaneSize({ "Left", 5 }) },
+	-- Claude Code TUI ダッシュボード（LEADER+a）
+	{
+		key = "a",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			local bin = find_wez_cc_viewer()
+			if not bin then
+				wezterm.log_error("wez-cc-viewer not found in PATH")
+				window:toast_notification("wezterm", "wez-cc-viewer が見つかりません", nil, 3000)
+				return
+			end
+			local new_pane = pane:split({
+				direction = "Bottom",
+				args = { bin },
+			})
+			window:perform_action(act.TogglePaneZoomState, new_pane)
+		end),
+	},
 	-- タブリネーム
 	{
 		key = ",",
@@ -167,6 +210,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		cargo = " ",
 		go = " ",
 		docker = " ",
+		claude = "󰚩 ",
 	}
 
 	-- プロセス名を取得
@@ -191,6 +235,42 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		{ Foreground = { Color = foreground } },
 		{ Text = title },
 	}
+end)
+
+-- ワークスペース切り替え（wez-cc-viewer 連携）
+wezterm.on("user-var-changed", function(window, pane, name, value)
+	if name == "switch_workspace" then
+		window:perform_action(act.SwitchToWorkspace({ name = value }), pane)
+	end
+end)
+
+-- 右ステータスバー: Claude Code 稼働状況
+wezterm.on("update-right-status", function(window, pane)
+	local running = 0
+	local total = 0
+
+	for _, tab in ipairs(window:mux_window():tabs()) do
+		for _, p in ipairs(tab:panes()) do
+			local process = p:get_foreground_process_name() or ""
+			local name = process:match("([^/]+)$") or ""
+			if name == "claude" then
+				total = total + 1
+				if not p:is_alt_screen_active() then
+					running = running + 1
+				end
+			end
+		end
+	end
+
+	local status = ""
+	if total > 0 then
+		status = string.format("󰚩 Claude: %d/%d ", running, total)
+	end
+
+	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#89b4fa" } },
+		{ Text = status },
+	}))
 end)
 
 return config

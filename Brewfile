@@ -30,6 +30,7 @@ brew "gh"       # GitHub CLI
 ## エディタ・開発ツール
 brew "neovim"
 brew "mise"     # ランタイムバージョンマネージャー（asdf 互換）
+brew "go"       # Go 言語（wez-cc-viewer ビルド用）
 
 ## ウィンドウ装飾
 brew "borders"  # ウィンドウボーダー（AeroSpace 連携）
