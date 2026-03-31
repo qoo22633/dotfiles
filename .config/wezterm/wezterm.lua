@@ -308,7 +308,16 @@ wezterm.on("update-right-status", function(window, pane)
 				if is_running then
 					running = running + 1
 				end
-				current_agents[pane_id] = { running = is_running }
+				-- ラベル: カスタムタイトル > cwd名 の優先順位で取得
+				local label = custom_title[tab:tab_id()]
+				if not label then
+					local cwd_uri = p:get_current_working_dir()
+					if cwd_uri then
+						label = cwd_uri.file_path:match("([^/]+)/?$")
+					end
+				end
+				label = label or ("pane:" .. pane_id)
+				current_agents[pane_id] = { running = is_running, label = label }
 			end
 		end
 	end
@@ -321,7 +330,10 @@ wezterm.on("update-right-status", function(window, pane)
 				wezterm.run_child_process({
 					"osascript",
 					"-e",
-					'display notification "タスクが完了しました" with title "Claude Code" sound name "Glass"',
+					string.format(
+						'display notification %q with title "Claude Code" sound name "Glass"',
+						prev.label .. " のタスクが完了しました"
+					),
 				})
 			end
 		end
