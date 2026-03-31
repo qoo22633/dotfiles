@@ -244,6 +244,51 @@ wezterm.on("user-var-changed", function(window, pane, name, value)
 	end
 end)
 
+-- ps コマンド結果をキャッシュして子プロセス一覧を返す（3秒TTL）
+local _ps_cache = nil
+local _ps_cache_time = 0
+
+local function get_process_children()
+	local now = os.time()
+	if _ps_cache and (now - _ps_cache_time) < 3 then
+		return _ps_cache
+	end
+	local ok, stdout = wezterm.run_child_process({ "ps", "-eo", "pid,ppid,comm" })
+	if not ok then
+		return {}
+	end
+	local children = {} -- ppid -> list of child names
+	for line in stdout:gmatch("[^\n]+") do
+		local pid, ppid, comm = line:match("^%s*(%d+)%s+(%d+)%s+(%S+)")
+		if pid then
+			local pp = tonumber(ppid)
+			local name = comm:match("([^/]+)$") or comm
+			if not children[pp] then
+				children[pp] = {}
+			end
+			table.insert(children[pp], name)
+		end
+	end
+	_ps_cache = children
+	_ps_cache_time = now
+	return children
+end
+
+-- claude プロセスの直接子に caffeinate があれば running と判定
+local function claude_is_running(p)
+	local info = p:get_foreground_process_info()
+	if not info then
+		return false
+	end
+	local children = get_process_children()
+	for _, child_name in ipairs(children[info.pid] or {}) do
+		if child_name == "caffeinate" then
+			return true
+		end
+	end
+	return false
+end
+
 -- 右ステータスバー: Claude Code 稼働状況 + 完了通知
 local prev_agents = {} -- pane_id -> { running: bool }
 
@@ -258,7 +303,7 @@ wezterm.on("update-right-status", function(window, pane)
 			local name = process:match("([^/]+)$") or ""
 			if name == "claude" then
 				local pane_id = p:pane_id()
-				local is_running = not p:is_alt_screen_active()
+				local is_running = claude_is_running(p)
 				total = total + 1
 				if is_running then
 					running = running + 1
