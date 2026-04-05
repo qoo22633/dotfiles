@@ -23,9 +23,10 @@ brew "zellij"   # ターミナルマルチプレクサ
 
 ## バージョン管理
 brew "git"
-brew "ghq"      # リポジトリ管理ツール
-brew "lazygit"  # git TUI クライアント
-brew "gh"       # GitHub CLI
+brew "ghq"        # リポジトリ管理ツール
+brew "lazygit"    # git TUI クライアント
+brew "gh"         # GitHub CLI
+brew "worktrunk"  # git worktree マネージャー
 
 ## エディタ・開発ツール
 brew "neovim"

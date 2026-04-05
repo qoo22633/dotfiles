@@ -1,0 +1,12 @@
+# Worktrunk ユーザー設定
+# https://worktrunk.dev/config/
+
+# worktree の作成先パス
+# 専用ディレクトリにまとめる場合（推奨）
+worktree-path = "~/worktrees/{{ repo }}/{{ branch | sanitize }}"
+
+# リポジトリと同階層に作成する場合（デフォルト）
+# worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
+
+# リポジトリ内部に作成する場合
+# worktree-path = "{{ repo_path }}/.worktrees/{{ branch | sanitize }}"
