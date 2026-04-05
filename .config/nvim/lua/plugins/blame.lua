@@ -6,8 +6,11 @@ return {
     { "<leader>gv", "<cmd>BlameToggle virtual<cr>", desc = "Git Blame (virtual)" },
   },
   opts = {
-    date_format = "%Y/%m/%d",
+    date_format = "%r",
     virtual_style = "right_align",
+    focus_blame = false,
+    commit_detail_view = "tab",
+    blame_options = { "-w" },
     views = {
       window = {
         wintype = "split",
