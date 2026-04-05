@@ -86,6 +86,13 @@ if (( $+commands[ghq] && $+commands[fzf] )); then
   bindkey '^G' ghq-fzf
 fi
 
+# worktrunk（git worktree マネージャー）
+# wt switch 実行時に自動でディレクトリ移動するシェル統合
+# 初回インストール後に `wt config shell install` を実行してセットアップ
+if [ -x "$(command -v wt)" ]; then
+  source <(wt shell-init zsh 2>/dev/null) 2>/dev/null || true
+fi
+
 # For local settings
 if [ -f ~/.zshrc.local ]; then
     . ~/.zshrc.local
