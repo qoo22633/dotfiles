@@ -70,15 +70,6 @@ vim.api.nvim_create_autocmd("FileType", {
 -- React/TypeScript development autocmds
 local react_group = vim.api.nvim_create_augroup("React", { clear = true })
 
--- Auto-format TypeScript/JavaScript files on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = react_group,
-  pattern = {"*.ts", "*.tsx", "*.js", "*.jsx"},
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-})
-
 -- Set proper indentation for JS/TS files
 vim.api.nvim_create_autocmd("FileType", {
   group = react_group,
