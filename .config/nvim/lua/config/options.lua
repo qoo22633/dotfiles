@@ -5,6 +5,10 @@
 -- localleaderをカンマに設定
 vim.g.maplocalleader = ","
 
+-- 絶対行番号のみ表示（LazyVimデフォルトのrelativenumberを無効化）
+vim.opt.relativenumber = false
+vim.opt.number = true
+
 -- 使用しないプロバイダーを無効化して警告を抑制
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
