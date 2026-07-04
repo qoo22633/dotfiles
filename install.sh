@@ -105,6 +105,19 @@ for f in "$DOTFILES_DIR/.claude/agents"/*.md; do
 done
 
 # ============================================================
+# herdr インテグレーションのインストール
+# herdr integration install は冪等（既に最新なら何もしない）
+# ============================================================
+log "=== herdr integrations ==="
+
+if ! command -v herdr &>/dev/null; then
+    warn "herdr not found. Skipping. Install via: brew install herdr"
+else
+    herdr integration install claude
+    log "herdr integration: claude installed"
+fi
+
+# ============================================================
 # npm グローバルパッケージのインストール
 # npm-global-packages に記載されたパッケージを一括インストール
 # ============================================================
