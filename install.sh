@@ -66,6 +66,7 @@ mkdir -p "$HOME/.config"
 for src_dir in "$DOTFILES_DIR/.config"/*/; do
     [[ -d "$src_dir" ]] || continue
     tool_name="$(basename "$src_dir")"
+    [[ "$tool_name" == "herdr" ]] && continue  # herdr はファイル単位で管理
     safe_link "$src_dir" "$HOME/.config/$tool_name"
 done
 
@@ -103,6 +104,14 @@ done
 for f in "$DOTFILES_DIR/.claude/agents"/*.md; do
     [[ -f "$f" ]] && safe_link "$f" "$HOME/.claude/agents/$(basename "$f")"
 done
+
+# ============================================================
+# herdr 設定ファイルのシンボリックリンク
+# ランタイムデータ（ソケット・ログ）と同居するためファイル単位で管理
+# ============================================================
+log "=== herdr config ==="
+mkdir -p "$HOME/.config/herdr"
+safe_link "$DOTFILES_DIR/.config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
 # ============================================================
 # herdr インテグレーションのインストール

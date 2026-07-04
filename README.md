@@ -18,6 +18,8 @@ brew bundle install --global
 - `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/Brewfile` → `~/.Brewfile` のシンボリックリンク作成
 - `dotfiles/.claude/commands/*.md` → `~/.claude/commands/` のシンボリックリンク作成（ファイル単位）
+- `dotfiles/.config/herdr/config.toml` → `~/.config/herdr/config.toml` のシンボリックリンク作成（ファイル単位、ランタイムデータと同居するため）
+- `herdr integration install claude` を実行
 - 既存ファイルは `~/.dotfiles_backup/<timestamp>/` にバックアップ
 
 ## ディレクトリ構成
@@ -35,7 +37,8 @@ dotfiles/
 │   ├── git/           # git 設定（ignore ファイル等）
 │   ├── zellij/        # Zellij ターミナルマルチプレクサ
 │   ├── zeno/          # zeno.zsh (git fuzzy 補完・履歴検索)
-│   └── zsh-abbr/      # zsh-abbr (略語展開)
+│   ├── zsh-abbr/      # zsh-abbr (略語展開)
+│   └── herdr/         # herdr エージェントマルチプレクサ（config.toml のみ管理）
 ├── home/
 │   ├── .zshrc
 │   ├── .zsh_aliases
