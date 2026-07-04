@@ -1,4 +1,4 @@
 [[keys.command]]
-key = "prefix+shift+r"
+key = "cmd+shift+r"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
