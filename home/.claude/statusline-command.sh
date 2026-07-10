@@ -1,48 +1,101 @@
 #!/bin/bash
 
-# Read JSON input from stdin
 input=$(cat)
 
-# Extract model name
-model=$(echo "$input" | jq -r '.model.display_name // "Unknown Model"')
+cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
+model=$(echo "$input" | jq -r '.model.display_name // ""')
+effort=$(echo "$input" | jq -r '.effort.level // empty')
+used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+five_hour_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+seven_day_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
-# Extract context usage percentage
-used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+render_bar() {
+  local pct="$1"
+  local total=15
+  local rounded
+  printf -v rounded "%.0f" "$pct"
+  local filled=$(( rounded * total / 100 ))
+  [ "$filled" -gt "$total" ] && filled=$total
+  local empty=$(( total - filled ))
+  local bar=""
+  for (( i=0; i<filled; i++ )); do bar="${bar}█"; done
+  for (( i=0; i<empty; i++ )); do bar="${bar}░"; done
+  printf '%s' "$bar"
+}
 
-# Extract cost
-cost=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
+# カレントディレクトリ（ホームディレクトリを ~ に短縮）
+short_cwd="${cwd/#$HOME/~}"
 
-# Build status line parts
-parts=()
-
-# Add model name
-parts+=("${model}")
-
-# Add context usage bar if available
-if [ -n "$used" ]; then
-  used_int=$(printf "%.0f" "$used")
-  filled=$((used_int * 20 / 100))
-  empty=$((20 - filled))
-  bar="["
-  for ((i=0; i<filled; i++)); do bar+="█"; done
-  for ((i=0; i<empty; i++)); do bar+="░"; done
-  bar+="]"
-  parts+=("Context: ${bar} ${used_int}%")
+# Gitブランチ名（ロックファイルを避けるため GIT_OPTIONAL_LOCKS=0 を使用）
+branch=""
+if git_branch=$(GIT_OPTIONAL_LOCKS=0 git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null); then
+  branch="$git_branch"
+elif git_branch=$(GIT_OPTIONAL_LOCKS=0 git -C "$cwd" rev-parse --short HEAD 2>/dev/null); then
+  branch="${git_branch}(detached)"
 fi
 
-# Add cost if available
-if [ -n "$cost" ]; then
-  cost_formatted=$(printf "%.4f" "$cost")
-  parts+=("Cost: \$${cost_formatted}")
-fi
+# git 行数差分（+追加行数 -削除行数）
+git_changes=""
+if [ -n "$branch" ]; then
+  diff_stat=$(GIT_OPTIONAL_LOCKS=0 git -C "$cwd" diff --numstat 2>/dev/null)
+  diff_cached=$(GIT_OPTIONAL_LOCKS=0 git -C "$cwd" diff --cached --numstat 2>/dev/null)
+  combined=$(printf '%s\n%s' "$diff_stat" "$diff_cached")
 
-# Join parts with " | "
-output=""
-for ((i=0; i<${#parts[@]}; i++)); do
-  if [ $i -gt 0 ]; then
-    output+=" | "
+  ins=0
+  del=0
+  while IFS=$'\t' read -r a d _; do
+    [[ "$a" =~ ^[0-9]+$ ]] && ins=$(( ins + a ))
+    [[ "$d" =~ ^[0-9]+$ ]] && del=$(( del + d ))
+  done <<< "$combined"
+
+  parts_git=()
+  [ "$ins" -gt 0 ] && parts_git+=("+${ins}")
+  [ "$del" -gt 0 ] && parts_git+=("-${del}")
+  if [ ${#parts_git[@]} -gt 0 ]; then
+    git_changes=" $(IFS=' '; echo "${parts_git[*]}")"
   fi
-  output+="${parts[i]}"
-done
+fi
 
-echo "$output"
+# コンテキストプログレスバー（15マス）
+ctx_bar=""
+ctx_pct_label=""
+if [ -n "$used_pct" ]; then
+  printf -v used_rounded "%.0f" "$used_pct"
+  ctx_bar=$(render_bar "$used_pct")
+  ctx_pct_label="${used_rounded}%"
+fi
+
+# Line 1: 📂 <cwd> │ 🌿 <branch><changes>
+line1="📂 ${short_cwd}"
+if [ -n "$branch" ]; then
+  line1="${line1} │ 🌿 ${branch}${git_changes}"
+fi
+
+# Line 2: 🧠 <bar> <pct> │ 💪 <model>
+line2=""
+if [ -n "$ctx_bar" ]; then
+  line2="🧠 ${ctx_bar} ${ctx_pct_label}"
+else
+  line2="🧠 ░░░░░░░░░░░░░░░ -"
+fi
+if [ -n "$model" ]; then
+  model_label="$model"
+  [ -n "$effort" ] && model_label="${model_label} (${effort})"
+  line2="${line2} │ 💪 ${model_label}"
+fi
+
+# Line 3: 🕐 <5h_bar> <pct> │ 📅 <7d_bar> <pct>
+if [ -n "$five_hour_pct" ]; then
+  printf -v five_hour_rounded "%.0f" "$five_hour_pct"
+  line3="🕐 $(render_bar "$five_hour_pct") ${five_hour_rounded}%"
+else
+  line3="🕐 ░░░░░░░░░░░░░░░ -"
+fi
+if [ -n "$seven_day_pct" ]; then
+  printf -v seven_day_rounded "%.0f" "$seven_day_pct"
+  line3="${line3} │ 📅 $(render_bar "$seven_day_pct") ${seven_day_rounded}%"
+else
+  line3="${line3} │ 📅 ░░░░░░░░░░░░░░░ -"
+fi
+
+printf '%s\n%s\n%s' "$line1" "$line2" "$line3"
