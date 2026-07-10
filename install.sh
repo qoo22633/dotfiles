@@ -97,6 +97,8 @@ safe_link "$DOTFILES_DIR/Brewfile" "$HOME/.Brewfile"
 log "=== Claude Code ==="
 mkdir -p "$HOME/.claude/commands" "$HOME/.claude/agents"
 
+safe_link "$DOTFILES_DIR/home/.claude/settings.json" "$HOME/.claude/settings.json"
+
 for f in "$DOTFILES_DIR/.claude/commands"/*.md; do
     [[ -f "$f" ]] && safe_link "$f" "$HOME/.claude/commands/$(basename "$f")"
 done

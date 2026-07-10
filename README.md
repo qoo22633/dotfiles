@@ -17,7 +17,9 @@ brew bundle install --global
 - `dotfiles/.config/*` → `~/.config/*` のシンボリックリンク作成（ディレクトリ単位）
 - `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/Brewfile` → `~/.Brewfile` のシンボリックリンク作成
+- `dotfiles/home/.claude/settings.json` → `~/.claude/settings.json` のシンボリックリンク作成（ファイル単位、全PC共通のClaude Code設定）
 - `dotfiles/.claude/commands/*.md` → `~/.claude/commands/` のシンボリックリンク作成（ファイル単位）
+- `dotfiles/.claude/agents/*.md` → `~/.claude/agents/` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/.config/herdr/config.toml` → `~/.config/herdr/config.toml` のシンボリックリンク作成（ファイル単位、ランタイムデータと同居するため）
 - `herdr integration install claude` を実行
 - 既存ファイルは `~/.dotfiles_backup/<timestamp>/` にバックアップ
@@ -42,7 +44,9 @@ dotfiles/
 │   ├── .zsh_aliases
 │   ├── .gitconfig
 │   ├── .tigrc
-│   └── .vimrc
+│   ├── .vimrc
+│   └── .claude/
+│       └── settings.json  # ~/.claude/settings.json（全PC共通のClaude Code設定）
 ├── .claude/           # Claude Code 設定
 │   ├── commands/      # カスタムコマンド（/worklog, /create-pr）
 │   └── agents/        # カスタムエージェント
@@ -67,4 +71,5 @@ brew bundle check --global
 
 ## ローカル固有設定
 
-`~/.zshrc.local` に記述（git 管理外）
+- `~/.zshrc.local` に記述（git 管理外）
+- `~/.claude/settings.local.json`: マシン固有・機密情報を含む設定はここに記述（git 管理外）。全PC共通の設定は `~/.claude/settings.json`（dotfiles管理）に書く
