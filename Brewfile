@@ -19,7 +19,6 @@ brew "fzf"      # ファジーファインダー
 brew "zoxide"   # 賢い cd コマンド
 brew "atuin"    # シェル履歴の強化
 brew "yazi"     # ターミナルファイルマネージャー
-brew "zellij"   # ターミナルマルチプレクサ
 brew "herdr"    # エージェントマルチプレクサ（複数のCoding Agentを管理）
 
 ## バージョン管理
@@ -28,7 +27,6 @@ brew "ghq"        # リポジトリ管理ツール
 brew "lazygit"    # git TUI クライアント
 brew "gh"         # GitHub CLI
 brew "worktrunk"  # git worktree マネージャー
-brew "hunk"       # レビュー特化のターミナル差分ビューア
 
 ## エディタ・開発ツール
 brew "neovim"

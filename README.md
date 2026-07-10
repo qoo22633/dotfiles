@@ -31,11 +31,9 @@ dotfiles/
 │   ├── wezterm/       # WezTerm ターミナル
 │   ├── lazygit/       # lazygit
 │   ├── sheldon/       # sheldon (zsh プラグインマネージャー)
-│   ├── gh-dash/       # gh-dash (GitHub CLI ダッシュボード)
 │   ├── aerospace/     # AeroSpace ウィンドウマネージャー
 │   ├── borders/       # borders (アクティブウィンドウのボーダー表示)
 │   ├── git/           # git 設定（ignore ファイル等）
-│   ├── zellij/        # Zellij ターミナルマルチプレクサ
 │   ├── zeno/          # zeno.zsh (git fuzzy 補完・履歴検索)
 │   ├── zsh-abbr/      # zsh-abbr (略語展開)
 │   └── herdr/         # herdr エージェントマルチプレクサ（config.toml のみ管理）
