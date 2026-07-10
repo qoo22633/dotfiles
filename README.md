@@ -72,5 +72,3 @@ brew bundle check --global
 ## ローカル固有設定
 
 - `~/.zshrc.local` に記述（git 管理外）
-- `~/.claude/settings.json`: モデル・permissions・pluginsなどのClaude Code設定（マシンごとに個別管理、git 管理外）
-- `~/.claude/settings.local.json`: マシン固有・機密情報を含む設定はここに記述（git 管理外）
