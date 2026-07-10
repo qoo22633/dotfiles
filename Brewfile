@@ -19,7 +19,6 @@ brew "fzf"      # ファジーファインダー
 brew "zoxide"   # 賢い cd コマンド
 brew "atuin"    # シェル履歴の強化
 brew "yazi"     # ターミナルファイルマネージャー
-brew "zellij"   # ターミナルマルチプレクサ
 brew "herdr"    # エージェントマルチプレクサ（複数のCoding Agentを管理）
 
 ## バージョン管理
