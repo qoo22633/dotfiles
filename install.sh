@@ -80,6 +80,7 @@ for src_file in "$DOTFILES_DIR/home"/.*; do
     base="$(basename "$src_file")"
     [[ "$base" == "." || "$base" == ".." ]] && continue
     [[ "$base" == ".config" ]] && continue  # .config は別途 .config/*/ ループで管理
+    [[ "$base" == ".claude" ]] && continue  # .claude は別途 Claude Code セクションでファイル単位管理
     safe_link "$src_file" "$HOME/$base"
 done
 
@@ -96,6 +97,8 @@ safe_link "$DOTFILES_DIR/Brewfile" "$HOME/.Brewfile"
 # ============================================================
 log "=== Claude Code ==="
 mkdir -p "$HOME/.claude/commands" "$HOME/.claude/agents"
+
+safe_link "$DOTFILES_DIR/home/.claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
 for f in "$DOTFILES_DIR/.claude/commands"/*.md; do
     [[ -f "$f" ]] && safe_link "$f" "$HOME/.claude/commands/$(basename "$f")"

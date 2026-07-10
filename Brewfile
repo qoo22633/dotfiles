@@ -19,6 +19,9 @@ brew "fzf"      # ファジーファインダー
 brew "zoxide"   # 賢い cd コマンド
 brew "atuin"    # シェル履歴の強化
 brew "yazi"     # ターミナルファイルマネージャー
+brew "bat"      # better cat（yazi依存だが明示管理・zeno/fzfプレビューで使用）
+brew "fd"       # better find（yazi依存だが明示管理・fzf連携で使用）
+brew "ripgrep"  # rg（Neovim grep検索の必須依存）
 brew "herdr"    # エージェントマルチプレクサ（複数のCoding Agentを管理）
 
 ## バージョン管理

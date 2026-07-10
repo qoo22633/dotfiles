@@ -17,7 +17,9 @@ brew bundle install --global
 - `dotfiles/.config/*` → `~/.config/*` のシンボリックリンク作成（ディレクトリ単位）
 - `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/Brewfile` → `~/.Brewfile` のシンボリックリンク作成
+- `dotfiles/home/.claude/statusline-command.sh` → `~/.claude/statusline-command.sh` のシンボリックリンク作成（ファイル単位、全PC共通のステータスライン表示スクリプト）
 - `dotfiles/.claude/commands/*.md` → `~/.claude/commands/` のシンボリックリンク作成（ファイル単位）
+- `dotfiles/.claude/agents/*.md` → `~/.claude/agents/` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/.config/herdr/config.toml` → `~/.config/herdr/config.toml` のシンボリックリンク作成（ファイル単位、ランタイムデータと同居するため）
 - `herdr integration install claude` を実行
 - 既存ファイルは `~/.dotfiles_backup/<timestamp>/` にバックアップ
@@ -42,7 +44,9 @@ dotfiles/
 │   ├── .zsh_aliases
 │   ├── .gitconfig
 │   ├── .tigrc
-│   └── .vimrc
+│   ├── .vimrc
+│   └── .claude/
+│       └── statusline-command.sh  # ~/.claude/statusline-command.sh（全PC共通のステータスライン表示スクリプト）
 ├── .claude/           # Claude Code 設定
 │   ├── commands/      # カスタムコマンド（/worklog, /create-pr）
 │   └── agents/        # カスタムエージェント
@@ -67,4 +71,4 @@ brew bundle check --global
 
 ## ローカル固有設定
 
-`~/.zshrc.local` に記述（git 管理外）
+- `~/.zshrc.local` に記述（git 管理外）
