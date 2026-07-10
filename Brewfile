@@ -27,7 +27,6 @@ brew "ghq"        # リポジトリ管理ツール
 brew "lazygit"    # git TUI クライアント
 brew "gh"         # GitHub CLI
 brew "worktrunk"  # git worktree マネージャー
-brew "hunk"       # レビュー特化のターミナル差分ビューア
 
 ## エディタ・開発ツール
 brew "neovim"
