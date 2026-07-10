@@ -31,7 +31,6 @@ dotfiles/
 │   ├── wezterm/       # WezTerm ターミナル
 │   ├── lazygit/       # lazygit
 │   ├── sheldon/       # sheldon (zsh プラグインマネージャー)
-│   ├── gh-dash/       # gh-dash (GitHub CLI ダッシュボード)
 │   ├── aerospace/     # AeroSpace ウィンドウマネージャー
 │   ├── borders/       # borders (アクティブウィンドウのボーダー表示)
 │   ├── git/           # git 設定（ignore ファイル等）
