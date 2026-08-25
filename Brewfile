@@ -44,6 +44,7 @@ brew "borders"  # ウィンドウボーダー（AeroSpace 連携）
 # ============================================================
 # Casks (GUI アプリ)
 # ============================================================
-cask "aerospace" # タイリングウィンドウマネージャー
-cask "wezterm"   # ターミナルエミュレータ
-cask "codiff"    # ローカル差分ビューア
+cask "aerospace"   # タイリングウィンドウマネージャー
+cask "wezterm"     # ターミナルエミュレータ
+cask "codiff"      # ローカル差分ビューア
+cask "claude-code" # Claude Code 本体（.claude/ 以下の設定を本リポジトリで管理）
