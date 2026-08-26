@@ -22,12 +22,13 @@
 
 `Brewfile` でインストールするパッケージを一元管理している。
 
+**Brewfile は手書きで管理する。`brew bundle dump` による自動生成・上書きは行わない**
+（日本語コメントとセクション構成が失われ、`borders` が出力から脱落し、業務プロジェクト固有の
+パッケージが混入するため）。パッケージを追加するときは Brewfile を直接編集する。
+
 ```bash
 # 初回セットアップ・パッケージ追加時
 brew bundle install --global
-
-# 現在の環境から Brewfile を更新
-brew bundle dump --global --force
 
 # インストール済みチェック
 brew bundle check --global

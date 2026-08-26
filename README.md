@@ -58,12 +58,12 @@ dotfiles/
 
 `Brewfile` でインストールするパッケージを一元管理しています。
 
+Brewfile は手書きで管理しています。パッケージを追加するときは `Brewfile` を直接編集してください
+（`brew bundle dump` での自動生成は行いません）。
+
 ```bash
 # パッケージ一括インストール
 brew bundle install --global
-
-# 現在の環境から Brewfile を更新
-brew bundle dump --global --force
 
 # インストール済みかチェック
 brew bundle check --global
