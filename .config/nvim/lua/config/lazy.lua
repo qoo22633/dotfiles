@@ -31,7 +31,10 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = { enabled = true }, -- automatically check for plugin updates
+  -- 更新の自動チェックは無効。version = false のため lazy-lock.json が唯一の
+  -- バージョン固定手段であり、各端末で更新すると同一行のコンフリクトになる。
+  -- 更新は母艦1台で :Lazy update → コミットし、他端末は pull 後 :Lazy restore で同期する。
+  checker = { enabled = false },
   performance = {
     rtp = {
       -- disable some rtp plugins

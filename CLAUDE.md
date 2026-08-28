@@ -94,6 +94,28 @@ for f in "$DOTFILES_DIR/.claude/commands"/*.md; do
 done
 ```
 
+## Neovim プラグイン管理（lazy-lock.json）
+
+`lazy-lock.json` は**git 管理下に置く**。`config/lazy.lua` で `version = false`
+（常に最新コミットを使う）としているため、**このロックファイルが唯一のバージョン固定手段**であり、
+外すと壊れた upstream コミットを踏んだときに戻る先がなくなる。
+
+1プラグイン1行の JSON なので、**複数の端末で更新すると同一行のコンフリクト**になる。
+これを避けるため、更新は1台に集約する運用とし、`checker` は無効化してある。
+
+```bash
+# 母艦（更新する端末）
+nvim -c 'Lazy update'   # → lazy-lock.json をコミットする
+
+# それ以外の端末
+git pull
+nvim -c 'Lazy restore'  # ロックファイルの内容を強制適用して同期
+```
+
+`lazy-lock.json` はプラグインの構成が変わったとき（install / update / sync / clean）に
+自動で書き換わる。起動のたびに変わるわけではないが、PR を出す前に `git status` で
+意図しない差分が乗っていないか確認すること。
+
 ## 開発フロー
 
 ### 新しいツールの設定を追加
