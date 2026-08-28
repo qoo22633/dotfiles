@@ -106,9 +106,9 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        -- ruby-lsp 本体は mason が自動インストールする（mason = false にすると
+        -- バイナリの用意が手動タスクになるので指定しない）。
         ruby_lsp = {
-          mason = false,
-          cmd = { "mise", "exec", "--", "ruby-lsp" },
           settings = {
             rubyLsp = {
               formatter = "rubocop",

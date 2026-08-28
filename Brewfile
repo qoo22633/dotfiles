@@ -1,6 +1,8 @@
 # Brewfile
 # brew bundle install でまとめてインストール可能
-# brew bundle dump --force で現在の環境からの更新も可能
+#
+# ⚠️ このファイルは手書きで管理しています。brew bundle dump で上書きしないでください
+#    （コメントとセクション構成が失われ、borders が脱落します）
 
 # ============================================================
 # Taps
@@ -22,6 +24,7 @@ brew "atuin"    # シェル履歴の強化
 brew "yazi"     # ターミナルファイルマネージャー
 brew "bat"      # better cat（yazi依存だが明示管理・zeno/fzfプレビューで使用）
 brew "fd"       # better find（yazi依存だが明示管理・fzf連携で使用）
+brew "eza"      # better ls（.zsh_aliases の ei/ea/ee/et で使用）
 brew "ripgrep"  # rg（Neovim grep検索の必須依存）
 brew "herdr"    # エージェントマルチプレクサ（複数のCoding Agentを管理）
 
@@ -43,6 +46,7 @@ brew "borders"  # ウィンドウボーダー（AeroSpace 連携）
 # ============================================================
 # Casks (GUI アプリ)
 # ============================================================
-cask "aerospace" # タイリングウィンドウマネージャー
-cask "wezterm"   # ターミナルエミュレータ
-cask "codiff"    # ローカル差分ビューア
+cask "aerospace"   # タイリングウィンドウマネージャー
+cask "wezterm"     # ターミナルエミュレータ
+cask "codiff"      # ローカル差分ビューア
+cask "claude-code" # Claude Code 本体（.claude/ 以下の設定を本リポジトリで管理）
