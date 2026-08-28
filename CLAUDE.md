@@ -8,7 +8,7 @@
 
 - **Zsh**: シェル環境（mise、sheldon、fzf、zoxide、atuin使用）
 - **Neovim**: LazyVimベースの設定 + Claude Code統合
-- **WezTerm**: ターミナルエミュレータ
+- **Ghostty**: ターミナルエミュレータ
 - **Git**: lazygitを使用
 
 ## 重要なファイル

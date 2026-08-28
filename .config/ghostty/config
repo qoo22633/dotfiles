@@ -1,0 +1,46 @@
+# Ghostty 設定
+# WezTerm から移行（旧: .config/wezterm/wezterm.lua）
+#
+# 移植できなかった WezTerm 機能:
+#   - format-tab-title によるプロセスアイコン付きカスタムタブ表示
+#   - LEADER+a の wez-cc-viewer 起動連携 / user-var-changed ワークスペース切替
+#   - CMD+SHIFT+x のコピーモード（Ghostty に vi コピーモードは無し）
+#   - CMD+SHIFT+, のタブリネーム
+
+# --- フォント / テーマ ---
+font-family = JetBrains Mono
+font-size = 16
+theme = Srcery
+
+# --- ウィンドウ ---
+background-opacity = 1.0
+# 起動時に最大化（旧: gui-startup で maximize）
+maximize = true
+
+# --- キーバインド ---
+# カーソルを一単語後ろ/前に移動（Meta+b / Meta+f を送出）
+keybind = cmd+left=text:\x1bb
+keybind = cmd+right=text:\x1bf
+# 一単語削除（Ctrl+W を送出）
+keybind = cmd+backspace=text:\x17
+
+# ペイン分割（縦: 右に追加 / 横: 下に追加）
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+
+# ペイン移動（h/l/k/j）
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+j=goto_split:down
+
+# ペインサイズ調整
+keybind = ctrl+cmd+equal=resize_split:right,10
+keybind = ctrl+cmd+minus=resize_split:left,10
+
+# ペインを閉じる
+keybind = cmd+w=close_surface
+
+# ページスクロール
+keybind = cmd+up=scroll_page_up
+keybind = cmd+down=scroll_page_down
