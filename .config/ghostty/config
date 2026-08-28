@@ -24,18 +24,14 @@ keybind = cmd+right=text:\x1bf
 # 一単語削除（Ctrl+W を送出）
 keybind = cmd+backspace=text:\x17
 
-# ペイン分割（縦: 右に追加 / 横: 下に追加）
-keybind = cmd+d=new_split:right
-keybind = cmd+shift+d=new_split:down
+# ペイン分割・移動・クローズはデフォルトを使用
+#   分割: cmd+d（右） / cmd+shift+d（下）
+#   移動: cmd+option+矢印 / cmd+[ / cmd+]
+#   閉じる: cmd+w
 
-# ペイン移動はデフォルトを使用（cmd+option+矢印 / cmd+[ / cmd+]）
-
-# ペインサイズ調整
+# ペインサイズ調整（デフォルトには無いため独自定義）
 keybind = ctrl+cmd+equal=resize_split:right,10
 keybind = ctrl+cmd+minus=resize_split:left,10
-
-# ペインを閉じる
-keybind = cmd+w=close_surface
 
 # ページスクロール
 keybind = cmd+up=scroll_page_up
