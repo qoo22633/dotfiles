@@ -28,11 +28,7 @@ keybind = cmd+backspace=text:\x17
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down
 
-# ペイン移動（h/l/k/j）
-keybind = ctrl+shift+h=goto_split:left
-keybind = ctrl+shift+l=goto_split:right
-keybind = ctrl+shift+k=goto_split:up
-keybind = ctrl+shift+j=goto_split:down
+# ペイン移動はデフォルトを使用（cmd+option+矢印 / cmd+[ / cmd+]）
 
 # ペインサイズ調整
 keybind = ctrl+cmd+equal=resize_split:right,10
