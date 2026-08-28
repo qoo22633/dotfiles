@@ -131,7 +131,7 @@ run = 'move-node-to-workspace A'
 # Ghostty → ワークスペース 2
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
-run = 'move-node-to-workspace I'
+run = ['move-node-to-workspace I', 'layout floating', 'fullscreen']
 
 # Slack → ワークスペース S
 [[on-window-detected]]
