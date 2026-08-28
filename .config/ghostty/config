@@ -41,6 +41,13 @@ keybind = ctrl+cmd+minus=resize_split:left,10
 # ペインを閉じる
 keybind = cmd+w=close_surface
 
+# タブ作成を無効化（AeroSpace との相性問題対策）
+# macOS ネイティブタブは NSWindow 単位のため、cmd+t で新規タブを開くと
+# AeroSpace が新規ウィンドウと誤認してタイル分割（半分割）してしまう。
+# 参照: https://github.com/ghostty-org/ghostty/issues/3170
+# ウィンドウ管理は AeroSpace 側に任せ、タブは使わない運用にする。
+keybind = cmd+t=unbind
+
 # ページスクロール
 keybind = cmd+up=scroll_page_up
 keybind = cmd+down=scroll_page_down
