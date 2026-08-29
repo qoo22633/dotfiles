@@ -30,7 +30,7 @@ brew bundle install --global
 dotfiles/
 ├── .config/
 │   ├── nvim/          # Neovim (LazyVim)
-│   ├── wezterm/       # WezTerm ターミナル
+│   ├── ghostty/       # Ghostty ターミナル
 │   ├── lazygit/       # lazygit
 │   ├── sheldon/       # sheldon (zsh プラグインマネージャー)
 │   ├── aerospace/     # AeroSpace ウィンドウマネージャー

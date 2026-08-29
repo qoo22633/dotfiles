@@ -75,7 +75,7 @@ alt-5 = 'workspace 5'
 # --- ワークスペース切り替え（アルファベット）---
 # alt-a → Arc起動に使用
 # alt-f → Figma起動に使用
-# alt-i → WezTerm起動に使用
+# alt-i → Ghostty起動に使用
 # alt-n → Notion起動に使用
 # alt-o → Obsidian起動に使用
 # alt-s → Slack起動に使用
@@ -101,7 +101,7 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 # --- アプリ起動 ---
 alt-a = 'exec-and-forget open -a Arc'
 alt-f = 'exec-and-forget open -a Figma'
-alt-i = 'exec-and-forget open -a WezTerm'
+alt-i = 'exec-and-forget open -a Ghostty'
 alt-n = 'exec-and-forget open -a Notion'
 alt-o = 'exec-and-forget open -a Obsidian'
 alt-s = 'exec-and-forget open -a Slack'
@@ -128,10 +128,10 @@ backspace = ['close-all-windows-but-current', 'mode main']
 if.app-id = 'company.thebrowser.Browser'
 run = 'move-node-to-workspace A'
 
-# WezTerm → ワークスペース 2
+# Ghostty → ワークスペース 2
 [[on-window-detected]]
-if.app-id = 'com.github.wez.wezterm'
-run = 'move-node-to-workspace I'
+if.app-id = 'com.mitchellh.ghostty'
+run = ['move-node-to-workspace I', 'layout floating', 'fullscreen']
 
 # Slack → ワークスペース S
 [[on-window-detected]]
