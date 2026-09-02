@@ -1,7 +1,24 @@
+onboarding = false
 [[keys.command]]
 key = "cmd+shift+r"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
+
+# popup: タブ構成を変えずにセッションモーダルな端末を開く
+# width/height は端末セル数または "80%" のようなパーセント指定
+[[keys.command]]
+key = "prefix+d"
+type = "popup"
+command = "lazygit"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+t"
+type = "popup"
+command = "zsh"
+width = "80%"
+height = "60%"
 
 [experimental]
 reveal_hidden_cursor_for_cjk_ime = true
