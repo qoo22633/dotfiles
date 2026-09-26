@@ -21,7 +21,7 @@ git -C "$DOTFILES_DIR" branch --show-current
 
 - 未コミットの変更がある場合は内容をユーザーに見せ、続けてよいか確認する
 - `master` にいて差分がなければ `git -C "$DOTFILES_DIR" pull` を実行する（別ブランチなら pull するかユーザーに確認する）
-- pull 後は `./install.sh` を実行し、新しく増えたリンク（コマンドファイルなど）を張る
+- pull 後は `"$DOTFILES_DIR/install.sh"` を実行し、新しく増えたリンク（コマンドファイルなど）を張る
 
 ### Step 2: 移行の一覧と適用状況の判定
 

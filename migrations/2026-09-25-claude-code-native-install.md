@@ -60,10 +60,15 @@ brew list --cask claude-code >/dev/null 2>&1; echo $?   # 期待: 1（cask が�
    - PATH 行が重複して追記されていたら、その追記だけ取り除く（リポジトリの内容で足りている）
    - `~/.zshrc` が通常ファイルに置き換わっていたら、中身の差分を確認してから `./install.sh` を再実行し、リンクを張り直す
 
-4. cask をアンインストールする
+4. native 版が動作することを確認してから、cask をアンインストールする
+
+   native install が失敗した状態で cask を消すと `claude` が使えなくなるため、
+   先に native バイナリが動くことを確認する。また、cask が入っていない端末で
+   `brew uninstall` を実行するとエラーになるので、入っている場合のみ実行する。
 
    ```bash
-   brew uninstall --cask claude-code
+   ~/.local/bin/claude --version   # 失敗したらここで止めて状況を確認する（cask はまだ消さない）
+   brew list --cask claude-code >/dev/null 2>&1 && brew uninstall --cask claude-code || echo "cask は入っていないためスキップ"
    ```
 
    `/opt/homebrew/bin/claude` のシンボリックリンクも一緒に削除される。
