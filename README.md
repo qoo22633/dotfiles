@@ -40,6 +40,7 @@ dotfiles/
 │   ├── zsh-abbr/      # zsh-abbr (略語展開)
 │   └── herdr/         # herdr エージェントマルチプレクサ（config.toml のみ管理）
 ├── home/
+│   ├── .zshenv        # 全シェル共通の環境変数（非対話シェルでも読まれる）
 │   ├── .zshrc
 │   ├── .zsh_aliases
 │   ├── .gitconfig

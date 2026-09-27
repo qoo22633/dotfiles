@@ -13,6 +13,7 @@
 
 ## 重要なファイル
 
+- `home/.zshenv`: 全シェル共通の環境変数（mise shims の PATH 追加）
 - `home/.zshrc`: Zsh設定（条件付きツール読み込み）
 - `.config/nvim/lua/plugins/claudecode.lua`: Claude Code設定
 - `install.sh`: シンボリックリンク一括作成スクリプト
@@ -171,6 +172,17 @@ fzf --version
 zoxide --version
 atuin --version
 ```
+
+## Zsh の設定ファイルの使い分け
+
+| ファイル | 読まれるタイミング | 書くもの |
+|---|---|---|
+| `home/.zshenv` | **毎回**（非対話シェル・スクリプト・Claude Code の Bash ツール含む） | PATH など軽量な環境変数のみ |
+| `home/.zshrc` | 対話シェルのみ | エイリアス、補完、プロンプト、`mise activate` など |
+
+- Claude Code の Bash ツールは非対話シェルのため `.zshrc` を読まない。
+  mise 管理のツール（`vercel` 等）が使えるよう、`.zshenv` で `~/.local/share/mise/shims` を PATH に追加している
+- `.zshenv` には重い処理（外部コマンド呼び出し）や標準出力への出力を書かない（全スクリプトの起動が遅くなる・出力が壊れる）
 
 ## 注意点
 
