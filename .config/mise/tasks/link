@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 #MISE description="dotfiles のシンボリックリンクと Brewfile を再適用する"
+#MISE dir="{{env.HOME}}"
 exec bash "$(dirname "$(readlink -f "$0")")/../hooks/postinstall.sh"
