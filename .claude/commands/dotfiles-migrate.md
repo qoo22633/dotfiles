@@ -1,6 +1,6 @@
 ---
 description: dotfiles の migrations/ にある未適用の移行作業をこの端末で実行する
-allowed-tools: Bash(git *), Bash(ls *), Bash(readlink *), Bash(grep *), Bash(which *), Bash(command -v *), Read, Glob
+allowed-tools: Bash(git *), Bash(mise *), Bash(ls *), Bash(readlink *), Bash(grep *), Bash(which *), Bash(command -v *), Read, Glob
 ---
 
 # dotfiles 移行コマンド
@@ -11,17 +11,23 @@ allowed-tools: Bash(git *), Bash(ls *), Bash(readlink *), Bash(grep *), Bash(whi
 
 ### Step 1: dotfiles リポジトリの特定と更新
 
-`~/.Brewfile` は dotfiles の `Brewfile` へのシンボリックリンクなので、そこからリポジトリの場所を特定します。
+`~/.config/mise` は dotfiles の `.config/mise` へのシンボリックリンクなので、そこからリポジトリの場所を特定します。
+mise 移行前の端末では `~/.config/mise` がまだリンクされていないため、`~/.Brewfile` のリンクから特定します。
 
 ```bash
-DOTFILES_DIR="$(dirname "$(readlink ~/.Brewfile)")"
+if [ -L ~/.config/mise ]; then
+  DOTFILES_DIR="$(dirname "$(dirname "$(readlink ~/.config/mise)")")"
+else
+  DOTFILES_DIR="$(dirname "$(readlink ~/.Brewfile)")"
+fi
 git -C "$DOTFILES_DIR" status --short
 git -C "$DOTFILES_DIR" branch --show-current
 ```
 
 - 未コミットの変更がある場合は内容をユーザーに見せ、続けてよいか確認する
 - `master` にいて差分がなければ `git -C "$DOTFILES_DIR" pull` を実行する（別ブランチなら pull するかユーザーに確認する）
-- pull 後は `"$DOTFILES_DIR/install.sh"` を実行し、新しく増えたリンク（コマンドファイルなど）を張る
+- pull 後は `mise install` を実行する（postinstall hook が新しく増えたリンク（コマンドファイルなど）を張り、ツールを同期する）
+  - `~/.config/mise` がまだリンクされていない端末（mise 移行前）では、ここでは何もせず Step 3 の移行（`2026-10-18-migrate-to-mise`）に任せる
 
 ### Step 2: 移行の一覧と適用状況の判定
 

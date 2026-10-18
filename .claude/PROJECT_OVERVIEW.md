@@ -13,7 +13,7 @@ dotfiles/
 ├── .tigrc              # tig設定（Gitクライアント）
 ├── .vimrc              # Vim設定（レガシー）
 ├── .zshrc              # Zshシェル設定
-├── .zsh_aliases        # Zshエイリアス
+├── mise/               # mise設定（tools/env/shell_alias/hooks/tasks）
 ├── ghostty/            # Ghostty端末設定
 ├── nvim/               # Neovim設定（LazyVim）
 ├── sheldon/            # Sheldon（Zshプラグインマネージャー）設定

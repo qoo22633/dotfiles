@@ -33,3 +33,4 @@ migrations/YYYY-MM-DD-<kebab-case-summary>.md
 | 日付 | 内容 |
 | --- | --- |
 | 2026-09-25 | [Claude Code を Homebrew cask から native install に移行](2026-09-25-claude-code-native-install.md) |
+| 2026-10-18 | [dotfiles 運用を mise に移行（CLI ツール・環境変数・エイリアス・セットアップ）](2026-10-18-migrate-to-mise.md) |

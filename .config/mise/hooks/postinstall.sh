@@ -2,18 +2,17 @@
 set -euo pipefail
 
 # ============================================================
-# dotfiles install.sh
+# mise postinstall hook（`mise install` の後に自動実行される）
 #
-# シンボリックリンクを安全に一括作成するスクリプト。
-# 実行するたびに冪等（何度実行しても安全）。
+# シンボリックリンクを安全に一括作成し、mise Registry にない
+# ツールを Homebrew で入れる。実行するたびに冪等。
 # 既存ファイル/ディレクトリはバックアップしてから置き換える。
 #
-# 使い方:
-#   chmod +x ~/dotfiles/install.sh
-#   ~/dotfiles/install.sh
+# 手動実行: mise run link
 # ============================================================
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# このファイルは dotfiles/.config/mise/hooks/ にある（~/.config/mise 経由でも実体を辿る）
+DOTFILES_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../../.." && pwd)"
 BACKUP_DIR="$HOME/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)"
 
 log()  { echo "[install] $*"; }
@@ -130,35 +129,14 @@ else
 fi
 
 # ============================================================
-# npm グローバルパッケージのインストール
-# npm-global-packages に記載されたパッケージを一括インストール
+# Homebrew（mise Registry にないツール・GUI アプリ）
 # ============================================================
-log "=== npm global packages ==="
+log "=== Homebrew (Brewfile) ==="
 
-NPM_PACKAGES_FILE="$DOTFILES_DIR/npm-global-packages"
-if [[ -f "$NPM_PACKAGES_FILE" ]]; then
-    if ! command -v npm &>/dev/null; then
-        warn "npm not found. Skipping npm global packages. Install Node.js via mise first."
-    else
-        while IFS= read -r line; do
-            # コメント行・空行をスキップ
-            [[ "$line" =~ ^[[:space:]]*# ]] && continue
-            [[ -z "${line// }" ]] && continue
-            # パッケージ名のみ取得（インラインコメントを除去）
-            pkg="${line%%#*}"
-            pkg="${pkg// /}"
-            [[ -z "$pkg" ]] && continue
-
-            if npm list -g "$pkg" &>/dev/null; then
-                log "Already installed (npm): $pkg"
-            else
-                log "Installing (npm): $pkg"
-                npm install -g "$pkg"
-            fi
-        done < "$NPM_PACKAGES_FILE"
-    fi
+if ! command -v brew &>/dev/null; then
+    warn "brew not found. Skipping Brewfile."
 else
-    warn "npm-global-packages not found. Skipping."
+    brew bundle install --global
 fi
 
 # ============================================================
@@ -174,4 +152,3 @@ log "Next steps:"
 log "  1. Open a new terminal to reload zsh config"
 log "  2. Verify: ls -la ~/.config/ | grep '->'"
 log "  3. Verify: ls -la ~ | grep '->'"
-log "  4. Install Homebrew packages: brew bundle install --global"

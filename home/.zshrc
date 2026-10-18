@@ -4,11 +4,6 @@ fpath=(~/.config/zsh/completion $fpath)
 autoload -Uz compinit
 compinit
 
-# alias
-if [ -f ~/.zsh_aliases ]; then
-    . ~/.zsh_aliases
-fi
-
 #PATH
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
@@ -17,33 +12,18 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export PATH=$(brew --prefix openssl)/bin:$PATH
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
 
-# Claude Code (native install)
-export PATH="$HOME/.local/bin:$PATH"
-
-# Rust cargo
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# XDG Base Directory
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-
-# Editor
-export EDITOR="nvim"
-export VISUAL="nvim"
-
-# mise
+# mise（ツール・環境変数・エイリアスは ~/.config/mise/config.toml で管理）
 if [ -x /opt/homebrew/bin/mise ]; then
   eval "$(/opt/homebrew/bin/mise activate zsh)"
 fi
 
 # zoxide
-if [ -x /opt/homebrew/bin/zoxide ]; then
+if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
 # yazi
-if [ -x /opt/homebrew/bin/yazi ]; then
+if (( $+commands[yazi] )); then
   function y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
     command yazi "$@" --cwd-file="$tmp"
@@ -53,13 +33,7 @@ if [ -x /opt/homebrew/bin/yazi ]; then
   }
 fi
 
-# zsh-abbr: ユーザー略語ファイル（sheldon ロード前に設定必須）
-export ABBR_USER_ABBREVIATIONS_FILE="${XDG_CONFIG_HOME}/zsh-abbr/user-abbreviations"
-
-# zeno: ファイルプレビューに bat を使用（sheldon ロード前に設定）
-export ZENO_GIT_CAT="bat"
-# zeno: DenoがmacOSシステム証明書ストアを使用（SSL inspectionプロキシ対策）
-export DENO_TLS_CA_STORE="system"
+# zsh-abbr / zeno の環境変数は mise の [env] で設定（sheldon ロード前に mise activate 済み）
 
 # excecute
 eval "$(sheldon source)"

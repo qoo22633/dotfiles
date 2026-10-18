@@ -6,6 +6,7 @@
 
 ## 主要コンポーネント
 
+- **mise**: ツール・環境変数・エイリアス・セットアップの管理を集約（`.config/mise/`）
 - **Zsh**: シェル環境（mise、sheldon、fzf、zoxide、atuin使用）
 - **Neovim**: LazyVimベースの設定 + Claude Code統合
 - **Ghostty**: ターミナルエミュレータ
@@ -16,30 +17,52 @@
 - `home/.zshenv`: 全シェル共通の環境変数（mise shims の PATH 追加）
 - `home/.zshrc`: Zsh設定（条件付きツール読み込み）
 - `.config/nvim/lua/plugins/claudecode.lua`: Claude Code設定
-- `install.sh`: シンボリックリンク一括作成スクリプト
-- `Brewfile`: Homebrew パッケージ管理（`~/.Brewfile` にリンク）
+- `.config/mise/config.toml`: mise 設定（`[tools]` `[env]` `[shell_alias]` `[hooks]`）
+- `.config/mise/hooks/postinstall.sh`: `mise install` 後に走るリンク作成スクリプト（旧 install.sh）
+- `bootstrap.sh`: 新規マシンの初期セットアップ（`~/.config/mise` をリンクして `mise install`）
+- `Brewfile`: mise Registry にないツールと GUI アプリ（`~/.Brewfile` にリンク）
+
+## mise によるツール管理
+
+CLI ツール・環境変数・エイリアス・セットアップは `.config/mise/config.toml` に集約している
+（`~/.config/mise` は dotfiles の `.config/mise` へのシンボリックリンク）。
+
+- `[tools]`: CLI ツール（mise Registry にあるもの）と `npm:` バックエンドのグローバルパッケージ
+- `[env]`: 環境変数と PATH 追加（`_.path`）。`.zshrc` には書かない
+- `[shell_alias]`: エイリアス。`.zsh_aliases` は廃止
+- `tasks/`: File Tasks（`mise run <name>`）。`#MISE description=...` で説明を書く
+- `[hooks] postinstall`: `mise install` 後に `hooks/postinstall.sh` を実行（`experimental = true` が必要）
+
+```bash
+# 初回セットアップ
+brew install mise && ./bootstrap.sh
+
+# ツール追加・更新後
+mise install
+mise run link   # リンクと Brewfile だけ再適用したいとき
+mise env        # 設定済みの環境変数を確認
+```
+
+ツールを追加するときは、まず mise Registry にあるか確認し（`mise registry | grep <name>`）、あれば
+`config.toml` の `[tools]` に追加する。無いものだけ `Brewfile` に追加する。
 
 ## Homebrew パッケージ管理（Brewfile）
 
-`Brewfile` でインストールするパッケージを一元管理している。
+`Brewfile` には **mise Registry にないツールと GUI アプリ（cask）だけ**を置く。mise 自体もブートストラップ用に brew で入れる。
 
 **Brewfile は手書きで管理する。`brew bundle dump` による自動生成・上書きは行わない**
 （日本語コメントとセクション構成が失われ、`borders` が出力から脱落し、業務プロジェクト固有の
 パッケージが混入するため）。パッケージを追加するときは Brewfile を直接編集する。
 
 ```bash
-# 初回セットアップ・パッケージ追加時
-brew bundle install --global
-
-# インストール済みチェック
+brew bundle install --global   # postinstall hook からも実行される
 brew bundle check --global
 ```
 
-`install.sh` が `Brewfile` を `~/.Brewfile` にシンボリックリンクするため、`--global` フラグで参照される。
+## postinstall hook の仕組み
 
-## install.sh の仕組み
-
-4フェーズでシンボリックリンクを作成する。何度実行しても安全（冪等）。
+`hooks/postinstall.sh` が `mise install` の後に走り、シンボリックリンクを作成して `brew bundle` を実行する。
+何度実行しても安全（冪等）。
 
 **Phase 1: `~/.config/*`**
 `.config/` 以下のディレクトリを自動検出して `~/.config/<tool>` にリンク。
@@ -50,7 +73,7 @@ brew bundle check --global
 `home/.config/` は `[[ "$base" == ".config" ]] && continue` で**明示的にスキップ**（Phase 1 で管理）。
 
 **Phase 3: Brewfile**
-`Brewfile` を `~/.Brewfile` にリンク。`brew bundle install --global` で参照される。
+`Brewfile` を `~/.Brewfile` にリンクし、`brew bundle install --global` を実行。
 
 **Phase 4: Claude Code ファイル**
 `.claude/commands/*.md` と `.claude/agents/*.md` を**ファイル単位**でリンク。
@@ -78,18 +101,18 @@ brew bundle check --global
 3. **`~/.config/` 配下で `rm -rf` や `mv` を使った破壊的操作をしない**
    - 既存リンクや他ツールの設定を巻き込む危険がある
 
-### install.sh の防止策（現在のコード）
+### postinstall.sh の防止策（現在のコード）
 
 ```bash
-# home/ ループで .config を明示的にスキップ（install.sh:81）
+# home/ ループで .config を明示的にスキップ
 [[ "$base" == ".config" ]] && continue  # .config は別途 .config/*/ ループで管理
 
-# .config は個別ツールディレクトリ単位でリンク（install.sh:66-70）
+# .config は個別ツールディレクトリ単位でリンク
 for src_dir in "$DOTFILES_DIR/.config"/*/; do
     safe_link "$src_dir" "$HOME/.config/$tool_name"  # ~/.config 自体はリンクしない
 done
 
-# .claude はファイル単位でリンク（install.sh:93-99）
+# .claude はファイル単位でリンク
 for f in "$DOTFILES_DIR/.claude/commands"/*.md; do
     safe_link "$f" "$HOME/.claude/commands/$(basename "$f")"
 done
@@ -134,30 +157,38 @@ nvim -c 'Lazy restore'  # ロックファイルの内容を強制適用して同
 ```bash
 mkdir .config/<tool>
 # 設定ファイルを配置
-./install.sh  # 自動検出してリンク作成
+mise run link  # 自動検出してリンク作成
 ```
+
+### CLI ツールの追加
+
+`.config/mise/config.toml` の `[tools]` に追記して `mise install`。
 
 ### 既存設定の変更
 
-dotfiles リポジトリ内のファイルを直接編集するだけでOK（シンボリックリンクなので即反映）。install.sh の再実行は不要。
+dotfiles リポジトリ内のファイルを直接編集するだけでOK（シンボリックリンクなので即反映）。
 
-### install.sh の再実行
+### リンクの再適用
 
-何度実行しても安全。`Already linked:` が表示されれば正常。
+`mise run link`（または `mise install`）。何度実行しても安全。
 
 ## テストコマンド
 
 ```bash
-# install.sh の冪等動作確認（Already linked: が表示されればOK）
-./install.sh
+# リンク作成の冪等動作確認（Already linked: が表示されればOK）
+mise run link
 
 # シンボリックリンク確認
 ls -la ~/.config/ | grep '\->'
 ls -la ~ | grep '\->'
 ls -la ~/.claude/commands/ | grep '\->'
 
-# Brewfile リンク確認
-ls -la ~/.Brewfile
+# mise 設定リンク・Brewfile リンク確認
+ls -la ~/.config/mise ~/.Brewfile
+
+# mise 設定の確認
+mise ls
+mise env
 
 # Homebrew パッケージ一括インストール
 brew bundle install --global
@@ -178,7 +209,7 @@ atuin --version
 | ファイル | 読まれるタイミング | 書くもの |
 |---|---|---|
 | `home/.zshenv` | **毎回**（非対話シェル・スクリプト・Claude Code の Bash ツール含む） | PATH など軽量な環境変数のみ |
-| `home/.zshrc` | 対話シェルのみ | エイリアス、補完、プロンプト、`mise activate` など |
+| `home/.zshrc` | 対話シェルのみ | 補完、プロンプト、`mise activate`、キーバインドなど（環境変数・エイリアスは mise の `[env]` `[shell_alias]`） |
 
 - Claude Code の Bash ツールは非対話シェルのため `.zshrc` を読まない。
   mise 管理のツール（`vercel` 等）が使えるよう、`.zshenv` で `~/.local/share/mise/shims` を PATH に追加している
