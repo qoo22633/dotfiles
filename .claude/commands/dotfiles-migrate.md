@@ -12,9 +12,14 @@ allowed-tools: Bash(git *), Bash(mise *), Bash(ls *), Bash(readlink *), Bash(gre
 ### Step 1: dotfiles リポジトリの特定と更新
 
 `~/.config/mise` は dotfiles の `.config/mise` へのシンボリックリンクなので、そこからリポジトリの場所を特定します。
+mise 移行前の端末では `~/.config/mise` がまだリンクされていないため、`~/.Brewfile` のリンクから特定します。
 
 ```bash
-DOTFILES_DIR="$(dirname "$(dirname "$(readlink ~/.config/mise)")")"
+if [ -L ~/.config/mise ]; then
+  DOTFILES_DIR="$(dirname "$(dirname "$(readlink ~/.config/mise)")")"
+else
+  DOTFILES_DIR="$(dirname "$(readlink ~/.Brewfile)")"
+fi
 git -C "$DOTFILES_DIR" status --short
 git -C "$DOTFILES_DIR" branch --show-current
 ```
@@ -22,6 +27,7 @@ git -C "$DOTFILES_DIR" branch --show-current
 - 未コミットの変更がある場合は内容をユーザーに見せ、続けてよいか確認する
 - `master` にいて差分がなければ `git -C "$DOTFILES_DIR" pull` を実行する（別ブランチなら pull するかユーザーに確認する）
 - pull 後は `mise install` を実行する（postinstall hook が新しく増えたリンク（コマンドファイルなど）を張り、ツールを同期する）
+  - `~/.config/mise` がまだリンクされていない端末（mise 移行前）では、ここでは何もせず Step 3 の移行（`2026-10-18-migrate-to-mise`）に任せる
 
 ### Step 2: 移行の一覧と適用状況の判定
 

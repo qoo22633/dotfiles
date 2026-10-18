@@ -25,8 +25,8 @@ CLI ツール（Brewfile）・環境変数/エイリアス（`.zshrc` / `.zsh_al
 
 ```bash
 readlink ~/.config/mise                       # 期待: <dotfiles>/.config/mise
-mise ls --current 2>/dev/null | grep -c .     # 期待: 10 以上
-test -e ~/.zsh_aliases; echo $?               # 期待: 1（無い）
+mise ls --current fzf 2>/dev/null | grep -c fzf   # 期待: 1（mise 版 fzf が入っている）
+ls -d ~/.zsh_aliases >/dev/null 2>&1; echo $?  # 期待: 1（壊れたリンクも含めて無い）
 brew list --formula fzf >/dev/null 2>&1; echo $?   # 期待: 1（brew 版が無い）
 ```
 
