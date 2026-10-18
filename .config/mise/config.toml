@@ -1,0 +1,58 @@
+# mise グローバル設定（~/.config/mise -> dotfiles/.config/mise）
+# CLI ツール / 環境変数 / エイリアス / セットアップを mise に集約している。
+# Registry にないツール・GUI アプリだけ Brewfile に残す。
+
+[settings]
+experimental = true # [hooks] に必要
+
+[tools]
+node = "lts"
+go = "latest"
+neovim = "latest"
+deno = "latest"
+sheldon = "latest"
+fzf = "latest"
+zoxide = "latest"
+atuin = "latest"
+yazi = "latest"
+bat = "latest"
+fd = "latest"
+eza = "latest"
+ripgrep = "latest"
+ghq = "latest"
+lazygit = "latest"
+gh = "latest"
+"npm:difit" = "latest" # ローカルコードレビューUI
+
+[env]
+XDG_CONFIG_HOME = "{{env.HOME}}/.config"
+XDG_DATA_HOME = "{{env.HOME}}/.local/share"
+XDG_CACHE_HOME = "{{env.HOME}}/.cache"
+EDITOR = "nvim"
+VISUAL = "nvim"
+# zsh-abbr: ユーザー略語ファイル
+ABBR_USER_ABBREVIATIONS_FILE = "{{env.HOME}}/.config/zsh-abbr/user-abbreviations"
+# zeno: ファイルプレビューに bat を使用
+ZENO_GIT_CAT = "bat"
+# zeno: DenoがmacOSシステム証明書ストアを使用（SSL inspectionプロキシ対策）
+DENO_TLS_CA_STORE = "system"
+_.path = [
+  "{{env.HOME}}/.local/bin",  # Claude Code (native install)
+  "{{env.HOME}}/.cargo/bin",  # Rust cargo
+]
+
+[shell_alias]
+ls = "eza --icons --git"
+la = "eza -la --icons --git"
+ll = "eza -aahl --icons --git"
+ei = "eza --icons --git"
+ea = "eza -la --icons --git"
+ee = "eza -aahl --icons --git"
+et = 'eza -T -L 3 -a -I "node_modules|.git|.cache" --icons'
+cat = "bat"
+
+[task_config]
+dir = "{{ config_root }}/tasks"
+
+[hooks]
+postinstall = "bash ~/.config/mise/hooks/postinstall.sh"

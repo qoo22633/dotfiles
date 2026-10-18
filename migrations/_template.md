@@ -9,7 +9,7 @@
 
 ## 前提
 
-- dotfiles リポジトリが最新（`git pull` 済み）で `./install.sh` 実行済みであること
+- dotfiles リポジトリが最新（`git pull` 済み）で `mise install` 実行済みであること
 - <その他の前提>
 
 ## 完了チェック
