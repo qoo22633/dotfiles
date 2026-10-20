@@ -32,12 +32,18 @@ brew list --formula fzf >/dev/null 2>&1; echo $?   # 期待: 1（brew 版が無�
 
 ## 手順
 
-1. `./bootstrap.sh` を実行する（`~/.config/mise` をリンクし `mise install`。postinstall hook が残りのリンクと `brew bundle` を行う）
-2. 古い `~/.zsh_aliases` のリンクを消す（リンク先が消えて壊れている）: `[ -L ~/.zsh_aliases ] && rm ~/.zsh_aliases`
-3. brew 版の重複ツールを削除する（削除前に `mise ls` で mise 側に入っていることを確認）:
+1. 既存の `~/.config/mise/config.toml` に dotfiles 側に無い設定があれば、先に dotfiles の `.config/mise/config.toml` へ移す
+   （`~/.config/mise` が通常のディレクトリの場合、bootstrap で `~/.dotfiles_backup/` に退避され、その設定は使われなくなる）:
+   `[ -L ~/.config/mise ] || cat ~/.config/mise/config.toml`
+2. mise を最新にする: `brew upgrade mise`
+3. `./bootstrap.sh` を実行する（`~/.config/mise` をリンクし `mise install`。postinstall hook が残りのリンクと `brew bundle` を行う）
+   - `brew bundle` が `Refusing to load formula ... from untrusted tap felixkratz/formulae` で失敗したら、
+     `brew trust felixkratz/formulae` を実行してから `mise run link` で再実行する
+4. 古い `~/.zsh_aliases` のリンクを消す（リンク先が消えて壊れている）: `[ -L ~/.zsh_aliases ] && rm ~/.zsh_aliases`
+5. brew 版の重複ツールを削除する（削除前に `mise ls` で mise 側に入っていることを確認）:
    `brew uninstall sheldon deno fzf zoxide atuin yazi bat fd eza ripgrep ghq lazygit gh neovim go`
    （依存で外せないものがあればエラーを見て個別に判断）
-4. 新しいターミナルを開く
+6. 新しいターミナルを開く
 
 ## 確認
 
