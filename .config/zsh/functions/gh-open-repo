@@ -1,0 +1,6 @@
+# GitHub のリポジトリページをブラウザで開く（zle ウィジェットとして ^X r に割り当て）
+local err
+if ! err=$(gh repo view --web 2>&1 >/dev/null); then
+  zle -M "${err:-gh repo view に失敗しました}"
+fi
+zle reset-prompt
