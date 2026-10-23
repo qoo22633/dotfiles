@@ -26,6 +26,8 @@ abbr "gw"="git worktree"
 # other tools
 abbr "c"="claude"
 abbr "d"="difit"
+abbr "dw"="difit working"
+abbr "ds"="difit staged"
 abbr "lg"="lazygit"
 abbr "lq"="lazysql"
 abbr "z"="zellij"
