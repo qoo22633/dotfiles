@@ -1,0 +1,9 @@
+# ghq + fzf でリポジトリを選んで移動する（zle ウィジェットとして ^G に割り当て）
+local repo
+repo=$(ghq list | fzf --height 40% --reverse \
+  --preview "ls -la $(ghq root)/{}" \
+  --preview-window=right:40%)
+if [[ -n "$repo" ]]; then
+  cd "$(ghq root)/$repo"
+fi
+zle reset-prompt

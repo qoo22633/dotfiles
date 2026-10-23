@@ -1,5 +1,10 @@
 # 環境変数・PATH・エイリアスは mise の [env] [shell_alias] で管理（~/.config/mise/config.toml）
 
+# ── 関数 ──
+# ~/.config/zsh/functions/ に 1 関数 1 ファイル。初回呼び出し時に読み込まれる
+fpath=(~/.config/zsh/functions $fpath)
+autoload -Uz y ghq-fzf
+
 # ── 補完 ──
 autoload -Uz compinit
 compinit
@@ -34,30 +39,8 @@ fi
 
 # ghq + fzf によるリポジトリ移動 (Ctrl+G)
 if (( $+commands[ghq] && $+commands[fzf] )); then
-  function ghq-fzf() {
-    local repo
-    repo=$(ghq list | fzf --height 40% --reverse \
-      --preview "ls -la $(ghq root)/{}" \
-      --preview-window=right:40%)
-    if [[ -n "$repo" ]]; then
-      cd "$(ghq root)/$repo"
-    fi
-    zle reset-prompt
-  }
   zle -N ghq-fzf
   bindkey '^G' ghq-fzf
-fi
-
-# ── 関数 ──
-# yazi: 終了時にyaziで開いていたディレクトリへ cd する
-if (( $+commands[yazi] )); then
-  function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-    command yazi "$@" --cwd-file="$tmp"
-    IFS= read -r -d '' cwd < "$tmp"
-    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-    rm -f -- "$tmp"
-  }
 fi
 
 # ── ローカル固有設定（git 管理外） ──
