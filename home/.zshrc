@@ -3,7 +3,7 @@
 # ── 関数 ──
 # ~/.config/zsh/functions/ に 1 関数 1 ファイル。初回呼び出し時に読み込まれる
 fpath=(~/.config/zsh/functions $fpath)
-autoload -Uz y ghq-fzf
+autoload -Uz y ghq-fzf vi-cursor-select
 
 # ── 補完 ──
 autoload -Uz compinit
@@ -13,6 +13,13 @@ compinit
 # bindkey -v はキーマップを切り替えるため、fzf / zeno などの bindkey より前に置く
 bindkey -v
 KEYTIMEOUT=10  # Esc 後の待ち時間（0.1 秒）。既定の 0.4 秒だとモード切替が遅い
+
+# モードをカーソル形状で見分ける（normal: ブロック / insert: 縦棒）
+zle -N zle-keymap-select vi-cursor-select
+zle -N zle-line-init vi-cursor-select
+# コマンド実行中は既定のブロックに戻す
+preexec_functions+=(vi-cursor-block)
+vi-cursor-block() { print -n '\e[2 q' }
 
 # ── ツール初期化（上から順に読む。後ろのものが前のものに依存する） ──
 # mise: 以降のツールが PATH に載るよう最初に activate する

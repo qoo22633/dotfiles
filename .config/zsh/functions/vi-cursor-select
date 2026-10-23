@@ -1,0 +1,6 @@
+# vi モードに合わせてカーソル形状を変える（zle-keymap-select / zle-line-init 用）
+# normal（コマンドモード）: ブロック、insert: 縦棒。DECSCUSR をターミナルに送る
+case $KEYMAP in
+  vicmd) print -n '\e[2 q' ;;
+  *)     print -n '\e[6 q' ;;
+esac
