@@ -13,6 +13,9 @@ Intel Mac や別構成の端末では必要な可能性がある。
 - `brew --prefix openssl` の PATH 追加
 - `fpath` への `~/.config/zsh/completion`（ディレクトリ自体が存在しない）
 
+`y` と `ghq-fzf` は `.config/zsh/functions/` に分離した。`~/.config/zsh` のリンクが無い端末では
+関数が読み込まれないため、`mise run link` が必要。
+
 また `wt` の初期化を `wt config shell init zsh` の1本にした（旧 `wt shell-init` は存在しないコマンド）。
 
 ## 前提
@@ -24,12 +27,14 @@ Intel Mac や別構成の端末では必要な可能性がある。
 以下がすべて期待どおりなら適用済み（または対応不要）。手順は不要。
 
 ```bash
-ls /usr/local/opt 2>/dev/null | head -1   # 期待: 何も出ない（/usr/local/opt が無い端末は対応不要）
+[ -L ~/.config/zsh ] && echo linked || echo missing   # 期待: linked
+ls /usr/local/opt 2>/dev/null | head -1   # 期待: 何も出ない（/usr/local/opt が無い端末は PATH の復元は不要）
 ```
 
 ## 手順
 
-`/usr/local/opt` が存在する端末だけ、必要な行を `~/.zshrc.local`（git 管理外）に足す。
+1. `mise run link` で `~/.config/zsh` をリンクする
+2. `/usr/local/opt` が存在する端末だけ、必要な行を `~/.zshrc.local`（git 管理外）に足す。
 
 ```zsh
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
