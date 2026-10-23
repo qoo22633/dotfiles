@@ -9,6 +9,11 @@ autoload -Uz y ghq-fzf
 autoload -Uz compinit
 compinit
 
+# ── vi モード ──
+# bindkey -v はキーマップを切り替えるため、fzf / zeno などの bindkey より前に置く
+bindkey -v
+KEYTIMEOUT=10  # Esc 後の待ち時間（0.1 秒）。既定の 0.4 秒だとモード切替が遅い
+
 # ── ツール初期化（上から順に読む。後ろのものが前のものに依存する） ──
 # mise: 以降のツールが PATH に載るよう最初に activate する
 if [ -x /opt/homebrew/bin/mise ]; then
