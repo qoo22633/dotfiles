@@ -3,7 +3,7 @@
 # ── 関数 ──
 # ~/.config/zsh/functions/ に 1 関数 1 ファイル。初回呼び出し時に読み込まれる
 fpath=(~/.config/zsh/functions $fpath)
-autoload -Uz y ghq-fzf vi-cursor-select
+autoload -Uz y ghq-fzf vi-cursor-select gh-open-pr gh-open-repo
 
 # ── 補完 ──
 autoload -Uz compinit
@@ -53,6 +53,14 @@ fi
 if (( $+commands[ghq] && $+commands[fzf] )); then
   zle -N ghq-fzf
   bindkey '^G' ghq-fzf
+fi
+
+# GitHub をブラウザで開く (Ctrl-X p: 今のブランチの PR / Ctrl-X r: リポジトリ)
+if (( $+commands[gh] )); then
+  zle -N gh-open-pr
+  zle -N gh-open-repo
+  bindkey '^xp' gh-open-pr
+  bindkey '^xr' gh-open-repo
 fi
 
 # ── ローカル固有設定（git 管理外） ──

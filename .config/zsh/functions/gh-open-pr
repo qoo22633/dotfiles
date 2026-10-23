@@ -1,0 +1,7 @@
+# 今のブランチの PR をブラウザで開く（zle ウィジェットとして ^X p に割り当て）
+# PR が無いときはプロンプトを崩さないよう zle -M でメッセージを出す
+local err
+if ! err=$(gh pr view --web 2>&1 >/dev/null); then
+  zle -M "${err:-gh pr view に失敗しました}"
+fi
+zle reset-prompt
