@@ -10,8 +10,6 @@ dotfiles/
 ├── .git/                 # Git管理
 ├── .gitconfig           # Git設定
 ├── .gitignore          # Git無視ファイル
-├── .tigrc              # tig設定（Gitクライアント）
-├── .vimrc              # Vim設定（レガシー）
 ├── .zshrc              # Zshシェル設定
 ├── mise/               # mise設定（tools/env/shell_alias/hooks/tasks）
 ├── ghostty/            # Ghostty端末設定
@@ -37,7 +35,6 @@ dotfiles/
 - **Ghostty**: 高性能ターミナルエミュレータ
 
 ### Git関連
-- **tig**: コマンドラインGitクライアント
 - **lazygit**: TUIベースのGitクライアント
 
 ### その他CLIツール
