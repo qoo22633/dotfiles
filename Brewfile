@@ -10,7 +10,6 @@
 # ============================================================
 tap "FelixKratz/formulae"  # borders
 tap "nikitabobko/tap"      # aerospace
-tap "nkzw-tech/tap"        # codiff
 
 # ============================================================
 # Formulae (CLI ツール)
@@ -30,4 +29,3 @@ brew "borders"  # ウィンドウボーダー（AeroSpace 連携）
 # ============================================================
 cask "aerospace"   # タイリングウィンドウマネージャー
 cask "ghostty"     # ターミナルエミュレータ
-cask "codiff"      # ローカル差分ビューア
