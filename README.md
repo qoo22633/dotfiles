@@ -43,8 +43,6 @@ dotfiles/
 │   ├── .zshenv        # 全シェル共通の環境変数（非対話シェルでも読まれる）
 │   ├── .zshrc
 │   ├── .gitconfig
-│   ├── .tigrc
-│   ├── .vimrc
 │   └── .claude/
 │       └── statusline-command.sh  # ~/.claude/statusline-command.sh（全PC共通のステータスライン表示スクリプト）
 ├── .claude/           # Claude Code 設定
