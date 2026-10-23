@@ -4,7 +4,6 @@ abbr "..."="cd ../.."
 abbr "vi"="nvim"
 
 # docker
-abbr "d"="docker"
 abbr "dc"="docker-compose"
 
 # mise
@@ -25,6 +24,8 @@ abbr "gc"="git commit"
 abbr "gw"="git worktree"
 
 # other tools
+abbr "c"="claude"
+abbr "d"="difit"
 abbr "lg"="lazygit"
 abbr "lq"="lazysql"
 abbr "z"="zellij"
