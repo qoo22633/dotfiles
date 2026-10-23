@@ -54,6 +54,9 @@ cat = "bat"
 # origin/HEAD が未設定のリポジトリでは `git remote set-head origin --auto` が必要
 gsp = "git switch $(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's@^origin/@@') && git pull --ff-only"
 
+# デフォルトブランチ側の進みを含めず、現在のブランチで加えた変更だけを PR と同じ形で見るため merge-base と比較する
+dd = "difit HEAD $(git merge-base HEAD origin/HEAD)"
+
 [task_config]
 dir = "{{ config_root }}/tasks"
 
