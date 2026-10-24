@@ -46,7 +46,7 @@ dotfiles/
 │   └── .claude/
 │       └── statusline-command.sh  # ~/.claude/statusline-command.sh（全PC共通のステータスライン表示スクリプト）
 ├── .claude/           # Claude Code 設定
-│   ├── commands/      # カスタムコマンド（/worklog, /create-pr）
+│   ├── commands/      # カスタムコマンド（/create-pr, /difit など）
 │   └── agents/        # カスタムエージェント
 ├── Brewfile           # mise Registry にないツールと GUI アプリ
 └── bootstrap.sh       # 初期セットアップ（mise 設定のリンク + mise install）
