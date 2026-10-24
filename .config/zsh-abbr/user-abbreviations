@@ -25,9 +25,10 @@ abbr "gw"="git worktree"
 
 # other tools
 abbr "c"="claude"
+# difit: dn=now（コミット前）/ dl=last（直前のコミット）/ dp=PR 全体（mise の alias）
 abbr "d"="difit"
-abbr "dw"="difit working"
-abbr "ds"="difit staged"
+abbr "dn"="difit ."
+abbr "dl"="difit HEAD"
 abbr "lg"="lazygit"
 abbr "lq"="lazysql"
 abbr "z"="zellij"
