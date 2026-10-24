@@ -18,8 +18,6 @@ tap "nikitabobko/tap"      # aerospace
 ## mise Registry にないもの（mise 管理のツールは .config/mise/config.toml）
 brew "mise"       # ツール・環境変数・タスクの管理（ブートストラップ用に brew で入れる）
 brew "git"
-brew "herdr"      # エージェントマルチプレクサ（複数のCoding Agentを管理）
-brew "worktrunk"  # git worktree マネージャー
 
 ## ウィンドウ装飾
 brew "borders"  # ウィンドウボーダー（AeroSpace 連携）
