@@ -122,7 +122,7 @@ safe_link "$DOTFILES_DIR/.config/herdr/config.toml" "$HOME/.config/herdr/config.
 log "=== herdr integrations ==="
 
 if ! command -v herdr &>/dev/null; then
-    warn "herdr not found. Skipping. Install via: brew install herdr"
+    warn "herdr not found. Skipping. Install via: mise install"
 else
     herdr integration install claude
     log "herdr integration: claude installed"
