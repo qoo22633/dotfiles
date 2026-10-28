@@ -2,6 +2,7 @@
 abbr ".."="cd .."
 abbr "..."="cd ../.."
 abbr "vi"="nvim"
+abbr "e"="exit"
 
 # docker
 abbr "dc"="docker-compose"
