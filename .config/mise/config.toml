@@ -39,6 +39,8 @@ ABBR_USER_ABBREVIATIONS_FILE = "{{env.HOME}}/.config/zsh-abbr/user-abbreviations
 ZENO_GIT_CAT = "bat"
 # zeno: DenoがmacOSシステム証明書ストアを使用（SSL inspectionプロキシ対策）
 DENO_TLS_CA_STORE = "system"
+# zeno: Deno がカレントの package.json を拾い、プロジェクトの node_modules に依存をインストールするのを防ぐ
+DENO_NO_PACKAGE_JSON = "1"
 _.path = [
   "{{env.HOME}}/.local/bin",  # Claude Code (native install)
   "{{env.HOME}}/.cargo/bin",  # Rust cargo
