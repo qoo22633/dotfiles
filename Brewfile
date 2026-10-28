@@ -19,6 +19,11 @@ tap "nikitabobko/tap"      # aerospace
 brew "mise"       # ツール・環境変数・タスクの管理（ブートストラップ用に brew で入れる）
 brew "git"
 
+## mise で入れたバイナリが動的リンクするライブラリ
+# sheldon の配布バイナリ（aqua）は /opt/homebrew/opt/openssl@3 にリンクしている。
+# Homebrew の既定が openssl@4 になり、依存元がないと autoremove で消されて起動できなくなるため明示する
+brew "openssl@3"
+
 ## ウィンドウ装飾
 brew "borders"  # ウィンドウボーダー（AeroSpace 連携）
 
