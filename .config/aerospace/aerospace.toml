@@ -79,7 +79,6 @@ alt-5 = 'workspace 5'
 # alt-n → Notion起動に使用
 # alt-o → Obsidian起動に使用
 # alt-s → Slack起動に使用
-# alt-u → Muse起動に使用
 
 # --- ウィンドウをワークスペースに移動（数字）---
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -95,7 +94,6 @@ alt-shift-i = 'move-node-to-workspace I'
 alt-shift-n = 'move-node-to-workspace N'
 alt-shift-o = 'move-node-to-workspace O'
 alt-shift-s = 'move-node-to-workspace S'
-alt-shift-u = 'move-node-to-workspace U'
 
 # --- モニター間移動 ---
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
@@ -107,7 +105,6 @@ alt-i = 'exec-and-forget open -a Ghostty'
 alt-n = 'exec-and-forget open -a Notion'
 alt-o = 'exec-and-forget open -a Obsidian'
 alt-s = 'exec-and-forget open -a Slack'
-alt-u = 'exec-and-forget open -a Muse'
 
 # --- サービスモードに入る ---
 alt-shift-semicolon = 'mode service'
@@ -156,7 +153,3 @@ run = 'move-node-to-workspace F'
 if.app-id = 'md.obsidian'
 run = 'move-node-to-workspace O'
 
-# Muse → ワークスペース U
-[[on-window-detected]]
-if.app-id = 'com.meta.endo'
-run = 'move-node-to-workspace U'
