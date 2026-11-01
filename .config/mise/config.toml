@@ -6,7 +6,7 @@
 experimental = true # [hooks] に必要
 
 [tools]
-node = "lts"
+node = "24.22.1" # "lts" だと新しい LTS が出た時点で未インストールの版に勝手に切り替わるため、版を固定
 python = "3.14"
 go = "latest"
 neovim = "latest"
