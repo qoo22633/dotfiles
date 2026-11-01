@@ -61,11 +61,18 @@ summarize_and_append() {
   local line="- $time_label [$project_name] $summary $DAILY_NOTE_TAG"
   local tmp_file
   tmp_file="$(mktemp)"
-  # AIメモ節の末尾（次の見出しの直前、無ければ末尾）に挿入する。節が無ければ末尾に節ごと足す
+  # AIメモ節の最後の記入行の直後に挿入する。節が無ければ末尾に節ごと足す。
+  # 節末尾の空行は保持して挿入行の後ろへ回す（見出し前の空行の前に入れると、記入行との間に空行が挟まるため）
   awk -v heading="$SECTION_HEADING" -v line="$line" '
-    function flush_pending() { if (in_section && !inserted) { print line; inserted = 1 } }
+    function flush_blanks() { for (; blanks > 0; blanks--) print "" }
+    function flush_pending() {
+      if (in_section && !inserted) { print line; inserted = 1 }
+      flush_blanks()
+    }
     $0 == heading { in_section = 1; print; next }
     in_section && /^## / { flush_pending(); in_section = 0 }
+    in_section && $0 == "" { blanks++; next }
+    in_section { flush_blanks() }
     { print }
     END {
       flush_pending()
