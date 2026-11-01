@@ -95,9 +95,45 @@ safe_link "$DOTFILES_DIR/Brewfile" "$HOME/.Brewfile"
 # （~/.claude/ には Claude Code 自身のランタイムデータも含まれるため）
 # ============================================================
 log "=== Claude Code ==="
-mkdir -p "$HOME/.claude/commands" "$HOME/.claude/agents"
+mkdir -p "$HOME/.claude/commands" "$HOME/.claude/agents" "$HOME/.claude/hooks"
 
 safe_link "$DOTFILES_DIR/home/.claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
+
+# デイリーノートへの作業ログ追記フック（会話内容が保管庫に残るため、CLAUDE_DAILY_LOG_VAULT を設定した端末だけで有効にする）
+if [[ -n "${CLAUDE_DAILY_LOG_VAULT:-}" ]]; then
+    safe_link "$DOTFILES_DIR/home/.claude/hooks/daily-log.sh" "$HOME/.claude/hooks/daily-log.sh"
+else
+    log "Skip daily-log hook (CLAUDE_DAILY_LOG_VAULT is not set)"
+fi
+
+# settings.json は herdr などが書き換える端末固有のファイルなのでリンクせず、SessionEnd フックだけ冪等に足す
+register_session_end_hook() {
+    local settings="$HOME/.claude/settings.json"
+    local hook_command="$HOME/.claude/hooks/daily-log.sh"
+    local tmp_file
+
+    if ! command -v jq &>/dev/null; then
+        warn "jq not found. Skipping SessionEnd hook registration."
+        return 0
+    fi
+    [[ -f "$settings" ]] || echo '{}' > "$settings"
+
+    if jq -e --arg cmd "$hook_command" \
+        '[.hooks.SessionEnd[]?.hooks[]? | select(.command == $cmd)] | length > 0' \
+        "$settings" >/dev/null; then
+        log "Already registered: SessionEnd daily-log hook"
+        return 0
+    fi
+
+    tmp_file="$(mktemp)"
+    jq --arg cmd "$hook_command" \
+        '.hooks.SessionEnd = ((.hooks.SessionEnd // []) + [{hooks: [{type: "command", command: $cmd, timeout: 10}]}])' \
+        "$settings" > "$tmp_file"
+    cat "$tmp_file" > "$settings"
+    rm -f "$tmp_file"
+    log "Registered: SessionEnd daily-log hook"
+}
+[[ -n "${CLAUDE_DAILY_LOG_VAULT:-}" ]] && register_session_end_hook
 
 for f in "$DOTFILES_DIR/.claude/commands"/*.md; do
     [[ -f "$f" ]] && safe_link "$f" "$HOME/.claude/commands/$(basename "$f")"
