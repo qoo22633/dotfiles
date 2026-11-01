@@ -16,6 +16,7 @@ git clone git@github.com:qoo22633/dotfiles.git ~/dotfiles
 - `dotfiles/home/.*` → `~/.*` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/Brewfile` → `~/.Brewfile` のシンボリックリンク作成と `brew bundle install --global`
 - `dotfiles/home/.claude/statusline-command.sh` → `~/.claude/statusline-command.sh` のシンボリックリンク作成
+- `dotfiles/home/.claude/hooks/daily-log.sh` → `~/.claude/hooks/daily-log.sh` のシンボリックリンク作成と、`~/.claude/settings.json` への SessionEnd フック登録（`CLAUDE_DAILY_LOG_VAULT` を設定した個人PCだけ。デイリーノートへ作業ログを追記）
 - `dotfiles/.claude/commands/*.md` / `agents/*.md` → `~/.claude/` のシンボリックリンク作成（ファイル単位）
 - `dotfiles/.config/herdr/config.toml` → `~/.config/herdr/config.toml` のシンボリックリンク作成（ランタイムデータと同居するため）
 - `herdr integration install claude` を実行
