@@ -58,7 +58,8 @@ summarize_and_append() {
   summary="$(tr -d '\n' <<<"$summary")"
   [[ -n "$summary" && "$summary" != "SKIP" ]] || return 0
 
-  local line="- $time_label [$project_name] $summary $DAILY_NOTE_TAG"
+  # 時刻は [HH:MM] と括弧で囲む。行頭が「- HH:MM」だと Thino が人のメモとして一覧に出してしまうため
+  local line="- [$time_label] [$project_name] $summary $DAILY_NOTE_TAG"
   local tmp_file
   tmp_file="$(mktemp)"
   # AIメモ節の最後の記入行の直後に挿入する。節が無ければ末尾に節ごと足す。
