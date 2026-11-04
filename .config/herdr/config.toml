@@ -20,6 +20,15 @@ command = "zsh"
 width = "80%"
 height = "60%"
 
+# Claude Code の /copy が書き出す直前の回答を nvim で開き、一部だけ選んでコピーする
+# （prefix+c は既定の new_tab なので y = yank にしている）
+[[keys.command]]
+key = "prefix+y"
+type = "popup"
+command = "sh -c 'nvim \"/tmp/claude-$(id -u)/response.md\"'"
+width = "80%"
+height = "80%"
+
 [experimental]
 reveal_hidden_cursor_for_cjk_ime = true
 cjk_ime_agents = ["claude", "codex"]

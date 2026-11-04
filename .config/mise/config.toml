@@ -27,6 +27,7 @@ gh = "latest"
 "npm:difit" = "latest" # ローカルコードレビューUI
 herdr = "latest" # エージェントマルチプレクサ（複数のCoding Agentを管理）
 worktrunk = "latest" # git worktree マネージャー（コマンドは wt）
+pandoc = "latest" # Markdown → HTML 変換（nvim の <leader>ys で Slack 用リッチテキストコピー）
 
 [env]
 XDG_CONFIG_HOME = "{{env.HOME}}/.config"

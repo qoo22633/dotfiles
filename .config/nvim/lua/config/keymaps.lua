@@ -80,6 +80,33 @@ map("n", "<leader>yP", function()
   vim.notify("Copied: " .. path)
 end, { desc = "Copy relative path with line number" })
 
+-- Copy Markdown as rich text (HTML) so it pastes formatted into Slack
+local function copy_as_rich_text(lines)
+  local md = table.concat(lines, "\n")
+  local html = vim.system({ "pandoc", "-f", "gfm", "-t", "html", "--wrap=none" }, { stdin = md }):wait()
+  if html.code ~= 0 then
+    vim.notify("pandoc failed: " .. html.stderr, vim.log.levels.ERROR)
+    return
+  end
+  local script = vim.fn.stdpath("config") .. "/scripts/rich-copy.swift"
+  local res = vim.system({ "swift", script, html.stdout }, { stdin = md }):wait()
+  if res.code ~= 0 then
+    vim.notify("rich copy failed: " .. res.stderr, vim.log.levels.ERROR)
+    return
+  end
+  vim.notify(("Copied as rich text (%d lines)"):format(#lines))
+end
+
+map("n", "<leader>ys", function()
+  copy_as_rich_text(vim.api.nvim_buf_get_lines(0, 0, -1, false))
+end, { desc = "Copy buffer as rich text (Slack)" })
+
+map("x", "<leader>ys", function()
+  local lines = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = vim.fn.mode() })
+  vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "n", false)
+  copy_as_rich_text(lines)
+end, { desc = "Copy selection as rich text (Slack)" })
+
 -- Better terminal navigation for Rails
 map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Terminal left" })
 map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Terminal down" })
