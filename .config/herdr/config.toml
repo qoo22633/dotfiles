@@ -29,6 +29,13 @@ command = "sh -c 'nvim \"/tmp/claude-$(id -u)/response.md\"'"
 width = "80%"
 height = "80%"
 
+# フォーカス中のペインのディレクトリで、現在のブランチの PR をブラウザで開く
+# （shell はバックグラウンド実行なので、ペインの cwd を明示的に cd する）
+[[keys.command]]
+key = "prefix+u"
+type = "shell"
+command = "cd \"$HERDR_ACTIVE_PANE_CWD\" && gh pr view --web"
+
 [experimental]
 reveal_hidden_cursor_for_cjk_ime = true
 cjk_ime_agents = ["claude", "codex"]

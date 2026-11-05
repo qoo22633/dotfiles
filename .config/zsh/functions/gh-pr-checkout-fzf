@@ -1,0 +1,26 @@
+# オープンな PR を fzf で選んで gh pr checkout する（zle ウィジェットとして ^O に割り当て）
+# 実行するコマンドはプロンプトに入れて accept-line する（出力が普通に見え、履歴にも残る）
+local list sel
+if ! list=$(gh pr list --limit 100 \
+    --json number,headRefName,author,title \
+    --template '{{range .}}{{.number}}{{"\t"}}{{.headRefName}}{{"\t"}}{{.author.login}}{{"\t"}}{{.title}}{{"\n"}}{{end}}' 2>&1); then
+  zle -M "${list:-gh pr list に失敗しました}"
+  zle reset-prompt
+  return
+fi
+if [[ -z "$list" ]]; then
+  zle -M "オープンな PR がありません"
+  zle reset-prompt
+  return
+fi
+
+sel=$(print -r -- "$list" | fzf --height 40% --reverse \
+  --delimiter '\t' --tabstop 4 \
+  --preview 'gh pr view {1}' \
+  --preview-window=right:50%:wrap)
+if [[ -n "$sel" ]]; then
+  BUFFER="gh pr checkout ${sel%%$'\t'*}"
+  zle accept-line
+else
+  zle reset-prompt
+fi
