@@ -3,7 +3,7 @@
 # ── 関数 ──
 # ~/.config/zsh/functions/ に 1 関数 1 ファイル。初回呼び出し時に読み込まれる
 fpath=(~/.config/zsh/functions $fpath)
-autoload -Uz y ghq-fzf vi-cursor-select gh-open-pr gh-open-repo
+autoload -Uz y ghq-fzf vi-cursor-select gh-open-pr gh-open-repo gh-pr-checkout-fzf
 
 # ── 補完 ──
 autoload -Uz compinit
@@ -61,6 +61,12 @@ if (( $+commands[gh] )); then
   zle -N gh-open-repo
   bindkey '^xp' gh-open-pr
   bindkey '^xr' gh-open-repo
+fi
+
+# PR を fzf で選んで checkout (Ctrl-O)
+if (( $+commands[gh] && $+commands[fzf] )); then
+  zle -N gh-pr-checkout-fzf
+  bindkey '^O' gh-pr-checkout-fzf
 fi
 
 # ── ローカル固有設定（git 管理外） ──
