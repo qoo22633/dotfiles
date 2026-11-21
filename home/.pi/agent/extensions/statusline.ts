@@ -2,23 +2,22 @@
  * Claude Code のステータスライン（home/.claude/statusline-command.sh）と同じ見た目のフッター。
  *
  *   📂 ~/repo │ 🌿 main +12 -3
- *   🧠 ███░░░░░░░░░░░░ 21% │ 💪 (openai-codex) gpt-6.1-sol (high)
+ *   🧠 ███░░░░░░░░░░░░ 21% │ 💪 (router) auto → deepseek-v4-pro (high)
  *   🕐 █░░░░░░░░░░░░░░ 7% │ 📅 ░░░░░░░░░░░░░░░ 1%
  *   （extension のステータス。billion-context-pi など）
+ *
+ * `→` の後ろは、virtual model（quota-router.ts）を選んでいるときに直近の応答を返したモデル。
  */
 
 import type { ExtensionAPI, ExtensionContext, Theme } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth } from "@earendil-works/pi-tui";
+import { type CodexRateLimits, currentPercent, parseCodexRateLimitsEvent, readCachedRateLimits } from "./lib/codex-rate-limits.ts";
 
 const BAR_CELLS = 15;
 const WARNING_PERCENT = 70;
 const ERROR_PERCENT = 90;
 const GIT_TIMEOUT_MS = 3000;
 
-// Codex は HTTP ヘッダーではなく WebSocket のストリームの中でこのイベントとして利用上限を送ってくる
-const CODEX_RATE_LIMITS_EVENT = "codex.rate_limits";
-
-type RateLimits = { fiveHourPercent: number | null; weeklyPercent: number | null };
 type GitChanges = { insertions: number; deletions: number };
 
 function renderBar(percent: number): string {
@@ -59,27 +58,23 @@ function formatGitChanges({ insertions, deletions }: GitChanges): string {
 	return parts.length > 0 ? ` ${parts.join(" ")}` : "";
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-	return typeof value === "object" && value !== null;
+function nowSeconds(): number {
+	return Math.floor(Date.now() / 1000);
 }
 
-function toPercent(window: unknown): number | null {
-	if (!isRecord(window)) return null;
-	return typeof window.used_percent === "number" ? window.used_percent : null;
-}
-
-function parseCodexRateLimits(data: unknown): RateLimits | null {
-	if (!isRecord(data) || data.type !== CODEX_RATE_LIMITS_EVENT) return null;
-	const limits = data.rate_limits;
-	if (!isRecord(limits)) return null;
-	return {
-		fiveHourPercent: toPercent(limits.primary),
-		weeklyPercent: toPercent(limits.secondary),
-	};
+/** 直近の応答を返した実際のモデル（virtual model を選んでいるときの振り分け先） */
+function findLatestRespondingModel(ctx: ExtensionContext): string | null {
+	const entries = ctx.sessionManager.getBranch();
+	for (let i = entries.length - 1; i >= 0; i--) {
+		const entry = entries[i];
+		if (entry?.type === "message" && entry.message.role === "assistant") return entry.message.model;
+	}
+	return null;
 }
 
 export default function (pi: ExtensionAPI) {
-	let rateLimits: RateLimits = { fiveHourPercent: null, weeklyPercent: null };
+	let rateLimits: CodexRateLimits | null = null;
+	let respondingModel: string | null = null;
 	let gitChanges: GitChanges = { insertions: 0, deletions: 0 };
 	let requestRender = () => {};
 
@@ -113,10 +108,14 @@ export default function (pi: ExtensionAPI) {
 					const model = ctx.model;
 					const provider = footerData.getAvailableProviderCount() > 1 && model ? `(${model.provider}) ` : "";
 					const thinking = model?.reasoning ? ` (${ctx.thinkingLevel})` : "";
-					const modelLabel = `💪 ${provider}${model?.id ?? "no-model"}${thinking}`;
+					const routed = model && respondingModel && respondingModel !== model.id ? ` → ${respondingModel}` : "";
+					const modelLabel = `💪 ${provider}${model?.id ?? "no-model"}${routed}${thinking}`;
 					const context = `🧠 ${renderGauge(ctx.getContextUsage()?.percent ?? null, theme)}`;
 
-					const limits = `🕐 ${renderGauge(rateLimits.fiveHourPercent, theme)} │ 📅 ${renderGauge(rateLimits.weeklyPercent, theme)}`;
+					const now = nowSeconds();
+					const fiveHour = renderGauge(currentPercent(rateLimits?.fiveHour ?? null, now), theme);
+					const weekly = renderGauge(currentPercent(rateLimits?.weekly ?? null, now), theme);
+					const limits = `🕐 ${fiveHour} │ 📅 ${weekly}`;
 
 					const lines = [location, `${context} │ ${modelLabel}`, limits];
 
@@ -133,17 +132,21 @@ export default function (pi: ExtensionAPI) {
 
 	pi.on("session_start", async (_event, ctx) => {
 		if (!ctx.hasUI) return;
+		// 起動直後は Codex からの通知がまだ無いので、前回までの値（別の pi が書いたもの）を出しておく
+		rateLimits = readCachedRateLimits();
+		respondingModel = findLatestRespondingModel(ctx);
 		installFooter(ctx);
 		await refreshGitChanges(ctx.cwd);
 	});
 
 	pi.on("turn_end", async (_event, ctx) => {
 		if (!ctx.hasUI) return;
+		respondingModel = findLatestRespondingModel(ctx);
 		await refreshGitChanges(ctx.cwd);
 	});
 
 	pi.on("provider_stream_event", (event) => {
-		const parsed = parseCodexRateLimits(event.data);
+		const parsed = parseCodexRateLimitsEvent(event.data);
 		if (!parsed) return;
 		rateLimits = parsed;
 		requestRender();

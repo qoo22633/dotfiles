@@ -151,8 +151,9 @@ done
 log "=== pi ==="
 mkdir -p "$HOME/.pi/agent/extensions"
 
-for f in "$DOTFILES_DIR/home/.pi/agent/extensions"/*.ts; do
-    [[ -f "$f" ]] && safe_link "$f" "$HOME/.pi/agent/extensions/$(basename "$f")"
+# extension 本体（*.ts）と、それらが import する共通部品（lib/）をリンクする
+for f in "$DOTFILES_DIR/home/.pi/agent/extensions"/*; do
+    [[ -e "$f" ]] && safe_link "$f" "$HOME/.pi/agent/extensions/$(basename "$f")"
 done
 
 # ============================================================

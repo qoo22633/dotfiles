@@ -80,7 +80,7 @@ brew bundle check --global
 `~/.claude/` はランタイムデータを含むため、ディレクトリ丸ごとはリンクしない。
 
 **Phase 5: pi ファイル**
-`home/.pi/agent/extensions/*.ts` を `~/.pi/agent/extensions/` に**ファイル単位**でリンク。
+`home/.pi/agent/extensions/` 直下の extension（`*.ts`）と共通部品（`lib/`）を `~/.pi/agent/extensions/` に**項目単位**でリンク。
 `~/.pi/agent/` には `auth.json`（API キー・OAuth トークン）やセッションが同居するため、`home/` ループでは `.pi` をスキップしている。
 
 **safe_link() の動作:**
