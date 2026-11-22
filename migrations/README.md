@@ -36,3 +36,4 @@ migrations/YYYY-MM-DD-<kebab-case-summary>.md
 | 2026-10-18 | [dotfiles 運用を mise に移行（CLI ツール・環境変数・エイリアス・セットアップ）](2026-10-18-migrate-to-mise.md) |
 | 2026-10-24 | [herdr / worktrunk を Homebrew から mise に移行](2026-10-24-herdr-worktrunk-to-mise.md) |
 | 2026-11-01 | [デイリーノートへの作業ログ自動追記フックの導入](2026-11-01-daily-log-hook.md) |
+| 2026-11-21 | [pi（コーディングエージェント）の導入とフッターのリンク](2026-11-21-pi-statusline.md) |

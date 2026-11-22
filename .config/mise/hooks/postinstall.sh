@@ -80,6 +80,7 @@ for src_file in "$DOTFILES_DIR/home"/.*; do
     [[ "$base" == "." || "$base" == ".." ]] && continue
     [[ "$base" == ".config" ]] && continue  # .config は別途 .config/*/ ループで管理
     [[ "$base" == ".claude" ]] && continue  # .claude は別途 Claude Code セクションでファイル単位管理
+    [[ "$base" == ".pi" ]] && continue      # .pi は別途 pi セクションでファイル単位管理
     safe_link "$src_file" "$HOME/$base"
 done
 
@@ -141,6 +142,18 @@ done
 
 for f in "$DOTFILES_DIR/.claude/agents"/*.md; do
     [[ -f "$f" ]] && safe_link "$f" "$HOME/.claude/agents/$(basename "$f")"
+done
+
+# ============================================================
+# pi の extension のシンボリックリンク
+# ~/.pi/agent/ には認証情報（auth.json）やセッションが同居するためファイル単位でリンク
+# ============================================================
+log "=== pi ==="
+mkdir -p "$HOME/.pi/agent/extensions"
+
+# extension 本体（*.ts）と、それらが import する共通部品（lib/）をリンクする
+for f in "$DOTFILES_DIR/home/.pi/agent/extensions"/*; do
+    [[ -e "$f" ]] && safe_link "$f" "$HOME/.pi/agent/extensions/$(basename "$f")"
 done
 
 # ============================================================
