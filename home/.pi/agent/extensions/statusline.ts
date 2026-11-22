@@ -3,7 +3,7 @@
  *
  *   📂 ~/repo │ 🌿 main +12 -3
  *   🧠 ███░░░░░░░░░░░░ 21% │ 💪 (router) auto → deepseek-v4-pro (high)
- *   🕐 █░░░░░░░░░░░░░░ 7% │ 📅 ░░░░░░░░░░░░░░░ 1%
+ *   🕐 █░░░░░░░░░░░░░░ 7% resets in 2h 35m │ 📅 ░░░░░░░░░░░░░░░ 1% resets in 4d 6h
  *   （extension のステータス。billion-context-pi など）
  *
  * `→` の後ろは、virtual model（quota-router.ts）を選んでいるときに直近の応答を返したモデル。
@@ -11,7 +11,7 @@
 
 import type { ExtensionAPI, ExtensionContext, Theme } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth } from "@earendil-works/pi-tui";
-import { type CodexRateLimits, currentPercent, parseCodexRateLimitsEvent, readCachedRateLimits } from "./lib/codex-rate-limits.ts";
+import { type CodexRateLimits, type RateLimitWindow, currentPercent, parseCodexRateLimitsEvent, readCachedRateLimits } from "./lib/codex-rate-limits.ts";
 
 const BAR_CELLS = 15;
 const WARNING_PERCENT = 70;
@@ -31,6 +31,17 @@ function renderGauge(percent: number | null, theme: Theme): string {
 	if (percent > ERROR_PERCENT) return theme.fg("error", gauge);
 	if (percent > WARNING_PERCENT) return theme.fg("warning", gauge);
 	return gauge;
+}
+
+function renderRateLimit(window: RateLimitWindow | null, now: number, theme: Theme): string {
+	const gauge = renderGauge(currentPercent(window, now), theme);
+	if (!window || window.resetAt <= now) return gauge;
+	const totalMinutes = Math.ceil((window.resetAt - now) / 60);
+	const days = Math.floor(totalMinutes / 1440);
+	const hours = Math.floor((totalMinutes % 1440) / 60);
+	const minutes = totalMinutes % 60;
+	const remaining = days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+	return `${gauge} ${theme.fg("dim", `resets in ${remaining}`)}`;
 }
 
 function shortenHome(cwd: string): string {
@@ -95,9 +106,15 @@ export default function (pi: ExtensionAPI) {
 		ctx.ui.setFooter((tui, theme, footerData) => {
 			requestRender = () => tui.requestRender();
 			const unsubscribe = footerData.onBranchChange(() => tui.requestRender());
+			const timer = setInterval(() => tui.requestRender(), 60_000);
+			timer.unref();
 
 			return {
-				dispose: unsubscribe,
+				dispose() {
+					clearInterval(timer);
+					unsubscribe();
+					requestRender = () => {};
+				},
 				invalidate() {},
 				render(width: number): string[] {
 					const branch = footerData.getGitBranch();
@@ -113,8 +130,8 @@ export default function (pi: ExtensionAPI) {
 					const context = `🧠 ${renderGauge(ctx.getContextUsage()?.percent ?? null, theme)}`;
 
 					const now = nowSeconds();
-					const fiveHour = renderGauge(currentPercent(rateLimits?.fiveHour ?? null, now), theme);
-					const weekly = renderGauge(currentPercent(rateLimits?.weekly ?? null, now), theme);
+					const fiveHour = renderRateLimit(rateLimits?.fiveHour ?? null, now, theme);
+					const weekly = renderRateLimit(rateLimits?.weekly ?? null, now, theme);
 					const limits = `🕐 ${fiveHour} │ 📅 ${weekly}`;
 
 					const lines = [location, `${context} │ ${modelLabel}`, limits];
