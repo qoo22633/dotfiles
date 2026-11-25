@@ -131,10 +131,10 @@ backspace = ['close-all-windows-but-current', 'mode main']
 if.app-id = 'company.thebrowser.Browser'
 run = 'move-node-to-workspace A'
 
-# Ghostty → ワークスペース 2
+# Ghostty → ワークスペース I（タイルとして扱う。floating/fullscreen にしない）
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
-run = ['move-node-to-workspace I', 'layout floating', 'fullscreen']
+run = 'move-node-to-workspace I'
 
 # Slack → ワークスペース S
 [[on-window-detected]]
