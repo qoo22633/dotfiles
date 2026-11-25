@@ -14,8 +14,7 @@ theme = Srcery
 
 # --- ウィンドウ ---
 background-opacity = 1.0
-# 起動時に最大化（旧: gui-startup で maximize）
-maximize = true
+# maximize は AeroSpace のタイル配置と競合するため指定しない
 
 # --- キーバインド ---
 # カーソルを一単語後ろ/前に移動（Meta+b / Meta+f を送出）
